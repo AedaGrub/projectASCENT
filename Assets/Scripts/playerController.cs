@@ -26,7 +26,7 @@ public class playerController : MonoBehaviour
     private float lastJumpInputTime;
 
     public int maxJumps;
-    private int extraJumpsLeft;
+    public int extraJumpsLeft;
 
     [SerializeField] private float jumpHeight;
     [SerializeField] private float jumpTimeToApex;
@@ -69,7 +69,7 @@ public class playerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Vector2 groundCheckSize;
     [SerializeField] private LayerMask groundCheckLayer;
-    
+
     private float lastOnWall;
     private float lastOnWallRight;
     private float lastOnWallLeft;
@@ -167,7 +167,7 @@ public class playerController : MonoBehaviour
         {
             lastOnWallRight = coyoteTime;
             //RESET EXTRAJUMPS
-            if (!isJumping)
+            if (!isJumping && moveInput.x != 0)
             {
                 extraJumpsLeft = maxJumps;
             }
@@ -179,7 +179,7 @@ public class playerController : MonoBehaviour
         {
             lastOnWallLeft = coyoteTime;
             //RESET EXTRAJUMPS
-            if (!isJumping)
+            if (!isJumping && moveInput.x != 0)
             {
                 extraJumpsLeft = maxJumps;
             }
@@ -475,7 +475,7 @@ public class playerController : MonoBehaviour
 
     private bool CanWallJump()
     {
-        return lastJumpInputTime > 0 && lastOnWall > 0 && lastGrounded <= 0 && (!isWallJumping ||
+        return lastJumpInputTime > 0 && lastOnWall > 0.1 && lastGrounded <= 0 && (!isWallJumping ||
             (lastOnWallRight > 0 && lastWallJumpDir == 1) || (lastOnWallLeft > 0 && lastWallJumpDir == -1));
     }
 
