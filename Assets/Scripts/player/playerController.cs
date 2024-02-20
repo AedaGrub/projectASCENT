@@ -48,7 +48,7 @@ public class playerController : MonoBehaviour
     #region DASH
     [Header("DASH")]
     public bool isDashing;
-    private bool isDashAttacking;
+    [HideInInspector] public bool isDashAttacking;
 
     private float lastDashInputTime;
     private Vector2 lastDashDir;
