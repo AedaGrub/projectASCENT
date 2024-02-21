@@ -7,14 +7,17 @@ using UnityEngine;
 public class playerAttack : MonoBehaviour
 {
     #region PARAMETERS
+    private Rigidbody2D rb;
     [SerializeField] private Animator attackAnimator;
     private playerController PlayerController;
+    [SerializeField] private float inputBufferTime;
 
     [SerializeField] private Transform attackTransform;
     [SerializeField] private Vector2 attackSize;
     [SerializeField] private LayerMask attackableLayer;
     [SerializeField] private float damageAmount;
-    [SerializeField] private float inputBufferTime;
+    [SerializeField] private float knockbackAmount;
+    private int knockbackDirection;
     #endregion
 
     #region COOLDOWN
@@ -29,10 +32,12 @@ public class playerAttack : MonoBehaviour
     private void Awake()
     {
         PlayerController = GetComponent<playerController>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
+        #region ATTACK INPUT
         lastAttackInputTime -= Time.deltaTime;
 
         //WHEN PRESSED ATTACK
@@ -44,13 +49,21 @@ public class playerAttack : MonoBehaviour
         //EXECUTE ATTACK
         if (CanAttack() && lastAttackInputTime > 0)
         {
-            Attack();
+            if (!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.DownArrow))
+            {
+                FAttack();
+            }
+            else
+            {
+
+            }
             StartCoroutine(nameof(RefillAttack));
         }
+        #endregion
     }
 
-    #region ATTACK METHOD
-    void Attack()
+    #region FATTACK METHOD
+    void FAttack()
     {
         attackAvailable = false;
         flipAttack = !flipAttack;
@@ -67,6 +80,17 @@ public class playerAttack : MonoBehaviour
             {
                 iDamageable.Damage(damageAmount);
             }
+        }
+
+        //KNOCKBACK !!NEED TO FIX!! UNABLE TO BE KNOCKED BACK WITH FORCE, BUT ABLE TO BE KNOCKED UP
+        knockbackDirection = PlayerController.isFacingRight ? -1 : 1;
+        Vector2 force = new Vector2(knockbackAmount, 0);
+        force.x *= knockbackDirection;
+
+        if (hits.Length > 0)
+        {
+            print("KNOCKBACK");
+            rb.AddForce(force, ForceMode2D.Impulse);
         }
 
         //ANIMATION

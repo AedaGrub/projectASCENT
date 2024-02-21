@@ -369,6 +369,7 @@ MonoBehaviour:
   wallJumpRunLerp: 0.075
   wallJumpTime: 0.15
   isDashing: 0
+  isDashAttacking: 0
   dashAvailable: 1
   dashCooldown: 0.5
   dashSpeed: 20
@@ -567,13 +568,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackAnimator: {fileID: 1348576765}
+  inputBufferTime: 0.05
   attackTransform: {fileID: 1873265868}
   attackSize: {x: 2.6, y: 0.7}
   attackableLayer:
     serializedVersion: 2
     m_Bits: 128
   damageAmount: 1
-  inputBufferTime: 0.05
+  knockbackAmount: 10
   attackAvailable: 1
   attackCooldown: 0.33
 --- !u!1 &392442167

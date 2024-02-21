@@ -88,7 +88,7 @@ public class playerController : MonoBehaviour
     #endregion
 
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
 
