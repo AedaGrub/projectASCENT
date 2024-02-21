@@ -353,6 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f51a00680ee8c459e40882ea74afc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlEnabled: 1
   animator: {fileID: 351083548}
   isFacingRight: 1
   speed: 7
@@ -372,11 +373,14 @@ MonoBehaviour:
   isDashAttacking: 0
   dashAvailable: 1
   dashCooldown: 0.5
-  dashSpeed: 20
+  dashSpeed: 50
   dashAttackTime: 0.15
   dashEndTime: 0.15
   dashEndSpeed: {x: 15, y: 15}
   dashEndRunLerp: 0.5
+  isBeingKnockbacked: 0
+  knockbackTime: 0.1
+  knockbackLerp: 0.7
   isGrounded: 0
   lastGrounded: 0
   groundCheck: {fileID: 506658432}
@@ -406,7 +410,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 5372ce83c4bedf845ac1c1c8cbcaa82f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -569,13 +573,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackAnimator: {fileID: 1348576765}
   inputBufferTime: 0.05
+  damageAmount: 1
   attackTransform: {fileID: 1873265868}
   attackSize: {x: 2.6, y: 0.7}
   attackableLayer:
     serializedVersion: 2
     m_Bits: 128
-  damageAmount: 1
-  knockbackAmount: 10
+  knockbackAmount: {x: 5, y: 0}
   attackAvailable: 1
   attackCooldown: 0.33
 --- !u!1 &392442167
@@ -1323,8 +1327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080bfcb0e3452a2419f6e37617d7a90a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
-  currentHealth: 3
+  maxHealth: 10
+  currentHealth: 10
 --- !u!212 &1211679906
 SpriteRenderer:
   m_ObjectHideFlags: 0

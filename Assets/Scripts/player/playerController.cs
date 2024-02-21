@@ -7,6 +7,7 @@ public class playerController : MonoBehaviour
     //COMPONENTS, VARIABLES, & PARAMETERS
     #region PLAYER
     [Header("PLAYER")]
+    public bool controlEnabled;
     public Animator animator;
     private Rigidbody2D rb;
 
@@ -62,6 +63,13 @@ public class playerController : MonoBehaviour
     [SerializeField] private float dashEndRunLerp;
     #endregion
 
+    #region KNOCKBACK
+    [Header("KNOCKBACK")]
+    public bool isBeingKnockbacked;
+    [SerializeField] private float knockbackTime;
+    [SerializeField] private float knockbackLerp;
+    #endregion
+
     #region COLLISION CHECKS
     [Header("COLLISION CHECKS")]
     public bool isGrounded;
@@ -104,7 +112,10 @@ public class playerController : MonoBehaviour
     void FixedUpdate()
     {
         #region MOVEMENT INPUT
-        moveInput.x = Input.GetAxisRaw("Horizontal");
+        if (controlEnabled)
+        {
+            moveInput.x = Input.GetAxisRaw("Horizontal");
+        }
 
         if (moveInput.x != 0)
         {
@@ -133,6 +144,10 @@ public class playerController : MonoBehaviour
         else if (!isDashAttacking)
         {
             Run(dashEndRunLerp);
+        }
+        else if (!isBeingKnockbacked)
+        {
+            Run(knockbackLerp);
         }
         #endregion
     }
@@ -192,9 +207,12 @@ public class playerController : MonoBehaviour
         lastJumpInputTime -= Time.deltaTime;
 
         //WHEN PRESSED JUMP
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (controlEnabled)
         {
-            lastJumpInputTime = inputBufferTime;
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                lastJumpInputTime = inputBufferTime;
+            }
         }
 
         //WHEN RELEASED JUMP
@@ -242,26 +260,30 @@ public class playerController : MonoBehaviour
 
         #region DASH INPUT
         lastDashInputTime -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            lastDashInputTime = inputBufferTime;
-            if (CanDash() && lastDashInputTime > 0)
-            {
-                if (moveInput != Vector2.zero)
-                {
-                    lastDashDir = moveInput;
-                }
-                else
-                {
-                    lastDashDir = isFacingRight ? Vector2.right : Vector2.left;
-                }
-                isDashing = true;
-                isJumping = false;
-                isWallJumping = false;
-                isJumpCut = false;
 
-                StartCoroutine(nameof(StartDash), lastDashDir);
-                StartCoroutine(nameof(RefillDash));
+        if (controlEnabled)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                lastDashInputTime = inputBufferTime;
+                if (CanDash() && lastDashInputTime > 0)
+                {
+                    if (moveInput != Vector2.zero)
+                    {
+                        lastDashDir = moveInput;
+                    }
+                    else
+                    {
+                        lastDashDir = isFacingRight ? Vector2.right : Vector2.left;
+                    }
+                    isDashing = true;
+                    isJumping = false;
+                    isWallJumping = false;
+                    isJumpCut = false;
+
+                    StartCoroutine(nameof(StartDash), lastDashDir);
+                    StartCoroutine(nameof(RefillDash));
+                }
             }
         }
         #endregion
@@ -442,6 +464,35 @@ public class playerController : MonoBehaviour
     }
     #endregion
 
+    public IEnumerator PlayerKnockbacked(Vector2 dir, Vector2 knockbackForce)
+    {
+        lastGrounded = 0;
+
+        float startTime = Time.time;
+        isBeingKnockbacked = true;
+        isDashing = true;
+        controlEnabled = false;
+
+        while (Time.time - startTime <= knockbackTime)
+        {
+            rb.velocity = dir.normalized * knockbackForce;
+            yield return null;
+        }
+
+        startTime = Time.time;
+        isBeingKnockbacked = false;
+
+        rb.velocity = dashEndSpeed * dir.normalized;
+
+        while (Time.time - startTime <= knockbackTime)
+        {
+            yield return null;
+        }
+
+        controlEnabled = true;
+        isDashing = false;
+    }
+
     #region GRAVITY METHOD
     public void SetGravityScale(float scale)
     {
@@ -486,7 +537,7 @@ public class playerController : MonoBehaviour
 
     private bool CanDash()
     {
-        return dashAvailable;
+        return !isDashing && dashAvailable;
     }
     #endregion
 

@@ -3,20 +3,25 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Unity.VisualScripting.Member;
 
 public class playerAttack : MonoBehaviour
 {
     #region PARAMETERS
-    private Rigidbody2D rb;
+    [Header("PLAYER")]
     [SerializeField] private Animator attackAnimator;
-    private playerController PlayerController;
     [SerializeField] private float inputBufferTime;
+    private playerController PlayerController;
+    private Rigidbody2D rb;
 
+    [Header("ATTACK")]
+    [SerializeField] private float damageAmount;
     [SerializeField] private Transform attackTransform;
     [SerializeField] private Vector2 attackSize;
     [SerializeField] private LayerMask attackableLayer;
-    [SerializeField] private float damageAmount;
-    [SerializeField] private float knockbackAmount;
+
+    [Header("KNOCKBACK")]
+    [SerializeField] private Vector2 knockbackAmount;
     private int knockbackDirection;
     #endregion
 
@@ -49,15 +54,24 @@ public class playerAttack : MonoBehaviour
         //EXECUTE ATTACK
         if (CanAttack() && lastAttackInputTime > 0)
         {
+            PlayerController.isWallJumping = true;
+            PlayerController.isJumping = false;
+
             if (!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.DownArrow))
             {
                 FAttack();
             }
             else
             {
-
+                if (PlayerController.isGrounded)
+                {
+                    FAttack();
+                }
+                else
+                {
+                    //DAttack();
+                }
             }
-            StartCoroutine(nameof(RefillAttack));
         }
         #endregion
     }
@@ -65,8 +79,9 @@ public class playerAttack : MonoBehaviour
     #region FATTACK METHOD
     void FAttack()
     {
-        attackAvailable = false;
         flipAttack = !flipAttack;
+        attackAvailable = false;
+        StartCoroutine(nameof(RefillAttack));
 
         //DETECT TARGET(S) HIT
         hits = Physics2D.BoxCastAll(attackTransform.position, attackSize, 0, Vector2.up, 0, attackableLayer);
@@ -82,15 +97,11 @@ public class playerAttack : MonoBehaviour
             }
         }
 
-        //KNOCKBACK !!NEED TO FIX!! UNABLE TO BE KNOCKED BACK WITH FORCE, BUT ABLE TO BE KNOCKED UP
-        knockbackDirection = PlayerController.isFacingRight ? -1 : 1;
-        Vector2 force = new Vector2(knockbackAmount, 0);
-        force.x *= knockbackDirection;
-
+        //IF HIT VALID, THEN KNOCKBACK
         if (hits.Length > 0)
         {
-            print("KNOCKBACK");
-            rb.AddForce(force, ForceMode2D.Impulse);
+            Vector2 dir = PlayerController.isFacingRight ? Vector2.left : Vector2.right;
+            StartCoroutine(PlayerController.PlayerKnockbacked(dir, knockbackAmount));
         }
 
         //ANIMATION
