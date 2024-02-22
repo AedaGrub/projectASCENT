@@ -209,14 +209,14 @@ public class playerController : MonoBehaviour
         //WHEN PRESSED JUMP
         if (controlEnabled)
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 lastJumpInputTime = inputBufferTime;
             }
         }
 
         //WHEN RELEASED JUMP
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             if (CanJumpCut() || CanWallJumpCut())
             {
@@ -464,6 +464,7 @@ public class playerController : MonoBehaviour
     }
     #endregion
 
+    #region KNOCKBACK METHOD
     public IEnumerator PlayerKnockbacked(Vector2 dir, Vector2 knockbackForce)
     {
         lastGrounded = 0;
@@ -492,6 +493,7 @@ public class playerController : MonoBehaviour
         controlEnabled = true;
         isDashing = false;
     }
+    #endregion
 
     #region GRAVITY METHOD
     public void SetGravityScale(float scale)

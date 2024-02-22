@@ -19,6 +19,7 @@ public class playerAttack : MonoBehaviour
     [SerializeField] private Transform attackTransform;
     [SerializeField] private Vector2 attackSize;
     [SerializeField] private LayerMask attackableLayer;
+    [SerializeField] private GameObject pf_playerAttackFX;
 
     [Header("KNOCKBACK")]
     [SerializeField] private Vector2 knockbackAmount;
@@ -84,13 +85,17 @@ public class playerAttack : MonoBehaviour
         StartCoroutine(nameof(RefillAttack));
 
         //DETECT TARGET(S) HIT
-        hits = Physics2D.BoxCastAll(attackTransform.position, attackSize, 0, Vector2.up, 0, attackableLayer);
+        hits = Physics2D.BoxCastAll(attackTransform.position, attackSize, 0, Vector2.right, 0, attackableLayer);
 
-        //CALCULATE DAMAGE PER HIT
+        //PER HIT
         for (int i = 0; i < hits.Length; i++)
         {
-            IDamageable iDamageable = hits[i].collider.gameObject.GetComponent<healthComponent>();
+            //HIT VFX
+            Vector3 spawnPos = new (Mathf.Clamp(hits[i].transform.position.x, 0, 10f), hits[i].transform.position.y, -5);
+            Instantiate(pf_playerAttackFX, spawnPos, Quaternion.Euler(new Vector3(0, 0, Random.Range(20, -50))));
 
+            //CALCULATE DAMAGE
+            IDamageable iDamageable = hits[i].collider.gameObject.GetComponent<healthComponent>();
             if (iDamageable != null)
             {
                 iDamageable.Damage(damageAmount);
