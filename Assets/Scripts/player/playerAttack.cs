@@ -1,29 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using Unity.VisualScripting;
 using UnityEngine;
-using static Unity.VisualScripting.Member;
 
 public class playerAttack : MonoBehaviour
 {
     #region PARAMETERS
-    [Header("PLAYER")]
-    [SerializeField] private Animator attackAnimator;
+    [Header("ATTACK")]
+    [SerializeField] private float damageAmount;
     [SerializeField] private float inputBufferTime;
+
+    [Header("REFERENCES")]
+    [SerializeField] private Animator FattackAnimator;
+    [SerializeField] private Transform FattackTransform;
+    [SerializeField] private Vector2 FattackSize;
+    [SerializeField] private Animator UattackAnimator;
+    [SerializeField] private Transform UattackTransform;
+    [SerializeField] private Vector2 UattackSize;
+    [SerializeField] private Animator DattackAnimator;
+    [SerializeField] private Transform DattackTransform;
+    [SerializeField] private Vector2 DattackSize;
+
+    [SerializeField] private LayerMask attackableLayer;
+
+    [SerializeField] private GameObject pf_playerAttackFX;
+
     private playerController PlayerController;
     private Rigidbody2D rb;
 
-    [Header("ATTACK")]
-    [SerializeField] private float damageAmount;
-    [SerializeField] private Transform attackTransform;
-    [SerializeField] private Vector2 attackSize;
-    [SerializeField] private LayerMask attackableLayer;
-    [SerializeField] private GameObject pf_playerAttackFX;
-
     [Header("KNOCKBACK")]
-    [SerializeField] private Vector2 knockbackAmount;
+    [SerializeField] private float knockbackTime;
     private int knockbackDirection;
+    [SerializeField] private float upwardForceTime;
     #endregion
 
     #region COOLDOWN
@@ -58,41 +65,41 @@ public class playerAttack : MonoBehaviour
             PlayerController.isWallJumping = true;
             PlayerController.isJumping = false;
 
-            if (!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.DownArrow))
+            //UPWARD ATTACK
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
-                FAttack();
+                Attack(UattackTransform, UattackSize, 1);
             }
+            //DOWNWARD ATTACK
+            else if(!PlayerController.isGrounded && (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)))
+            {
+                Attack(DattackTransform, DattackSize, 2);
+            }
+            //FORWARD ATTACK
             else
             {
-                if (PlayerController.isGrounded)
-                {
-                    FAttack();
-                }
-                else
-                {
-                    //DAttack();
-                }
+                Attack(FattackTransform, FattackSize, 0);
             }
         }
         #endregion
     }
 
-    #region FATTACK METHOD
-    void FAttack()
+    #region ATTACK METHOD
+    void Attack(Transform hitPos, Vector2 hitSize, int hitType)
     {
         flipAttack = !flipAttack;
         attackAvailable = false;
         StartCoroutine(nameof(RefillAttack));
 
         //DETECT TARGET(S) HIT
-        hits = Physics2D.BoxCastAll(attackTransform.position, attackSize, 0, Vector2.right, 0, attackableLayer);
+        hits = Physics2D.BoxCastAll(hitPos.position, hitSize, 0, Vector2.up, 0, attackableLayer);
 
         //PER HIT
         for (int i = 0; i < hits.Length; i++)
         {
             //HIT VFX
-            Vector3 spawnPos = new (Mathf.Clamp(hits[i].transform.position.x, 0, 10f), hits[i].transform.position.y, -5);
-            Instantiate(pf_playerAttackFX, spawnPos, Quaternion.Euler(new Vector3(0, 0, Random.Range(20, -50))));
+            Vector3 FXPos = new (Mathf.Clamp(hits[i].transform.position.x, 0, 10f), hits[i].transform.position.y, -5);
+            Instantiate(pf_playerAttackFX, FXPos, Quaternion.Euler(new Vector3(0, 0, Random.Range(20, -50))));
 
             //CALCULATE DAMAGE
             IDamageable iDamageable = hits[i].collider.gameObject.GetComponent<healthComponent>();
@@ -105,19 +112,50 @@ public class playerAttack : MonoBehaviour
         //IF HIT VALID, THEN KNOCKBACK
         if (hits.Length > 0)
         {
-            Vector2 dir = PlayerController.isFacingRight ? Vector2.left : Vector2.right;
-            StartCoroutine(PlayerController.PlayerKnockbacked(dir, knockbackAmount));
+            Vector2 oppFacing = PlayerController.isFacingRight ? Vector2.left : Vector2.right;
+            Vector2 dir;
+            float duration;
+
+            if (hitType == 1)
+            {
+                dir = new Vector2(0,0);
+                duration = 0;
+            }
+            else if (hitType == 2)
+            {
+                dir = Vector2.up;
+                duration = upwardForceTime;
+                PlayerController.extraJumpsLeft = 1;
+            }
+            else
+            {
+                dir = oppFacing;
+                duration = knockbackTime;
+            }
+            StartCoroutine(PlayerController.PlayerKnockbacked(dir, duration));
         }
 
         //ANIMATION
-        if (flipAttack)
+        if (hitType == 1)
         {
-            attackAnimator.Play("Base Layer.player_FAttack1");
+            UattackAnimator.Play("Base Layer.player_UAttack");
+        }
+        else if (hitType == 2)
+        {
+            DattackAnimator.Play("Base Layer.player_DAttack");
         }
         else
         {
-            attackAnimator.Play("Base Layer.player_FAttack2");
+            if (flipAttack)
+            {
+                FattackAnimator.Play("Base Layer.player_FAttack1");
+            }
+            else
+            {
+                FattackAnimator.Play("Base Layer.player_FAttack2");
+            }
         }
+
     }
     #endregion
 
@@ -140,7 +178,9 @@ public class playerAttack : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(attackTransform.position, attackSize);
+        Gizmos.DrawWireCube(FattackTransform.position, FattackSize);
+        Gizmos.DrawWireCube(UattackTransform.position, UattackSize);
+        Gizmos.DrawWireCube(DattackTransform.position, DattackSize);
     }
     #endregion
 }

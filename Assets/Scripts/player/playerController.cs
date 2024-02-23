@@ -17,6 +17,9 @@ public class playerController : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float coyoteTime;
     [SerializeField] private float inputBufferTime;
+
+    [SerializeField] private GameObject cameraFollowGO;
+    private cameraFollowObject CameraFollowObject;
     #endregion
 
     #region JUMP
@@ -26,7 +29,6 @@ public class playerController : MonoBehaviour
 
     private float lastJumpInputTime;
 
-    public int maxJumps;
     public int extraJumpsLeft;
 
     [SerializeField] private float jumpHeight;
@@ -66,8 +68,7 @@ public class playerController : MonoBehaviour
     #region KNOCKBACK
     [Header("KNOCKBACK")]
     public bool isBeingKnockbacked;
-    [SerializeField] private float knockbackTime;
-    [SerializeField] private float knockbackLerp;
+    [SerializeField] private float knockbackForce;
     #endregion
 
     #region COLLISION CHECKS
@@ -99,6 +100,7 @@ public class playerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        CameraFollowObject = cameraFollowGO.GetComponent<cameraFollowObject>();
 
         #region CALCULATE JUMP
         gravityStrength = -(2 * jumpHeight) / (jumpTimeToApex * jumpTimeToApex);
@@ -145,10 +147,6 @@ public class playerController : MonoBehaviour
         {
             Run(dashEndRunLerp);
         }
-        else if (!isBeingKnockbacked)
-        {
-            Run(knockbackLerp);
-        }
         #endregion
     }
 
@@ -168,7 +166,7 @@ public class playerController : MonoBehaviour
             //RESET EXTRAJUMPS
             if (!isJumping)
             {
-                extraJumpsLeft = maxJumps;
+                extraJumpsLeft = 1;
             }
         }
         else
@@ -184,7 +182,7 @@ public class playerController : MonoBehaviour
             //RESET EXTRAJUMPS
             if (!isJumping && moveInput.x != 0)
             {
-                extraJumpsLeft = maxJumps;
+                extraJumpsLeft = 1;
             }
         }
 
@@ -196,7 +194,7 @@ public class playerController : MonoBehaviour
             //RESET EXTRAJUMPS
             if (!isJumping && moveInput.x != 0)
             {
-                extraJumpsLeft = maxJumps;
+                extraJumpsLeft = 1;
             }
         }
 
@@ -315,13 +313,18 @@ public class playerController : MonoBehaviour
                 SetGravityScale(gravityScale * fallGravityMult);
                 rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -wallSlideSpeed));
             }
-            else if (isJumpCut && rb.velocity.y > 0)
+            else if (isBeingKnockbacked)
+            {
+                //DEFAULT GRAVITY DURING KNOCKBACK
+                SetGravityScale(gravityScale);
+            }
+            else if (!isBeingKnockbacked && isJumpCut && rb.velocity.y > 0)
             {
                 //IF RELEASED JUMP EARLY WHILE RISING
                 SetGravityScale(gravityScale * jumpCutGravityMult);
                 rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
             }
-            else if (rb.velocity.y < 0) 
+            else if (!isBeingKnockbacked && rb.velocity.y < 0) 
             {
                 //IF FALLING, CAP MAX FALL SPEED
                 SetGravityScale(gravityScale * fallGravityMult);
@@ -359,6 +362,18 @@ public class playerController : MonoBehaviour
             animator.SetBool("isFalling", true);
         }
         #endregion
+
+        #region CAMERA
+        if (rb.velocity.y < 0 && !cameraManager.instance.isLerpingYDamping && !cameraManager.instance.lerpedFromPlayerFalling)
+        {
+            cameraManager.instance.LerpYDamping(true);
+        }
+        else if (rb.velocity.y >= 0 && !cameraManager.instance.isLerpingYDamping && cameraManager.instance.lerpedFromPlayerFalling)
+        {
+            cameraManager.instance.lerpedFromPlayerFalling = false;
+            cameraManager.instance.LerpYDamping(false);
+        }
+        #endregion
     }
 
     #region FLIP SPRITE METHOD
@@ -369,6 +384,7 @@ public class playerController : MonoBehaviour
         transform.localScale = scale;
 
         isFacingRight =!isFacingRight;
+        CameraFollowObject.CallTurn();
     }
     #endregion
 
@@ -465,33 +481,38 @@ public class playerController : MonoBehaviour
     #endregion
 
     #region KNOCKBACK METHOD
-    public IEnumerator PlayerKnockbacked(Vector2 dir, Vector2 knockbackForce)
+    public IEnumerator PlayerKnockbacked(Vector2 dir, float duration)
     {
         lastGrounded = 0;
 
         float startTime = Time.time;
         isBeingKnockbacked = true;
         isDashing = true;
-        controlEnabled = false;
 
-        while (Time.time - startTime <= knockbackTime)
+        if (rb.velocity.y < 0)
         {
-            rb.velocity = dir.normalized * knockbackForce;
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
+
+        while (Time.time - startTime <= duration)
+        {
+            rb.velocity = dir * knockbackForce;
             yield return null;
         }
 
         startTime = Time.time;
         isBeingKnockbacked = false;
+        isJumpCut = true;
 
         rb.velocity = dashEndSpeed * dir.normalized;
 
-        while (Time.time - startTime <= knockbackTime)
+        while (Time.time - startTime <= duration)
         {
             yield return null;
         }
 
-        controlEnabled = true;
         isDashing = false;
+        isJumpCut = false;
     }
     #endregion
 
@@ -518,7 +539,7 @@ public class playerController : MonoBehaviour
 
     private bool CanJumpCut()
     {
-        return isJumping && rb.velocity.y > 0;
+        return !isBeingKnockbacked && isJumping && rb.velocity.y > 0;
     }
 
     private bool CanExtraJump()
