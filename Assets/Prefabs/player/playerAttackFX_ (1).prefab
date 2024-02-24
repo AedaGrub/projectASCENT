@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 492590679713098396}
   - component: {fileID: 1849800905555244245}
   - component: {fileID: 5557426398711908636}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: playerAttackFX_ (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

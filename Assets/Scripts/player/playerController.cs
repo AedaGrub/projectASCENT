@@ -100,6 +100,7 @@ public class playerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        cameraFollowGO = GameObject.Find("CameraFollowObject");
         CameraFollowObject = cameraFollowGO.GetComponent<cameraFollowObject>();
 
         #region CALCULATE JUMP
