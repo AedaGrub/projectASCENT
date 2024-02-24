@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class InteractLift : MonoBehaviour
 {
-    [SerializeField] private Transform interactSource;
-    [SerializeField] private Vector2 interactSize;
-    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Sprite WKey;
+    [SerializeField] Sprite UpKey;
+    public float fadeTime = 1f;
 
     public int sceneIndexToLoad;
+    private bool canInteract = false;
     private bool interacted = false;
 
 
     void Update()
     {
-        if (Physics2D.OverlapBox(interactSource.position, interactSize, 0, playerLayer))
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                OnInteract();
-            }
+            spriteRenderer.sprite = WKey;
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            spriteRenderer.sprite = UpKey;
+        }
+
+        if (canInteract && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+        {
+            OnInteract();
         }
     }
 
@@ -32,11 +41,49 @@ public class InteractLift : MonoBehaviour
         }
     }
 
-    #region EDITOR METHODS
-    private void OnDrawGizmosSelected()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(interactSource.position, interactSize);
+        if (other.CompareTag("Player"))
+        {
+            canInteract = true;
+            StartCoroutine(FadeKey());
+        }
     }
-    #endregion
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            canInteract = false;
+            StartCoroutine(FadeKey());
+        }
+    }
+
+    private IEnumerator FadeKey()
+    {
+        float startFadeAmount = spriteRenderer.color.a;
+        float endFadeAmount = 0f;
+
+        if (canInteract)
+        {
+            endFadeAmount = 1;
+        }
+        else
+        {
+            endFadeAmount = 0;
+        }
+
+        float elapsedTime = 0;
+        while (elapsedTime < fadeTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float currentFadeAmount = Mathf.Lerp(startFadeAmount, endFadeAmount, (elapsedTime / fadeTime));
+
+            Color tmp = spriteRenderer.color;
+            tmp.a = currentFadeAmount;
+            spriteRenderer.color = tmp;
+
+            yield return null;
+        }
+    }
 }
