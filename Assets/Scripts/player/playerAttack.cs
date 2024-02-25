@@ -54,7 +54,7 @@ public class playerAttack : MonoBehaviour
         lastAttackInputTime -= Time.deltaTime;
 
         //WHEN PRESSED ATTACK
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) ^ Input.GetKeyDown(KeyCode.X) ^ Input.GetKeyDown(KeyCode.RightShift))
         {
             lastAttackInputTime = inputBufferTime;
         }

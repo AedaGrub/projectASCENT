@@ -221,14 +221,14 @@ public class playerController : MonoBehaviour
         //WHEN PRESSED JUMP
         if (controlEnabled)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) ^ Input.GetKeyDown(KeyCode.C))
             {
                 lastJumpInputTime = inputBufferTime;
             }
         }
 
         //WHEN RELEASED JUMP
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) ^ Input.GetKeyUp(KeyCode.C))
         {
             if (CanJumpCut() || CanWallJumpCut())
             {
@@ -389,7 +389,7 @@ public class playerController : MonoBehaviour
         #endregion
 
         #region CAMERA
-        if (rb.velocity.y < 0 && !cameraManager.instance.isLerpingYDamping && !cameraManager.instance.lerpedFromPlayerFalling)
+        if (rb.velocity.y < -5 && !cameraManager.instance.isLerpingYDamping && !cameraManager.instance.lerpedFromPlayerFalling)
         {
             cameraManager.instance.LerpYDamping(true);
         }
