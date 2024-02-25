@@ -20,6 +20,11 @@ public class playerController : MonoBehaviour
 
     [SerializeField] private GameObject cameraFollowGO;
     private cameraFollowObject CameraFollowObject;
+
+    [SerializeField] private GameObject dustGO;
+    private ParticleSystem dust;
+    [SerializeField] private ParticleSystem dustBurst;
+    [SerializeField] private ParticleSystem dustLand;
     #endregion
 
     #region JUMP
@@ -102,6 +107,7 @@ public class playerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         cameraFollowGO = GameObject.Find("CameraFollowObject");
         CameraFollowObject = cameraFollowGO.GetComponent<cameraFollowObject>();
+        dust = dustGO.GetComponent<ParticleSystem>();
 
         #region CALCULATE JUMP
         gravityStrength = -(2 * jumpHeight) / (jumpTimeToApex * jumpTimeToApex);
@@ -126,6 +132,12 @@ public class playerController : MonoBehaviour
             if (!isJumping && !isWallJumping && !isDashing && rb.velocity.y >= 0)
             {
                 animator.SetBool("isRunning", true);
+            }
+
+            if (isGrounded)
+            {
+                //CREATE DUST IF MOVING ON GROUND
+                CreateDust(0.02f, -0.123f);
             }
         }
         else
@@ -164,6 +176,7 @@ public class playerController : MonoBehaviour
         {
             isGrounded = true;
             lastGrounded = coyoteTime;
+
             //RESET EXTRAJUMPS
             if (!isJumping)
             {
@@ -232,6 +245,10 @@ public class playerController : MonoBehaviour
                 isWallJumping = false;
                 isJumpCut = false;
 
+                //CREATE DUST IF JUMPING OFF GROUND
+                CreateDust(0.02f, -0.123f);
+                CreateDustBurst();
+
                 Jump();
             }
             else if (CanWallJump() && lastJumpInputTime > 0)
@@ -243,6 +260,9 @@ public class playerController : MonoBehaviour
                 wallJumpStartTime = Time.time;
                 lastWallJumpDir = (lastOnWallRight > 0) ? -1 : 1;
 
+                //CREATE DUST IF JUMPING OFF WALL
+                CreateDust(0.065f, -0.085f);
+
                 WallJump(lastWallJumpDir);
             }
             else if (CanExtraJump() && lastJumpInputTime > 0)
@@ -251,6 +271,9 @@ public class playerController : MonoBehaviour
                 isWallJumping = false;
                 isJumpCut = false;
                 extraJumpsLeft--;
+
+                //CREATE DUST IF JUMPING OFF GROUND
+                CreateDust(0.02f, -0.123f);
 
                 Jump();
             }
@@ -308,11 +331,12 @@ public class playerController : MonoBehaviour
         //IF NOT DASHING
         if (!isDashAttacking)
         {
-            if (lastOnWall >= coyoteTime && moveInput.x != 0)
+            if (!isJumping && lastOnWall >= coyoteTime && moveInput.x != 0)
             {
                 //IF RUNNING INTO WALL MIDAIR, SLOW DOWN FALL
                 SetGravityScale(gravityScale * fallGravityMult);
                 rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -wallSlideSpeed));
+                CreateDust(0.065f, -0.085f); ;
             }
             else if (isBeingKnockbacked)
             {
@@ -521,6 +545,45 @@ public class playerController : MonoBehaviour
     public void SetGravityScale(float scale)
     {
         rb.gravityScale = scale;
+    }
+    #endregion
+
+    #region DUST METHOD
+    private void OnTriggerEnter2D (Collider2D col)
+    {
+        if (col.gameObject.layer == 6)
+        {
+            var vel = Mathf.Clamp(rb.velocity.y, -3, -2);
+            CreateDustLand(vel);
+        }
+    }
+
+    private void CreateDust(float x, float y)
+    {
+        dustGO.transform.localPosition = new Vector2(x, y);
+        dust.Play();
+    }
+
+    private void CreateDustBurst()
+    {
+        dustBurst.Play();
+    }
+
+    private void CreateDustLand(float x)
+    {
+        var velocity = dustLand.velocityOverLifetime;
+
+        AnimationCurve curveMin = new AnimationCurve();
+        curveMin.AddKey(0f, -x);
+        curveMin.AddKey(1f, 0f);
+
+        AnimationCurve curveMax = new AnimationCurve();
+        curveMax.AddKey(0f, x);
+        curveMax.AddKey(1f, 0f);
+
+        velocity.x = new ParticleSystem.MinMaxCurve(1, curveMin, curveMax);
+
+        dustLand.Play();
     }
     #endregion
 
