@@ -491,7 +491,7 @@ Transform:
   m_GameObject: {fileID: 1363655148}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.94923997, z: -10}
+  m_LocalPosition: {x: 0.9999941, y: 0.94923997, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -979,7 +979,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117cf754b35d6dc44b44046f14f31ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damageAmount: 0
+  knockbackDir: {x: 2, y: 0.3}
+  knockbackDuration: 0.1
+  knockbackForce: 10
+  dir: {x: 0, y: 0}
+--- !u!114 &1740344706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740344696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 080bfcb0e3452a2419f6e37617d7a90a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 99
+  currentHealth: 2
+--- !u!70 &1740344707
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740344696}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0006323258, y: -0.09434863}
+  m_Size: {x: 0.12784609, y: 0.12784609}
+  m_Direction: 0
 --- !u!1 &1813934527
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,6 +1221,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 4962007643066450051, guid: bf723730cfdb103469516e84da5b0fba, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962007643066450051, guid: bf723730cfdb103469516e84da5b0fba, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 5105423359448761809, guid: bf723730cfdb103469516e84da5b0fba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1236,6 +1297,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4962007643066450051, guid: bf723730cfdb103469516e84da5b0fba, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1740344703}
+    - targetCorrespondingSourceObject: {fileID: 4962007643066450051, guid: bf723730cfdb103469516e84da5b0fba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1740344706}
+    - targetCorrespondingSourceObject: {fileID: 4962007643066450051, guid: bf723730cfdb103469516e84da5b0fba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1740344707}
   m_SourcePrefab: {fileID: 100100000, guid: bf723730cfdb103469516e84da5b0fba, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
