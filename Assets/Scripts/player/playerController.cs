@@ -145,7 +145,7 @@ public class playerController : MonoBehaviour
             animator.SetBool("isRunning", false);
         }
 
-        if (!isDashing)
+        if (!isDashing && !isBeingKnockbacked)
         {
             if (isWallJumping)
             {
@@ -156,7 +156,7 @@ public class playerController : MonoBehaviour
                 Run(1);
             }
         }
-        else if (!isDashAttacking)
+        else if (!isDashAttacking && !isBeingKnockbacked)
         {
             Run(dashEndRunLerp);
         }
@@ -506,17 +506,20 @@ public class playerController : MonoBehaviour
     #endregion
 
     #region KNOCKBACK METHOD
-    public IEnumerator PlayerKnockbacked(Vector2 dir, float duration)
+    public IEnumerator PlayerRecoil(Vector2 dir, float duration)
     {
         lastGrounded = 0;
 
         float startTime = Time.time;
-        isBeingKnockbacked = true;
         isDashing = true;
 
         if (rb.velocity.y < 0)
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
+            rb.velocity = new Vector2(0, 0);
+        }
+        else
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
         while (Time.time - startTime <= duration)
@@ -526,7 +529,6 @@ public class playerController : MonoBehaviour
         }
 
         startTime = Time.time;
-        isBeingKnockbacked = false;
         isJumpCut = true;
 
         rb.velocity = dashEndSpeed * dir.normalized;
@@ -538,6 +540,28 @@ public class playerController : MonoBehaviour
 
         isDashing = false;
         isJumpCut = false;
+    }
+
+    public IEnumerator PlayerKnockback(Vector2 dir)
+    {
+        lastGrounded = 0;
+        float duration = 0.4f;
+
+        float startTime = Time.time;
+        isBeingKnockbacked = true;
+        isDashing = true;
+
+        rb.velocity = new Vector2(0, 0);
+
+        rb.AddForce(dir, ForceMode2D.Impulse);
+
+        while (Time.time - startTime <= duration)
+        {
+            yield return null;
+        }
+
+        isBeingKnockbacked = false;
+        isDashing = false;
     }
     #endregion
 

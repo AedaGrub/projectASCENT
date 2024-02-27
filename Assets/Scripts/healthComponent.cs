@@ -9,11 +9,13 @@ public class healthComponent : MonoBehaviour, IDamageable
 
     [SerializeField] public float maxHealth;
     [SerializeField] private float currentHealth;
-    public float CurrentHealth => currentHealth;
+    [HideInInspector] public float CurrentHealth => currentHealth;
+    [SerializeField] private Rigidbody2D rb;
 
     void Start()
     {
         currentHealth = maxHealth;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     public void ChangeHealth(int amount)
@@ -23,9 +25,10 @@ public class healthComponent : MonoBehaviour, IDamageable
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 
-    public void Damage(float damageAmount)
+    public void OnHit(float damageAmount, Vector2 knockbackAmount)
     {
         currentHealth -= damageAmount;
+        rb.AddForce(knockbackAmount, ForceMode2D.Impulse);
 
         if (currentHealth <= 0)
         {

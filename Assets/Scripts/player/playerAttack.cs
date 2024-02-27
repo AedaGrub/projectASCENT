@@ -7,6 +7,7 @@ public class playerAttack : MonoBehaviour
     #region PARAMETERS
     [Header("ATTACK")]
     [SerializeField] private float damageAmount;
+    [SerializeField] private float knockbackAmount;
     [SerializeField] private float inputBufferTime;
 
     [Header("REFERENCES")]
@@ -91,6 +92,32 @@ public class playerAttack : MonoBehaviour
         attackAvailable = false;
         StartCoroutine(nameof(RefillAttack));
 
+        //CALCULATE DIRECTION OF FORCE AND RECOIL
+        Vector2 oppFacing = PlayerController.isFacingRight ? Vector2.left : Vector2.right;
+        Vector2 dir;
+        float duration;
+        Vector2 knockbackForce = new(0, 0);
+
+        if (hitType == 1)
+        {
+            dir = new Vector2(0, 0);
+            duration = 0;
+            knockbackForce = new(0, knockbackAmount);
+        }
+        else if (hitType == 2)
+        {
+            dir = Vector2.up;
+            duration = upwardForceTime;
+            PlayerController.extraJumpsLeft = 1;
+            knockbackForce = new(0, -knockbackAmount);
+        }
+        else
+        {
+            dir = oppFacing;
+            duration = knockbackTime;
+            knockbackForce = new(knockbackAmount, 0);
+        }
+
         //DETECT TARGET(S) HIT
         hits = Physics2D.BoxCastAll(hitPos.position, hitSize, 0, Vector2.up, 0, attackableLayer);
 
@@ -101,38 +128,20 @@ public class playerAttack : MonoBehaviour
             Vector3 FXPos = new (Mathf.Clamp(hits[i].transform.position.x, 0, 10f), hits[i].transform.position.y, -5);
             Instantiate(pf_playerAttackFX, FXPos, Quaternion.Euler(new Vector3(0, 0, Random.Range(20, -50))));
 
-            //CALCULATE DAMAGE
+            //CALCULATE DAMAGE AND KNOCKBACK
             IDamageable iDamageable = hits[i].collider.gameObject.GetComponent<healthComponent>();
             if (iDamageable != null)
             {
-                iDamageable.Damage(damageAmount);
+                Vector2 direction = (hits[i].collider.gameObject.transform.position - transform.position).normalized;
+                Vector2 knockback = direction * knockbackForce;
+                iDamageable.OnHit(damageAmount, knockback);
             }
         }
 
-        //IF HIT VALID, THEN KNOCKBACK
+        //IF HIT VALID, THEN RECOIL
         if (hits.Length > 0)
         {
-            Vector2 oppFacing = PlayerController.isFacingRight ? Vector2.left : Vector2.right;
-            Vector2 dir;
-            float duration;
-
-            if (hitType == 1)
-            {
-                dir = new Vector2(0,0);
-                duration = 0;
-            }
-            else if (hitType == 2)
-            {
-                dir = Vector2.up;
-                duration = upwardForceTime;
-                PlayerController.extraJumpsLeft = 1;
-            }
-            else
-            {
-                dir = oppFacing;
-                duration = knockbackTime;
-            }
-            StartCoroutine(PlayerController.PlayerKnockbacked(dir, duration));
+            StartCoroutine(PlayerController.PlayerRecoil(dir, duration));
         }
 
         //ANIMATION

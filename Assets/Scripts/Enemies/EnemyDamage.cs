@@ -6,43 +6,18 @@ using UnityEngine;
 public class enemyDamage : MonoBehaviour
 {
     [SerializeField] private float damageAmount;
-    [SerializeField] private Vector2 knockbackDir = new Vector2(2, 0.3f);
-    [SerializeField] private float knockbackDuration = 0.1f;
-    [SerializeField] private float knockbackForce;
-    public Vector2 dir;
+    [SerializeField] private Vector2 knockbackForce = new Vector2(6, 6);
 
     private GameObject player;
     private playerController PlayerController;
-    private Rigidbody2D playerrb;
 
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
         PlayerController = player.gameObject.GetComponent<playerController>();
-        playerrb = player.gameObject.GetComponent<Rigidbody2D>();
-        dir = knockbackDir;
     }
 
-    private void Update()
-    {
-        if (transform.position.x > player.transform.position.x)
-        {
-            dir.x = knockbackDir.x * -1;
-        }
-        else if (transform.position.x == player.transform.position.x)
-        {
-            if (PlayerController.isFacingRight != true)
-            {
-                dir.x = knockbackDir.x * -1;
-            }
-        }
-        else
-        {
-            dir.x = knockbackDir.x;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         if(col.gameObject.tag == "Player")
         {
@@ -50,16 +25,14 @@ public class enemyDamage : MonoBehaviour
             //IDamageable iDamageable = col.gameObject.GetComponent<playerHealth>();
             //if (iDamageable != null)
             //{
-            //    iDamageable.Damage(damageAmount);
+            //    iDamageable.OnHit(damageAmount, 0);
             //}
 
             //CALCULATE KNOCKBACK
-            //StartCoroutine(PlayerController.PlayerKnockbacked(dir, knockbackDuration));
-        }
-    }
+            Vector2 direction = (col.transform.position - transform.position).normalized;
+            Vector2 knockback = new(direction.x * knockbackForce.x, knockbackForce.y);
 
-    private IEnumerator KnockbackArc()
-    {
-        Vector3 arcCenter = new Vector3(1, 0, 0);
+            StartCoroutine(PlayerController.PlayerKnockback(knockback));
+        }
     }
 }

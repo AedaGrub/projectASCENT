@@ -9,17 +9,17 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
   - Ground
-  - Attackable
+  - 
   - Lights
   - Background
-  - 
-  - 
-  - 
-  - 
+  - AttackablePhysics
+  - AttackableTrigger
+  - PlayerPhysics
+  - PlayerTrigger
   - 
   - 
   - 

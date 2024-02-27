@@ -23,7 +23,7 @@ public class playerHealth : MonoBehaviour , IDamageable
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 
-    public void Damage(float damageAmount)
+    public void OnHit(float damageAmount, Vector2 knockbackAmount)
     {
         currentHealth -= damageAmount;
 
