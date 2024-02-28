@@ -18,13 +18,6 @@ public class healthComponent : MonoBehaviour, IDamageable
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void ChangeHealth(int amount)
-    {
-        float oldHealth = currentHealth;
-        currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-    }
-
     public void OnHit(float damageAmount, Vector2 knockbackAmount)
     {
         currentHealth -= damageAmount;

@@ -505,7 +505,7 @@ public class playerController : MonoBehaviour
     }
     #endregion
 
-    #region KNOCKBACK METHOD
+    #region RECOIL METHOD
     public IEnumerator PlayerRecoil(Vector2 dir, float duration)
     {
         lastGrounded = 0;
@@ -541,7 +541,9 @@ public class playerController : MonoBehaviour
         isDashing = false;
         isJumpCut = false;
     }
+    #endregion
 
+    #region KNOCKBACK METHOD
     public IEnumerator PlayerKnockback(Vector2 dir)
     {
         lastGrounded = 0;
@@ -557,6 +559,7 @@ public class playerController : MonoBehaviour
 
         while (Time.time - startTime <= duration)
         {
+            rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -5, 5), rb.velocity.y);
             yield return null;
         }
 

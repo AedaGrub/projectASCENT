@@ -22,11 +22,7 @@ public class enemyDamage : MonoBehaviour
         if(col.gameObject.tag == "Player")
         {
             //CALCULATE DAMAGE
-            //IDamageable iDamageable = col.gameObject.GetComponent<playerHealth>();
-            //if (iDamageable != null)
-            //{
-            //    iDamageable.OnHit(damageAmount, 0);
-            //}
+            gameManager.instance.OnHit(damageAmount);
 
             //CALCULATE KNOCKBACK
             Vector2 direction = (col.transform.position - transform.position).normalized;
