@@ -7,60 +7,52 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    #region HEALTH
+    #region SLIDERS
     [SerializeField] private Slider[] healthSliders;
     [SerializeField] private Slider[] easeHealthSliders;
-    private float maxHealth;
-    private float currentHealth;
 
-    #endregion
-
-    #region ATTACK
     [SerializeField] private Image[] attackBars;
-    #endregion
 
-    #region COOLDOWN
     [SerializeField] private Slider[] cooldownSliders;
+    [SerializeField] private Image cooldownIcon;
     #endregion
 
     void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
         DontDestroyOnLoad(gameObject);
-
-        foreach (Slider slider in healthSliders)
-        {
-            slider.value = currentHealth;
-        }
-        foreach (Slider slider in easeHealthSliders)
-        {
-            slider.value = currentHealth;
-        }
     }
 
     void Start()
     {
         //GET GM'S STATS AND REFRESH
-        maxHealth = gameManager.instance.maxHealth;
-        currentHealth = gameManager.instance.CurrentHealth;
-        UpdateHealth(currentHealth, maxHealth);
+        UpdateHealth();
+        UpdateAttack();
+        UpdateCooldown();
     }
 
     void Update()
     {
-
+        //CONSTANTLY LOOK AT CURRENTCHARGEVALUE FOR COOLDOWN SLIDERS
+        foreach (Slider slider in cooldownSliders)
+        {
+            slider.value = gameManager.instance.currentChargeValue;
+        }
     }
 
-    public void UpdateHealth(float newHP, float maxHP)
+    public void UpdateHealth()
     {
-        maxHealth = maxHP;
-        float oldHP = currentHealth;
-        currentHealth = newHP;
+        //RENDERING HEALTH UI
+        float oldHP = healthSliders[0].value;
+        float newHP = gameManager.instance.CurrentHealth;
 
         //ENABLE/DISABLE HEALTH BARS
         for (int i = 0; i < healthSliders.Length; i++)
         {
-            if (i * 10 < maxHealth)
+            if (i * 10 < gameManager.instance.maxHealth)
             {
                 healthSliders[i].gameObject.SetActive(true);
                 easeHealthSliders[i].gameObject.SetActive(true);
@@ -75,10 +67,51 @@ public class UIManager : MonoBehaviour
         //SET VALUE TO ALL HEALTHSLIDERS
         foreach (Slider slider in healthSliders)
         {
-            slider.value = currentHealth;
+            slider.value = gameManager.instance.CurrentHealth;
         }
 
         StartCoroutine(EaseHealth(oldHP, newHP));
+    }
+
+    public void UpdateAttack()
+    {
+        //RENDERING ATTACK UI
+        for (int i = 0; i < attackBars.Length; i++)
+        {
+            if (i * 1 < gameManager.instance.currentAttack)
+            {
+                attackBars[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                attackBars[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void UpdateCooldown()
+    {
+        //RENDERING COOLDOWN CHARGES UI
+        for (int i = 0; i < cooldownSliders.Length; i++)
+        {
+            if (i * 20 < gameManager.instance.maxChargeValue)
+            {
+                cooldownSliders[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                cooldownSliders[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (gameManager.instance.currentChargeValue > 0)
+        {
+            cooldownIcon.enabled = true;
+        }
+        else
+        {
+            cooldownIcon.enabled = false;
+        }
     }
 
     private IEnumerator EaseHealth(float oldHealth, float newHealth)

@@ -7,7 +7,6 @@ public class playerController : MonoBehaviour
     //COMPONENTS, VARIABLES, & PARAMETERS
     #region PLAYER
     [Header("PLAYER")]
-    public bool controlEnabled;
     public Animator animator;
     private Rigidbody2D rb;
 
@@ -60,7 +59,6 @@ public class playerController : MonoBehaviour
 
     private float lastDashInputTime;
     private Vector2 lastDashDir;
-    public bool dashAvailable;
 
     public float dashCooldown;
     [SerializeField] private float dashSpeed;
@@ -121,9 +119,13 @@ public class playerController : MonoBehaviour
     void FixedUpdate()
     {
         #region MOVEMENT INPUT
-        if (controlEnabled)
+        if (gameManager.instance.playerEnabled)
         {
             moveInput.x = Input.GetAxisRaw("Horizontal");
+        }
+        else
+        {
+            moveInput.x = 0;
         }
 
         if (moveInput.x != 0)
@@ -219,7 +221,7 @@ public class playerController : MonoBehaviour
         lastJumpInputTime -= Time.deltaTime;
 
         //WHEN PRESSED JUMP
-        if (controlEnabled)
+        if (gameManager.instance.playerEnabled)
         {
             if (Input.GetKeyDown(KeyCode.Space) ^ Input.GetKeyDown(KeyCode.C))
             {
@@ -270,7 +272,7 @@ public class playerController : MonoBehaviour
                 isJumping = true;
                 isWallJumping = false;
                 isJumpCut = false;
-                extraJumpsLeft--;
+                gameManager.instance.currentChargeValue -= 20;
 
                 //CREATE DUST IF JUMPING OFF GROUND
                 CreateDust(0.02f, -0.123f);
@@ -283,7 +285,7 @@ public class playerController : MonoBehaviour
         #region DASH INPUT
         lastDashInputTime -= Time.deltaTime;
 
-        if (controlEnabled)
+        if (gameManager.instance.playerEnabled)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
@@ -304,7 +306,7 @@ public class playerController : MonoBehaviour
                     isJumpCut = false;
 
                     StartCoroutine(nameof(StartDash), lastDashDir);
-                    StartCoroutine(nameof(RefillDash));
+                    gameManager.instance.currentChargeValue -= 20;
                 }
             }
         }
@@ -331,7 +333,7 @@ public class playerController : MonoBehaviour
         //IF NOT DASHING
         if (!isDashAttacking)
         {
-            if (!isJumping && lastOnWall >= coyoteTime && moveInput.x != 0)
+            if (gameManager.instance.canWallClimb && !isJumping && lastOnWall >= coyoteTime && moveInput.x != 0)
             {
                 //IF RUNNING INTO WALL MIDAIR, SLOW DOWN FALL
                 SetGravityScale(gravityScale * fallGravityMult);
@@ -474,7 +476,6 @@ public class playerController : MonoBehaviour
         lastDashInputTime = 0;
 
         float startTime = Time.time;
-        dashAvailable = false;
         isDashAttacking = true;
 
         while (Time.time - startTime <= dashAttackTime)
@@ -494,14 +495,6 @@ public class playerController : MonoBehaviour
         }
 
         isDashing = false;
-    }
-    #endregion
-
-    #region DASH REFILL METHOD
-    private IEnumerator RefillDash()
-    {
-        yield return new WaitForSeconds(dashCooldown);
-        dashAvailable = true;
     }
     #endregion
 
@@ -635,12 +628,14 @@ public class playerController : MonoBehaviour
 
     private bool CanExtraJump()
     {
-        return !isGrounded && rb.velocity.y != 0 && extraJumpsLeft > 0;
+        return gameManager.instance.canExtraJump && gameManager.instance.currentChargeValue >= 20 &&
+            !isGrounded && rb.velocity.y != 0;
     }
 
     private bool CanWallJump()
     {
-        return lastJumpInputTime > 0 && lastOnWall > 0.1 && lastGrounded <= 0 && (!isWallJumping ||
+        return gameManager.instance.canWallClimb &&
+            lastJumpInputTime > 0 && lastOnWall > 0.1 && lastGrounded <= 0 && (!isWallJumping ||
             (lastOnWallRight > 0 && lastWallJumpDir == 1) || (lastOnWallLeft > 0 && lastWallJumpDir == -1));
     }
 
@@ -651,7 +646,8 @@ public class playerController : MonoBehaviour
 
     private bool CanDash()
     {
-        return !isDashing && dashAvailable;
+        return gameManager.instance.canDash && gameManager.instance.currentChargeValue >= 20 &&
+            !isDashing;
     }
     #endregion
 
