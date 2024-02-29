@@ -940,9 +940,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 20
-  m_WholeNumbers: 1
-  m_Value: 20
+  m_MaxValue: 10
+  m_WholeNumbers: 0
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1087,11 +1087,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 299adcae05c28fa4d8041ede208bb43e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSlider: {fileID: 720797207}
-  easeHealthSlider: {fileID: 256138732}
-  maxHealth: 20
-  currentHealth: 20
-  lerpSpeed: 0.1
+  healthSliders:
+  - {fileID: 720797207}
+  - {fileID: 1510669023}
+  - {fileID: 1144211063}
+  - {fileID: 461996919}
+  easeHealthSliders:
+  - {fileID: 256138732}
+  - {fileID: 1051914553}
+  - {fileID: 1934890040}
+  - {fileID: 1098436290}
+  attackBars:
+  - {fileID: 1781283413}
+  - {fileID: 508040969}
+  - {fileID: 1272371063}
+  - {fileID: 979620702}
+  cooldownSliders:
+  - {fileID: 528336692}
+  - {fileID: 604227344}
+  - {fileID: 123591710}
+  - {fileID: 254825530}
 --- !u!1 &326561093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1504,10 +1519,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1715105442}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
-  m_MinValue: 60
-  m_MaxValue: 80
-  m_WholeNumbers: 1
-  m_Value: 80
+  m_MinValue: 30
+  m_MaxValue: 40
+  m_WholeNumbers: 0
+  m_Value: 40
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2381,9 +2396,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 20
-  m_WholeNumbers: 1
-  m_Value: 20
+  m_MaxValue: 10
+  m_WholeNumbers: 0
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3106,8 +3121,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1588184037}
   PlayerController: {fileID: 1588184040}
-  maxHealth: 20
-  currentHealth: 20
+  maxHealth: 10
+  currentHealth: 10
 --- !u!4 &999745863
 Transform:
   m_ObjectHideFlags: 0
@@ -3355,10 +3370,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 2005301527}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
-  m_MinValue: 20
-  m_MaxValue: 40
-  m_WholeNumbers: 1
-  m_Value: 40
+  m_MinValue: 10
+  m_MaxValue: 20
+  m_WholeNumbers: 0
+  m_Value: 20
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3444,10 +3459,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 476927163}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
-  m_MinValue: 60
-  m_MaxValue: 80
-  m_WholeNumbers: 1
-  m_Value: 80
+  m_MinValue: 30
+  m_MaxValue: 40
+  m_WholeNumbers: 0
+  m_Value: 40
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3608,10 +3623,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 987197369}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
-  m_MinValue: 40
-  m_MaxValue: 60
-  m_WholeNumbers: 1
-  m_Value: 60
+  m_MinValue: 20
+  m_MaxValue: 30
+  m_WholeNumbers: 0
+  m_Value: 30
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4736,10 +4751,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 552388930}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
-  m_MinValue: 20
-  m_MaxValue: 40
-  m_WholeNumbers: 1
-  m_Value: 40
+  m_MinValue: 10
+  m_MaxValue: 20
+  m_WholeNumbers: 0
+  m_Value: 20
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -14409,10 +14424,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 2133424358}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
-  m_MinValue: 40
-  m_MaxValue: 60
-  m_WholeNumbers: 1
-  m_Value: 60
+  m_MinValue: 20
+  m_MaxValue: 30
+  m_WholeNumbers: 0
+  m_Value: 30
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

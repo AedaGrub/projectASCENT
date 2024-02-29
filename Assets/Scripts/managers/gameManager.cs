@@ -18,9 +18,18 @@ public class gameManager : MonoBehaviour
     public float CurrentHealth => currentHealth;
     #endregion
 
+    #region PLAYER ATTACK
+
+    #endregion
+
+    #region PLAYER COOLDOWN
+
+    #endregion
+
     private void Awake()
     {
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -31,10 +40,7 @@ public class gameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            OnHit(1);
-        }
+
     }
 
     public void ResetHealth()
