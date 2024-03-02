@@ -8,9 +8,10 @@ public class playerController : MonoBehaviour
     #region PLAYER
     [Header("PLAYER")]
     public Animator animator;
+    private string currentState;
     private Rigidbody2D rb;
 
-    private Vector2 moveInput;
+    [HideInInspector] public Vector2 moveInput;
     public bool isFacingRight;
 
     [SerializeField] private float speed;
@@ -24,6 +25,19 @@ public class playerController : MonoBehaviour
     private ParticleSystem dust;
     [SerializeField] private ParticleSystem dustBurst;
     [SerializeField] private ParticleSystem dustLand;
+
+    public bool isAttacking;
+
+    const string playerIdle = "player_idle";
+    const string playerRun = "player_run";
+    const string playerStop = "player_stop";
+    const string playerJump = "player_jump";
+    const string playerFall = "player_fall";
+    const string playerWall = "player_wall";
+    const string playerStand = "player_stand";
+    const string playerDatk = "player_dattack";
+    const string playerUatkR = "player_uattackR";
+    const string playerUatkI = "player_uattackI";
     #endregion
 
     #region JUMP
@@ -45,6 +59,7 @@ public class playerController : MonoBehaviour
     public bool isWallJumping;
     private float wallJumpStartTime;
     private int lastWallJumpDir;
+    public bool isWallSliding;
 
     [SerializeField] private float wallSlideSpeed;
     [SerializeField] private Vector2 wallJumpForce;
@@ -131,9 +146,9 @@ public class playerController : MonoBehaviour
         if (moveInput.x != 0)
         {
             CheckDirectionToFace(moveInput.x > 0);
-            if (!isJumping && !isWallJumping && !isDashing && rb.velocity.y >= 0)
+            if (!isJumping && !isWallJumping && !isDashing && isGrounded && !isAttacking)
             {
-                animator.SetBool("isRunning", true);
+                ChangeAnimationState(playerRun);
             }
 
             if (isGrounded)
@@ -144,7 +159,17 @@ public class playerController : MonoBehaviour
         }
         else
         {
-            animator.SetBool("isRunning", false);
+            if (isGrounded && !isJumping && !isAttacking)
+            {
+                if (currentState == playerRun)
+                {
+                    ChangeAnimationState(playerStop);
+                }
+                else if (currentState != playerStop)
+                {
+                    ChangeAnimationState(playerIdle);
+                }
+            }
         }
 
         if (!isDashing && !isBeingKnockbacked)
@@ -279,6 +304,15 @@ public class playerController : MonoBehaviour
 
                 Jump();
             }
+
+            if (!isGrounded && !isJumpCut && rb.velocity.y > 0 && !isAttacking)
+            {
+                ChangeAnimationState(playerJump);
+            }
+            else if (!isGrounded && rb.velocity.y < 0 && !isWallSliding && !isAttacking)
+            {
+                ChangeAnimationState(playerFall);
+            }
         }
         #endregion
 
@@ -327,13 +361,23 @@ public class playerController : MonoBehaviour
         {
             isJumpCut = false;
         }
+
+        if (gameManager.instance.canWallClimb && !isGrounded && !isJumping && lastOnWall >= coyoteTime && moveInput.x != 0 && !isAttacking)
+        {
+            isWallSliding = true;
+            ChangeAnimationState(playerWall);
+        }
+        else
+        {
+            isWallSliding = false;
+        }
         #endregion
 
         #region GRAVITY
         //IF NOT DASHING
         if (!isDashAttacking)
         {
-            if (gameManager.instance.canWallClimb && !isJumping && lastOnWall >= coyoteTime && moveInput.x != 0)
+            if (isWallSliding)
             {
                 //IF RUNNING INTO WALL MIDAIR, SLOW DOWN FALL
                 SetGravityScale(gravityScale * fallGravityMult);
@@ -370,26 +414,6 @@ public class playerController : MonoBehaviour
         }
         #endregion
 
-        #region ANIMATION
-        if (rb.velocity.y == 0)
-        {
-            animator.SetBool("isJumping", false);
-            animator.SetBool("isFalling", false);
-        }
-
-        if (!isGrounded && rb.velocity.y > 0)
-        {
-            animator.SetBool("isJumping", true);
-            animator.SetBool("isFalling", false);
-        }
-
-        else if (!isGrounded && rb.velocity.y < 0)
-        {
-            animator.SetBool("isJumping", false);
-            animator.SetBool("isFalling", true);
-        }
-        #endregion
-
         #region CAMERA
         if (rb.velocity.y < -5 && !cameraManager.instance.isLerpingYDamping && !cameraManager.instance.lerpedFromPlayerFalling)
         {
@@ -412,6 +436,23 @@ public class playerController : MonoBehaviour
 
         isFacingRight =!isFacingRight;
         CameraFollowObject.CallTurn();
+    }
+    #endregion
+
+    #region ANIMATION METHOD
+    public void ChangeAnimationState(string newState)
+    {
+        //PREVENT SELF INTERRUPTION
+        if (currentState == newState) return;
+
+        //PLAY AND REASSIGN
+        animator.Play(newState);
+        currentState = newState;
+    }
+
+    public void NotIsAttacking()
+    {
+        isAttacking = false;
     }
     #endregion
 

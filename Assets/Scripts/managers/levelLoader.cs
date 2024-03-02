@@ -11,11 +11,15 @@ public class levelLoader : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     public void LoadNextLevel(int index)

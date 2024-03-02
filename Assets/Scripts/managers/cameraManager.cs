@@ -24,11 +24,6 @@ public class cameraManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-
         for (int i = 0; i < allVirtualCameras.Length; i++)
         {
             if (allVirtualCameras[i].enabled)

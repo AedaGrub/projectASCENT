@@ -19,6 +19,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] public float maxHealth;
     [SerializeField] private float currentHealth;
     public float CurrentHealth => currentHealth;
+    public bool isInvincible;
     #endregion
 
     #region PLAYER ATTACK
@@ -47,11 +48,15 @@ public class gameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     void Start()

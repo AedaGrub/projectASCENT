@@ -299,7 +299,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a341387530b755747ad953a60fe89cef, type: 3}
+  m_Sprite: {fileID: 1538168530, guid: bded5938ead171747bfcc3a4b6331875, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -394,8 +394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f51a00680ee8c459e40882ea74afc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlEnabled: 1
   animator: {fileID: 58799198586494090}
+  moveInput: {x: 0, y: 0}
   isFacingRight: 1
   speed: 7
   coyoteTime: 0.15
@@ -404,18 +404,19 @@ MonoBehaviour:
   dustGO: {fileID: 8025433686360084442}
   dustBurst: {fileID: 9212501139817507572}
   dustLand: {fileID: 1298807031503112593}
+  isAttacking: 0
   isJumping: 0
   extraJumpsLeft: 0
   jumpHeight: 3.5
   jumpTimeToApex: 0.5
   isWallJumping: 0
+  isWallSliding: 0
   wallSlideSpeed: 2
   wallJumpForce: {x: 10, y: 11}
   wallJumpRunLerp: 0.075
   wallJumpTime: 0.15
   isDashing: 0
   isDashAttacking: 0
-  dashAvailable: 1
   dashCooldown: 0.5
   dashSpeed: 20
   dashAttackTime: 0.15

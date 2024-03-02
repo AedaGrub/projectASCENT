@@ -70,11 +70,13 @@ public class playerAttack : MonoBehaviour
             //UPWARD ATTACK
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
+                PlayerController.isAttacking = true;
                 Attack(UattackTransform, UattackSize, 1);
             }
             //DOWNWARD ATTACK
             else if(!PlayerController.isGrounded && (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)))
             {
+                PlayerController.isAttacking = true;
                 Attack(DattackTransform, DattackSize, 2);
             }
             //FORWARD ATTACK
@@ -126,7 +128,7 @@ public class playerAttack : MonoBehaviour
         for (int i = 0; i < hits.Length; i++)
         {
             //HIT VFX
-            Vector3 FXPos = new (Mathf.Clamp(hits[i].transform.position.x, 0, 10f), hits[i].transform.position.y, -5);
+            Vector3 FXPos = new (Mathf.Clamp(hits[i].transform.position.x, transform.position.x - 10f, transform.position.x + 10f), hits[i].transform.position.y, -5);
             Instantiate(pf_playerAttackFX, FXPos, Quaternion.Euler(new Vector3(0, 0, Random.Range(20, -50))));
 
             //CALCULATE DAMAGE AND KNOCKBACK
@@ -149,10 +151,20 @@ public class playerAttack : MonoBehaviour
         if (hitType == 1)
         {
             UattackAnimator.Play("Base Layer.player_UAttack");
+            if (PlayerController.moveInput.x != 0)
+            {
+                PlayerController.ChangeAnimationState("player_uattackR");
+            }
+            else
+            {
+                PlayerController.ChangeAnimationState("player_uattackI");
+            }
+
         }
         else if (hitType == 2)
         {
             DattackAnimator.Play("Base Layer.player_DAttack");
+            PlayerController.ChangeAnimationState("player_dattack");
         }
         else
         {

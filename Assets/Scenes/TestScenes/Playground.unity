@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 82959817}
   - component: {fileID: 82959816}
   - component: {fileID: 82959815}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: EnemyDummy (3)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -201,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 10
+  rb: {fileID: 0}
 --- !u!212 &82959817
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -443,7 +444,7 @@ GameObject:
   - component: {fileID: 143983624}
   - component: {fileID: 143983623}
   - component: {fileID: 143983622}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: EnemyDummy (1)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -509,6 +510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 10
+  rb: {fileID: 0}
 --- !u!212 &143983624
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6406,7 +6408,7 @@ GameObject:
   - component: {fileID: 1142516291}
   - component: {fileID: 1142516290}
   - component: {fileID: 1142516289}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: EnemyDummy (4)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -6472,6 +6474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 10
+  rb: {fileID: 0}
 --- !u!212 &1142516291
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6639,7 +6642,7 @@ GameObject:
   - component: {fileID: 1211679906}
   - component: {fileID: 1211679905}
   - component: {fileID: 1211679904}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: EnemyDummy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -6705,6 +6708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 10
+  rb: {fileID: 0}
 --- !u!212 &1211679906
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7282,6 +7286,14 @@ PrefabInstance:
     - target: {fileID: 7709392522035906911, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171096066384006037, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1538168530, guid: bded5938ead171747bfcc3a4b6331875, type: 3}
+    - target: {fileID: 8171096066384006037, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
