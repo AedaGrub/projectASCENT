@@ -278,7 +278,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: -876546973899608171, guid: 298f1ddbeb333f84eb23cad3d41d77c1, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -395,6 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 58799198586494090}
+  material: {fileID: 0}
   moveInput: {x: 0, y: 0}
   isFacingRight: 1
   speed: 7
@@ -464,7 +465,7 @@ MonoBehaviour:
   DattackSize: {x: 1.97, y: 2.06}
   attackableLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 2048
   pf_playerAttackFX: {fileID: 155542996913389261, guid: a7c8947fab0150d44931e7d3098c400d, type: 3}
   knockbackTime: 0.05
   upwardForceTime: 0.1

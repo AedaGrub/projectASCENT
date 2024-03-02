@@ -95,6 +95,37 @@ public class playerAttack : MonoBehaviour
         attackAvailable = false;
         StartCoroutine(nameof(RefillAttack));
 
+        //ANIMATION
+        if (hitType == 1)
+        {
+            UattackAnimator.Play("Base Layer.player_UAttack");
+            if (PlayerController.moveInput.x != 0)
+            {
+                PlayerController.ChangeAnimationState("player_uattackR");
+            }
+            else
+            {
+                PlayerController.ChangeAnimationState("player_uattackI");
+            }
+
+        }
+        else if (hitType == 2)
+        {
+            DattackAnimator.Play("Base Layer.player_DAttack");
+            PlayerController.ChangeAnimationState("player_dattack");
+        }
+        else
+        {
+            if (flipAttack)
+            {
+                FattackAnimator.Play("Base Layer.player_FAttack1");
+            }
+            else
+            {
+                FattackAnimator.Play("Base Layer.player_FAttack2");
+            }
+        }
+
         //CALCULATE DIRECTION OF FORCE AND RECOIL
         Vector2 oppFacing = PlayerController.isFacingRight ? Vector2.left : Vector2.right;
         Vector2 dir;
@@ -127,10 +158,6 @@ public class playerAttack : MonoBehaviour
         //PER HIT
         for (int i = 0; i < hits.Length; i++)
         {
-            //HIT VFX
-            Vector3 FXPos = new (Mathf.Clamp(hits[i].transform.position.x, transform.position.x - 10f, transform.position.x + 10f), hits[i].transform.position.y, -5);
-            Instantiate(pf_playerAttackFX, FXPos, Quaternion.Euler(new Vector3(0, 0, Random.Range(20, -50))));
-
             //CALCULATE DAMAGE AND KNOCKBACK
             IDamageable iDamageable = hits[i].collider.gameObject.GetComponent<healthComponent>();
             if (iDamageable != null)
@@ -145,37 +172,6 @@ public class playerAttack : MonoBehaviour
         if (hits.Length > 0)
         {
             StartCoroutine(PlayerController.PlayerRecoil(dir, duration));
-        }
-
-        //ANIMATION
-        if (hitType == 1)
-        {
-            UattackAnimator.Play("Base Layer.player_UAttack");
-            if (PlayerController.moveInput.x != 0)
-            {
-                PlayerController.ChangeAnimationState("player_uattackR");
-            }
-            else
-            {
-                PlayerController.ChangeAnimationState("player_uattackI");
-            }
-
-        }
-        else if (hitType == 2)
-        {
-            DattackAnimator.Play("Base Layer.player_DAttack");
-            PlayerController.ChangeAnimationState("player_dattack");
-        }
-        else
-        {
-            if (flipAttack)
-            {
-                FattackAnimator.Play("Base Layer.player_FAttack1");
-            }
-            else
-            {
-                FattackAnimator.Play("Base Layer.player_FAttack2");
-            }
         }
 
     }

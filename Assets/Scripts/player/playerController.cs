@@ -10,6 +10,7 @@ public class playerController : MonoBehaviour
     public Animator animator;
     private string currentState;
     private Rigidbody2D rb;
+    public Material material;
 
     [HideInInspector] public Vector2 moveInput;
     public bool isFacingRight;
@@ -118,6 +119,7 @@ public class playerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        material = GetComponent<SpriteRenderer>().material;
         cameraFollowGO = GameObject.Find("CameraFollowObject");
         CameraFollowObject = cameraFollowGO.GetComponent<cameraFollowObject>();
         dust = dustGO.GetComponent<ParticleSystem>();
@@ -221,7 +223,7 @@ public class playerController : MonoBehaviour
         {
             lastOnWallRight = coyoteTime;
             //RESET EXTRAJUMPS
-            if (!isJumping && moveInput.x != 0)
+            if (!isJumping && moveInput.x != 0 && gameManager.instance.canWallClimb)
             {
                 extraJumpsLeft = 1;
             }
@@ -233,7 +235,7 @@ public class playerController : MonoBehaviour
         {
             lastOnWallLeft = coyoteTime;
             //RESET EXTRAJUMPS
-            if (!isJumping && moveInput.x != 0)
+            if (!isJumping && moveInput.x != 0 && gameManager.instance.canWallClimb)
             {
                 extraJumpsLeft = 1;
             }
@@ -297,7 +299,7 @@ public class playerController : MonoBehaviour
                 isJumping = true;
                 isWallJumping = false;
                 isJumpCut = false;
-                gameManager.instance.currentChargeValue -= 20;
+                extraJumpsLeft--;
 
                 //CREATE DUST IF JUMPING OFF GROUND
                 CreateDust(0.02f, -0.123f);
@@ -305,7 +307,7 @@ public class playerController : MonoBehaviour
                 Jump();
             }
 
-            if (!isGrounded && !isJumpCut && rb.velocity.y > 0 && !isAttacking)
+            if (!isGrounded && !isJumpCut && rb.velocity.y > 0 && !isAttacking && !isWallSliding)
             {
                 ChangeAnimationState(playerJump);
             }
@@ -423,6 +425,27 @@ public class playerController : MonoBehaviour
         {
             cameraManager.instance.lerpedFromPlayerFalling = false;
             cameraManager.instance.LerpYDamping(false);
+        }
+        #endregion
+
+        #region HORNS
+        if (gameManager.instance.canExtraJump && extraJumpsLeft > 0)
+        {
+            material.SetColor("_Color", new Color(3,3,3));
+        }
+        else
+        {
+            Color colorStart = material.GetColor("_Color");
+            Color colorEnd = new Color(0, 0, 0);
+
+            float elapsedTime = 0f;
+            if (elapsedTime < 0.01f)
+            {
+                elapsedTime += Time.deltaTime;
+                Color colorNow = Color.Lerp(colorStart, colorEnd, (elapsedTime / 0.01f));
+
+                material.SetColor("_Color", colorNow);
+            }
         }
         #endregion
     }
@@ -669,7 +692,7 @@ public class playerController : MonoBehaviour
 
     private bool CanExtraJump()
     {
-        return gameManager.instance.canExtraJump && gameManager.instance.currentChargeValue >= 20 &&
+        return gameManager.instance.canExtraJump && extraJumpsLeft > 0 &&
             !isGrounded && rb.velocity.y != 0;
     }
 

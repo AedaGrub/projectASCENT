@@ -12,6 +12,8 @@ public class healthComponent : MonoBehaviour, IDamageable
     [HideInInspector] public float CurrentHealth => currentHealth;
     [SerializeField] private Rigidbody2D rb;
 
+    [SerializeField] private GameObject _enemyHitFX;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -22,6 +24,9 @@ public class healthComponent : MonoBehaviour, IDamageable
     {
         currentHealth -= damageAmount;
         rb.AddForce(knockbackAmount, ForceMode2D.Impulse);
+
+        objectPoolManager.SpawnObject(_enemyHitFX, transform.position, 
+            Quaternion.Euler(0.0f, 0.0f, Random.Range(-20.0f, 0.0f)), objectPoolManager.PoolType.ParticleSystem);
 
         if (currentHealth <= 0)
         {

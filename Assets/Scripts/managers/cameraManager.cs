@@ -13,7 +13,7 @@ public class cameraManager : MonoBehaviour
     [SerializeField] private float fallPanTime;
 
     public bool isLerpingYDamping { get; private set; }
-    public bool lerpedFromPlayerFalling {  get; set; }
+    public bool lerpedFromPlayerFalling { get; set; }
 
     private Coroutine lerpYPanCoroutine;
 
@@ -24,6 +24,11 @@ public class cameraManager : MonoBehaviour
 
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
         for (int i = 0; i < allVirtualCameras.Length; i++)
         {
             if (allVirtualCameras[i].enabled)
