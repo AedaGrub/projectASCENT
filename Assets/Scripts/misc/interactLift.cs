@@ -7,12 +7,25 @@ public class InteractLift : MonoBehaviour
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Sprite WKey;
     [SerializeField] Sprite UpKey;
+    private Material material;
     public float fadeTime = 1f;
+
+    private Transform liftTransform;
 
     public int sceneIndexToLoad;
     private bool canInteract = false;
     private bool interacted = false;
 
+    void Awake()
+    {
+        material = transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().material;
+        liftTransform = transform.GetChild(0);
+    }
+
+    void OnEnable()
+    {
+        liftTransform.localScale = new Vector2(0f, 3f);
+    }
 
     void Update()
     {
@@ -29,6 +42,24 @@ public class InteractLift : MonoBehaviour
         if (canInteract && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
             OnInteract();
+        }
+
+        if (liftTransform.localScale.x < 2)
+        {
+            float scaleStart = liftTransform.localScale.x;
+            float scaleEnd = 2f;
+            float elapsedTime = 0f;
+            if (elapsedTime < fadeTime)
+            {
+                elapsedTime += Time.deltaTime;
+                float scaleChange = Mathf.Lerp(scaleStart, scaleEnd, (elapsedTime / fadeTime));
+
+                liftTransform.localScale = new Vector2(scaleChange, 3f);
+            }
+        }
+        else
+        {
+            liftTransform.localScale = new Vector2(2f, 3f);
         }
     }
 
@@ -61,27 +92,25 @@ public class InteractLift : MonoBehaviour
 
     private IEnumerator FadeKey()
     {
-        float startFadeAmount = spriteRenderer.color.a;
-        float endFadeAmount = 0f;
+        float alphaStart = material.GetFloat("_Alpha");
+        float alphaEnd;
 
         if (canInteract)
         {
-            endFadeAmount = 1;
+            alphaEnd = 1;
         }
         else
         {
-            endFadeAmount = 0;
+            alphaEnd = 0;
         }
 
         float elapsedTime = 0;
         while (elapsedTime < fadeTime)
         {
             elapsedTime += Time.deltaTime;
-            float currentFadeAmount = Mathf.Lerp(startFadeAmount, endFadeAmount, (elapsedTime / fadeTime));
+            float alphaNow = Mathf.Lerp(alphaStart, alphaEnd, (elapsedTime / fadeTime));
 
-            Color tmp = spriteRenderer.color;
-            tmp.a = currentFadeAmount;
-            spriteRenderer.color = tmp;
+            material.SetFloat("_Alpha", alphaNow);
 
             yield return null;
         }

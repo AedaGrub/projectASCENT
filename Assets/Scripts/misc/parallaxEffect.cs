@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class parallaxEffect : MonoBehaviour
 {
-    private float length, startPos;
+    private float length;
+    private Vector2 startPos;
     [SerializeField] private GameObject cam;
     [SerializeField] private float parallaxAmount;
 
     void Start()
     {
-        startPos = transform.position.x;
+        startPos = transform.position;
         length = GetComponent<SpriteRenderer>().bounds.size.x;
     }
 
@@ -18,17 +19,18 @@ public class parallaxEffect : MonoBehaviour
     void Update()
     {
         float temp = (cam.transform.position.x * (1 - parallaxAmount));
-        float dist = (cam.transform.position.x * parallaxAmount);
+        float distX = (cam.transform.position.x * parallaxAmount);
+        float distY = (cam.transform.position.y * parallaxAmount);
 
-        transform.position = new Vector3(startPos + dist, transform.position.y, transform.position.z);
+        transform.position = new Vector3(startPos.x + distX, startPos.y + distY, transform.position.z);
 
-        if (temp > startPos + length)
+        if (temp > startPos.x + length)
         {
-            startPos += length;
+            startPos.x += length;
         }
-        else if (temp < startPos - length)
+        else if (temp < startPos.x - length)
         {
-            startPos -= length;
+            startPos.x -= length;
         }
     }
 }
