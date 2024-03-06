@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 516b39ce82ab2274289a60751ff4af77
+guid: a9a0e3798200b7d46a979885393ae9c0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,7 +121,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: playerAttackFX_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 243.33333
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9741f72f95f59d94ba50ee8481f4ef60
+      internalID: -903878237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAttackFX_1
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 0
+        width: 243.33333
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cad80c00bc9aa4943ad34f58cc7fdd78
+      internalID: -1920827708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAttackFX_2
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 0
+        width: 243.33333
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cae7e2397c878804cad4b499aa4a541e
+      internalID: -654858019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +195,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      playerAttackFX_0: -903878237
+      playerAttackFX_1: -1920827708
+      playerAttackFX_2: -654858019
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

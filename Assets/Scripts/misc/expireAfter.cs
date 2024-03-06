@@ -6,11 +6,6 @@ public class expireAfter : MonoBehaviour
 {
     public void Despawn()
     {
-        Destroy(gameObject);
-    }
-
-    public void DelayedDespawn(float delay)
-    {
-        Destroy(gameObject, delay);
+        objectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

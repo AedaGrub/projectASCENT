@@ -27,8 +27,6 @@ public class playerController : MonoBehaviour
     [SerializeField] private ParticleSystem dustBurst;
     [SerializeField] private ParticleSystem dustLand;
 
-    public bool isAttacking;
-
     const string playerIdle = "player_idle";
     const string playerRun = "player_run";
     const string playerStop = "player_stop";
@@ -148,7 +146,7 @@ public class playerController : MonoBehaviour
         if (moveInput.x != 0)
         {
             CheckDirectionToFace(moveInput.x > 0);
-            if (!isJumping && !isWallJumping && !isDashing && isGrounded && !isAttacking)
+            if (!isJumping && !isWallJumping && !isDashing && isGrounded && currentState != playerUatkR)
             {
                 ChangeAnimationState(playerRun);
             }
@@ -161,13 +159,13 @@ public class playerController : MonoBehaviour
         }
         else
         {
-            if (isGrounded && !isJumping && !isAttacking)
+            if (isGrounded && !isJumping)
             {
                 if (currentState == playerRun)
                 {
                     ChangeAnimationState(playerStop);
                 }
-                else if (currentState != playerStop)
+                else if (currentState != playerStop && currentState != playerUatkI)
                 {
                     ChangeAnimationState(playerIdle);
                 }
@@ -307,11 +305,11 @@ public class playerController : MonoBehaviour
                 Jump();
             }
 
-            if (!isGrounded && !isJumpCut && rb.velocity.y > 0 && !isAttacking && !isWallSliding)
+            if (!isGrounded && !isJumpCut && rb.velocity.y > 0 && !isWallSliding && currentState != playerUatkI && currentState != playerUatkR)
             {
                 ChangeAnimationState(playerJump);
             }
-            else if (!isGrounded && rb.velocity.y < 0 && !isWallSliding && !isAttacking)
+            else if (!isGrounded && rb.velocity.y < 0 && !isWallSliding && currentState != playerDatk && currentState != playerUatkI && currentState != playerUatkR)
             {
                 ChangeAnimationState(playerFall);
             }
@@ -364,7 +362,7 @@ public class playerController : MonoBehaviour
             isJumpCut = false;
         }
 
-        if (gameManager.instance.canWallClimb && !isGrounded && !isJumping && lastOnWall >= coyoteTime && moveInput.x != 0 && !isAttacking)
+        if (gameManager.instance.canWallClimb && !isGrounded && !isJumping && lastOnWall >= coyoteTime && moveInput.x != 0)
         {
             isWallSliding = true;
             ChangeAnimationState(playerWall);
@@ -431,7 +429,7 @@ public class playerController : MonoBehaviour
         #region HORNS
         if (gameManager.instance.canExtraJump && extraJumpsLeft > 0)
         {
-            material.SetColor("_Color", new Color(3,3,3));
+            material.SetColor("_Color", new Color(10,10,10));
         }
         else
         {
@@ -473,10 +471,6 @@ public class playerController : MonoBehaviour
         currentState = newState;
     }
 
-    public void NotIsAttacking()
-    {
-        isAttacking = false;
-    }
     #endregion
 
     #region RUN METHOD

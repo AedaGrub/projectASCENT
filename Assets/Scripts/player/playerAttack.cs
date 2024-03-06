@@ -70,13 +70,11 @@ public class playerAttack : MonoBehaviour
             //UPWARD ATTACK
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
-                PlayerController.isAttacking = true;
                 Attack(UattackTransform, UattackSize, 1);
             }
             //DOWNWARD ATTACK
             else if(!PlayerController.isGrounded && (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)))
             {
-                PlayerController.isAttacking = true;
                 Attack(DattackTransform, DattackSize, 2);
             }
             //FORWARD ATTACK

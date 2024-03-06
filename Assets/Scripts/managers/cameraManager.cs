@@ -22,6 +22,9 @@ public class cameraManager : MonoBehaviour
 
     private float normYPanAmount;
 
+    [SerializeField] private float globalShakeForce;
+    private CinemachineImpulseSource impulseSource;
+
     void Awake()
     {
         if (instance == null)
@@ -40,6 +43,8 @@ public class cameraManager : MonoBehaviour
         }
 
         normYPanAmount = framingTransposer.m_YDamping;
+
+        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     public void LerpYDamping(bool isPlayerFalling)
@@ -76,5 +81,33 @@ public class cameraManager : MonoBehaviour
         }
 
         isLerpingYDamping = false;
+    }
+
+    public void SwapCamera(CinemachineVirtualCamera positiveCamera, CinemachineVirtualCamera negativeCamera, float triggerExitDirection)
+    {
+        if (currentCamera == positiveCamera && triggerExitDirection > 0f)
+        {
+            negativeCamera.enabled = true;
+            positiveCamera.enabled = false;
+
+            currentCamera = negativeCamera;
+
+            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
+
+        else if (currentCamera == negativeCamera && triggerExitDirection < 0f)
+        {
+            positiveCamera.enabled = true;
+            negativeCamera.enabled = false;
+
+            currentCamera = positiveCamera;
+
+            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
+    }
+
+    public void CameraShake()
+    {
+        impulseSource.GenerateImpulseWithForce(globalShakeForce);
     }
 }

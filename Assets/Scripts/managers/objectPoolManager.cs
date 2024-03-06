@@ -15,7 +15,7 @@ public class objectPoolManager : MonoBehaviour
     public enum PoolType
     {
         ParticleSystem,
-        Gameobject,
+        GameObject,
         None
     }
     public static PoolType PoolingType;
@@ -100,7 +100,7 @@ public class objectPoolManager : MonoBehaviour
             case PoolType.ParticleSystem: 
                 return particleSystemsEmpty;
 
-            case PoolType.Gameobject: 
+            case PoolType.GameObject: 
                 return gameObjectsEmpty;
 
             case PoolType.None: 

@@ -8,7 +8,7 @@ public class InteractLift : MonoBehaviour
     [SerializeField] Sprite WKey;
     [SerializeField] Sprite UpKey;
     private Material material;
-    public float fadeTime = 1f;
+    public float fadeTime = 0.1f;
 
     private Transform liftTransform;
 
