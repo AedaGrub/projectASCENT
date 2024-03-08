@@ -405,7 +405,6 @@ MonoBehaviour:
   dustGO: {fileID: 8025433686360084442}
   dustBurst: {fileID: 9212501139817507572}
   dustLand: {fileID: 1298807031503112593}
-  isAttacking: 0
   isJumping: 0
   extraJumpsLeft: 0
   jumpHeight: 3.5

@@ -5,7 +5,11 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - rb: {instanceID: 0}
+  - player: {instanceID: 0}
   - _enemyHitFX: {fileID: 2151904978006924711, guid: 4c3c9cec8f1c2e84b86655a1baa17e50, type: 3}
+  - _enemyBleedFX: {fileID: 3020078972948008516, guid: 82034986e5e16614083369db10791eb7, type: 3}
+  - _playerAtkFX: {fileID: 155542996913389261, guid: a7c8947fab0150d44931e7d3098c400d, type: 3}
+  - _enemyDeathFX: {fileID: 3788374466995505928, guid: 6450ed9964cea014e9114401bf7fc1e5, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

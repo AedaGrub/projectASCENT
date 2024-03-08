@@ -21,14 +21,19 @@ public class enemyDamage : MonoBehaviour
     {
         if(col.gameObject.tag == "Player")
         {
-            //CALCULATE DAMAGE
-            gameManager.instance.OnHit(damageAmount);
-
-            //CALCULATE KNOCKBACK
-            Vector2 direction = (col.transform.position - transform.position).normalized;
-            Vector2 knockback = new(direction.x * knockbackForce.x, knockbackForce.y);
-
-            StartCoroutine(PlayerController.PlayerKnockback(knockback));
+            DamagePlayer(damageAmount);
         }
+    }
+
+    public void DamagePlayer(float extraDamage)
+    {
+        //CALCULATE DAMAGE
+        gameManager.instance.OnHit(damageAmount + extraDamage);
+
+        //CALCULATE KNOCKBACK
+        Vector2 direction = (player.transform.position - transform.position).normalized;
+        Vector2 knockback = new(direction.x * knockbackForce.x, knockbackForce.y);
+
+        StartCoroutine(PlayerController.PlayerKnockback(knockback));
     }
 }
