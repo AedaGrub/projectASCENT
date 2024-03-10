@@ -55,7 +55,7 @@ public class playerAttack : MonoBehaviour
         lastAttackInputTime -= Time.deltaTime;
 
         //WHEN PRESSED ATTACK
-        if (gameManager.instance.playerEnabled && 
+        if (gameManager.instance.playerEnabled && !PlayerController.isBeingKnockbacked &&
             Input.GetMouseButtonDown(0) ^ Input.GetKeyDown(KeyCode.X) ^ Input.GetKeyDown(KeyCode.RightShift))
         {
             lastAttackInputTime = inputBufferTime;

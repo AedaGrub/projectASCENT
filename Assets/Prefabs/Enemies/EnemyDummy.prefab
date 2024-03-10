@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5872552682483554792}
   - component: {fileID: 489403530186301931}
   - component: {fileID: 6501547953300872604}
+  - component: {fileID: 3988155042585202174}
   - component: {fileID: 7321739491762074343}
   - component: {fileID: 236212426849327738}
   m_Layer: 11
@@ -100,15 +101,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080bfcb0e3452a2419f6e37617d7a90a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  currentHealth: 5
+  maxHealth: 2
+  currentHealth: 2
   isAerial: 0
   rb: {fileID: 0}
   player: {fileID: 0}
+  sr: {fileID: 0}
+  baseMat: {fileID: 0}
+  whiteMat: {fileID: 2100000, guid: ea6bd4fbee306b848970ffa3a9833396, type: 2}
   _enemyHitFX: {fileID: 2151904978006924711, guid: 4c3c9cec8f1c2e84b86655a1baa17e50, type: 3}
   _enemyBleedFX: {fileID: 3020078972948008516, guid: 82034986e5e16614083369db10791eb7, type: 3}
   _playerAtkFX: {fileID: 155542996913389261, guid: a7c8947fab0150d44931e7d3098c400d, type: 3}
   _enemyDeathFX: {fileID: 3788374466995505928, guid: 6450ed9964cea014e9114401bf7fc1e5, type: 3}
+--- !u!114 &3988155042585202174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954210098452669283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 117cf754b35d6dc44b44046f14f31ddd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 1
+  knockbackForce: {x: 6, y: 6}
 --- !u!61 &7321739491762074343
 BoxCollider2D:
   m_ObjectHideFlags: 0

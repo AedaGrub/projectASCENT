@@ -26,7 +26,12 @@ public class playerController : MonoBehaviour
     private ParticleSystem dust;
     [SerializeField] private ParticleSystem dustBurst;
     [SerializeField] private ParticleSystem dustLand;
+    [SerializeField] private ParticleSystem playerHurt;
+    [SerializeField] private ParticleSystem shieldHurt;
+    [SerializeField] private ParticleSystem shieldRefresh;
+    #endregion
 
+    #region ANIMATION STRINGS
     const string playerIdle = "player_idle";
     const string playerRun = "player_run";
     const string playerStop = "player_stop";
@@ -121,6 +126,8 @@ public class playerController : MonoBehaviour
         cameraFollowGO = GameObject.Find("CameraFollowObject");
         CameraFollowObject = cameraFollowGO.GetComponent<cameraFollowObject>();
         dust = dustGO.GetComponent<ParticleSystem>();
+
+        //gameManager.instance.FindReferences();
 
         #region CALCULATE JUMP
         gravityStrength = -(2 * jumpHeight) / (jumpTimeToApex * jumpTimeToApex);
@@ -340,7 +347,7 @@ public class playerController : MonoBehaviour
                     isJumpCut = false;
 
                     StartCoroutine(nameof(StartDash), lastDashDir);
-                    gameManager.instance.currentChargeValue -= 20;
+                    gameManager.instance.currentChargeValue -= 1;
                 }
             }
         }
@@ -446,6 +453,17 @@ public class playerController : MonoBehaviour
             }
         }
         #endregion
+
+        #region SHIELD SKIN
+        if (gameManager.instance.currentShieldValue >= 1)
+        {
+            material.SetFloat("_SeconTexAlpha", 1);
+        }
+        else
+        {
+            material.SetFloat("_SeconTexAlpha", 0);
+        }
+        #endregion
     }
 
     #region FLIP SPRITE METHOD
@@ -535,6 +553,7 @@ public class playerController : MonoBehaviour
 
         float startTime = Time.time;
         isDashAttacking = true;
+        gameManager.instance.IFrames();
 
         while (Time.time - startTime <= dashAttackTime)
         {
@@ -552,6 +571,7 @@ public class playerController : MonoBehaviour
             yield return null;
         }
 
+        gameManager.instance.IFrames();
         isDashing = false;
     }
     #endregion
@@ -561,7 +581,7 @@ public class playerController : MonoBehaviour
     {
         lastGrounded = 0;
 
-        float startTime = Time.time;
+        float elapsedTime = 0;
         isDashing = true;
 
         if (rb.velocity.y < 0)
@@ -573,24 +593,27 @@ public class playerController : MonoBehaviour
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
-        while (Time.time - startTime <= duration)
+        while (elapsedTime <= duration)
         {
+            elapsedTime += Time.deltaTime;
             rb.velocity = dir * knockbackForce;
             yield return null;
         }
 
-        startTime = Time.time;
+        elapsedTime = 0;
         isJumpCut = true;
 
         rb.velocity = dashEndSpeed * dir.normalized;
 
-        while (Time.time - startTime <= duration)
+        while (elapsedTime <= duration)
         {
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         isDashing = false;
         isJumpCut = false;
+        isBeingKnockbacked = false;
     }
     #endregion
 
@@ -600,7 +623,7 @@ public class playerController : MonoBehaviour
         lastGrounded = 0;
         float duration = 0.4f;
 
-        float startTime = Time.time;
+        float elapsedTime = 0;
         isBeingKnockbacked = true;
         isDashing = true;
 
@@ -608,8 +631,10 @@ public class playerController : MonoBehaviour
 
         rb.AddForce(dir, ForceMode2D.Impulse);
 
-        while (Time.time - startTime <= duration)
+
+        while (elapsedTime <= duration)
         {
+            elapsedTime += Time.deltaTime;
             rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -5, 5), rb.velocity.y);
             yield return null;
         }
@@ -665,6 +690,23 @@ public class playerController : MonoBehaviour
     }
     #endregion
 
+    #region ADDITIONAL PS METHODS
+    public void PlayerHurtPS()
+    {
+        playerHurt.Play();
+    }
+
+    public void ShieldHurtPS()
+    {
+        shieldHurt.Play();
+    }
+
+    public void ShieldRefreshPS()
+    {
+        shieldRefresh.Play();
+    }
+    #endregion
+
     #region CHECK METHODS
     public void CheckDirectionToFace(bool isMovingRight)
     {
@@ -704,7 +746,7 @@ public class playerController : MonoBehaviour
 
     private bool CanDash()
     {
-        return gameManager.instance.canDash && gameManager.instance.currentChargeValue >= 20 &&
+        return gameManager.instance.canDash && gameManager.instance.currentChargeValue >= 1 &&
             !isDashing;
     }
     #endregion

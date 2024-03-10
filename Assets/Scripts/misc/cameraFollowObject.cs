@@ -20,7 +20,7 @@ public class cameraFollowObject : MonoBehaviour
 
     void Update()
     {
-        transform.position = PlayerTransform.position;
+        transform.position = new Vector3(PlayerTransform.position.x, PlayerTransform.position.y, transform.position.z);
     }
 
     public void CallTurn()

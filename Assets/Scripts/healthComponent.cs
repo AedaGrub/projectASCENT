@@ -15,6 +15,10 @@ public class healthComponent : MonoBehaviour, IDamageable
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject player;
 
+    [SerializeField] private SpriteRenderer sr;
+    [SerializeField] private Material baseMat;
+    [SerializeField] private Material whiteMat;
+
     [SerializeField] private GameObject _enemyHitFX;
     [SerializeField] private GameObject _enemyBleedFX;
     [SerializeField] private GameObject _playerAtkFX;
@@ -24,12 +28,19 @@ public class healthComponent : MonoBehaviour, IDamageable
     {
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        baseMat = sr.material;
         player = GameObject.FindWithTag("Player");
     }
 
     public void OnHit(float damageAmount, Vector2 knockbackAmount)
     {
+        //DAMAGE
         currentHealth -= damageAmount;
+        //SET WHITEMAT
+        sr.material = whiteMat;
+
+        //KNOCKBACK
         if (isAerial)
         {
             rb.AddForce(knockbackAmount, ForceMode2D.Impulse);
@@ -39,6 +50,7 @@ public class healthComponent : MonoBehaviour, IDamageable
             rb.AddForce(new Vector2(knockbackAmount.x, 0f), ForceMode2D.Impulse);
         }
 
+        //FX
         objectPoolManager.SpawnObject(_enemyHitFX, transform.position, 
             Quaternion.Euler(0.0f, 0.0f, Random.Range(-20.0f, 0.0f)), objectPoolManager.PoolType.ParticleSystem);
 
@@ -54,15 +66,26 @@ public class healthComponent : MonoBehaviour, IDamageable
 
         if (currentHealth <= 0)
         {
-            cameraManager.instance.CameraShake();
+            //DEATH
+            cameraManager.instance.CameraShakeMed();
             spawnRot = Quaternion.FromToRotation(Vector2.up, dir);
             objectPoolManager.SpawnObject(_enemyDeathFX, transform.position, spawnRot, objectPoolManager.PoolType.ParticleSystem);
             Die();
+        }
+        else
+        {
+            //RESET WHITE MAT TO BASE MAT
+            Invoke("ResetMaterial", 0.1f);
         }
     }
 
     void Die()
     {
         Destroy(gameObject);
+    }
+
+    void ResetMaterial()
+    {
+        sr.material = baseMat;
     }
 }

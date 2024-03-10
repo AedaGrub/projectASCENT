@@ -200,5 +200,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 99
   currentHealth: 2
+  isAerial: 0
   rb: {fileID: 5198242583716772254}
+  player: {fileID: 0}
+  sr: {fileID: 0}
+  baseMat: {fileID: 0}
+  whiteMat: {fileID: 0}
   _enemyHitFX: {fileID: 2151904978006924711, guid: 4c3c9cec8f1c2e84b86655a1baa17e50, type: 3}
+  _enemyBleedFX: {fileID: 0}
+  _playerAtkFX: {fileID: 0}
+  _enemyDeathFX: {fileID: 0}

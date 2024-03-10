@@ -23,7 +23,7 @@ public class cameraManager : MonoBehaviour
     private float normYPanAmount;
 
     [SerializeField] private float globalShakeForce;
-    private CinemachineImpulseSource impulseSource;
+    private CinemachineImpulseSource[] impulseSource;
 
     void Awake()
     {
@@ -44,7 +44,7 @@ public class cameraManager : MonoBehaviour
 
         normYPanAmount = framingTransposer.m_YDamping;
 
-        impulseSource = GetComponent<CinemachineImpulseSource>();
+        impulseSource = GetComponents<CinemachineImpulseSource>();
     }
 
     public void LerpYDamping(bool isPlayerFalling)
@@ -106,8 +106,18 @@ public class cameraManager : MonoBehaviour
         }
     }
 
-    public void CameraShake()
+    public void CameraShakeLight()
     {
-        impulseSource.GenerateImpulseWithForce(globalShakeForce);
+        impulseSource[0].GenerateImpulseWithForce(globalShakeForce);
+    }
+
+    public void CameraShakeMed()
+    {
+        impulseSource[1].GenerateImpulseWithForce(globalShakeForce);
+    }
+
+    public void CameraShakeHeavy()
+    {
+        impulseSource[2].GenerateImpulseWithForce(globalShakeForce);
     }
 }

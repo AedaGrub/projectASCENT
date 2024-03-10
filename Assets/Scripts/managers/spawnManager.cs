@@ -5,12 +5,21 @@ using System.Linq;
 
 public class spawnManager : MonoBehaviour
 {
-    [Header("INITIAL")]
+    [Header("DOORS")]
+    [SerializeField] GameObject decorDoor;
+    [SerializeField] GameObject exitDoor;
+    [SerializeField] Sprite normalIcon;
+    [SerializeField] Sprite bossIcon;
+    private SpriteRenderer doorIcon;
+
+    [Header("PLAYER DOOR")]
+    [SerializeField] Vector3 playerPos;
+    [SerializeField] Vector2 playerSize;
+
+    [Header("ENEMIES")]
     [SerializeField] GameObject[] enemies;
     [SerializeField] Vector3[] spawnPos;
     [SerializeField] Vector2 spawnSize;
-    [SerializeField] GameObject enemyDoor;
-    [SerializeField] GameObject exitDoor;
     [SerializeField] int lastWave;
 
     [Header("PER WAVE")]
@@ -25,7 +34,42 @@ public class spawnManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(SpawnPlayerDoor());
         StartCoroutine(PhaseManagement());
+        audioManager.instance.Play("Combat");
+    }
+
+    private IEnumerator SpawnPlayerDoor()
+    {
+        //SPAWN LIFT
+        GameObject pDoor = objectPoolManager.SpawnObject(decorDoor, new Vector3(playerPos.x, playerPos.y, 1f),
+            Quaternion.identity, objectPoolManager.PoolType.GameObject);
+
+        doorIcon = pDoor.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
+        if (gameManager.instance.currentRoom < 3)
+        {
+            doorIcon.sprite = normalIcon;
+        }
+        else
+        {
+            doorIcon.sprite = bossIcon;
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        //CLOSE LIFT
+        float elapsedTime = 0f;
+        while (elapsedTime < 0.1f)
+        {
+            elapsedTime += Time.deltaTime;
+            float scaleChange = Mathf.Lerp(1f, 0f, (elapsedTime / 0.1f));
+
+            pDoor.transform.localScale = new Vector2(scaleChange, 1f);
+            yield return null;
+        }
+        doorIcon = null;
+        objectPoolManager.ReturnObjectToPool(pDoor);
+
     }
 
     private IEnumerator PhaseManagement()
@@ -57,7 +101,7 @@ public class spawnManager : MonoBehaviour
             if (enemyWave == waveCount)
             {
                 StartCoroutine(SpawnEnemy(enemyType, enemyPos));
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.1f);
             }
         }
     }
@@ -67,16 +111,19 @@ public class spawnManager : MonoBehaviour
         isSpawning = true;
 
         //OPEN LIFT
-        GameObject eDoor = objectPoolManager.SpawnObject(enemyDoor, new Vector3(spawnPos[enemyPos].x, spawnPos[enemyPos].y, 1f), 
+        GameObject eDoor = objectPoolManager.SpawnObject(decorDoor, new Vector3(spawnPos[enemyPos].x, spawnPos[enemyPos].y, 1f), 
             Quaternion.identity, objectPoolManager.PoolType.GameObject);
+
+        doorIcon = eDoor.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
+        doorIcon.sprite = null;
 
         float elapsedTime = 0f;
         while (elapsedTime < 0.1f)
         {
             elapsedTime += Time.deltaTime;
-            float scaleChange = Mathf.Lerp(0f, 2f, (elapsedTime / 0.1f));
+            float scaleChange = Mathf.Lerp(0f, 1f, (elapsedTime / 0.1f));
 
-            eDoor.transform.localScale = new Vector2(scaleChange, 3f);
+            eDoor.transform.localScale = new Vector2(scaleChange, 1f);
             yield return null;
         }
 
@@ -90,9 +137,9 @@ public class spawnManager : MonoBehaviour
         while (elapsedTime < 0.1f)
         {
             elapsedTime += Time.deltaTime;
-            float scaleChange = Mathf.Lerp(2f, 0f, (elapsedTime / 0.1f));
+            float scaleChange = Mathf.Lerp(1f, 0f, (elapsedTime / 0.1f));
 
-            eDoor.transform.localScale = new Vector2(scaleChange, 3f);
+            eDoor.transform.localScale = new Vector2(scaleChange, 1f);
             yield return null;
         }
         objectPoolManager.ReturnObjectToPool(eDoor);
@@ -103,6 +150,15 @@ public class spawnManager : MonoBehaviour
     private void EndLevel()
     {
         exitDoor.SetActive(true);
+        doorIcon = exitDoor.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
+        if (gameManager.instance.currentRoom < 2)
+        {
+            doorIcon.sprite = normalIcon;
+        }
+        else
+        {
+            doorIcon.sprite = bossIcon;
+        }
     }
 
     private bool EnemyIsAlive()
@@ -114,6 +170,9 @@ public class spawnManager : MonoBehaviour
     #region EDITOR METHODS
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(playerPos, playerSize);
+
         Gizmos.color = Color.red;
         for (int i = 0; i < spawnPos.Length; i++)
         {

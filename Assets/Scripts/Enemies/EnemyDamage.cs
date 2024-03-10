@@ -17,11 +17,11 @@ public class enemyDamage : MonoBehaviour
         PlayerController = player.gameObject.GetComponent<playerController>();
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerStay2D(Collider2D col)
     {
-        if(col.gameObject.tag == "Player")
+        if(col.gameObject.tag == "Player" && !gameManager.instance.isInvincible)
         {
-            DamagePlayer(damageAmount);
+            DamagePlayer(0);
         }
     }
 
