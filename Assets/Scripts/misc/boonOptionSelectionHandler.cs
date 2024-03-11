@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class boonOptionSelectionHandler : MonoBehaviour , IPointerEnterHandler , IPointerExitHandler , ISelectHandler , IDeselectHandler
 {
+    [SerializeField] private GameObject scaleTarget;
     [Range(0, 2f), SerializeField] private float scaleAmount;
     [SerializeField] private Image defaultImage;
 
@@ -13,7 +14,7 @@ public class boonOptionSelectionHandler : MonoBehaviour , IPointerEnterHandler ,
 
     private void Start()
     {
-        startScale = transform.localScale;
+        startScale = scaleTarget.transform.localScale;
     }
 
     private IEnumerator SelectCard(bool startingAnim)
@@ -40,10 +41,10 @@ public class boonOptionSelectionHandler : MonoBehaviour , IPointerEnterHandler ,
                 endAlpha = 1f;
             }
 
-            Vector3 lerpedScale = Vector3.Lerp(transform.localScale, endScale, (elapsedTime/0.1f));
+            Vector3 lerpedScale = Vector3.Lerp(scaleTarget.transform.localScale, endScale, (elapsedTime/0.1f));
             float lerpedAlpha = Mathf.Lerp(startAlpha, endAlpha, (elapsedTime / 0.1f));
 
-            transform.localScale = lerpedScale;
+            scaleTarget.transform.localScale = lerpedScale;
             defaultImage.color = new Color(1, 1, 1, lerpedAlpha);
 
             yield return null;
