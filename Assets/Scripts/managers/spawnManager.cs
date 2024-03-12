@@ -5,6 +5,8 @@ using System.Linq;
 
 public class spawnManager : MonoBehaviour
 {
+    public static spawnManager instance;
+
     [Header("DOORS")]
     [SerializeField] GameObject decorDoor;
     [SerializeField] GameObject exitDoor;
@@ -31,6 +33,18 @@ public class spawnManager : MonoBehaviour
     [SerializeField] float waitTime;
     [SerializeField] bool stopSpawning;
     [SerializeField] bool isSpawning;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -81,7 +95,7 @@ public class spawnManager : MonoBehaviour
             yield return new WaitWhile(EnemyIsAlive);
             yield return new WaitForSeconds(waitTime);
         }
-        EndLevel();
+        EndCombat();
     }
 
     private void SpawnWave()
@@ -147,7 +161,12 @@ public class spawnManager : MonoBehaviour
         isSpawning = false;
     }
 
-    private void EndLevel()
+    private void EndCombat()
+    {
+        boonsSelectManager.instance.StartOptionSelection();
+    }
+
+    public  void EndLevel()
     {
         exitDoor.SetActive(true);
         doorIcon = exitDoor.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>();
