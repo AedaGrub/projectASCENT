@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class Sword_Enemy : MonoBehaviour
+public class SlimeEnemy : MonoBehaviour
 {
     [SerializeField] private float attackCooldown;
     [SerializeField] private float extraDamage;
-    [SerializeField] private float moveSpeed; 
+    [SerializeField] private float moveSpeed;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Transform hitTransform;
     [SerializeField] private Vector2 hitSize;
@@ -22,10 +23,10 @@ public class Sword_Enemy : MonoBehaviour
     public bool isPlayerInSight = false;
     private float cooldownTimer = Mathf.Infinity;
 
-    const string idle = "SwordIdle";
-    const string run = "SwordRun";
-    const string attack = "SwordAttack";
-            
+    const string idle = "SlimeIdle";
+    const string hop = "SlimeHop";
+    const string attack = "SlimeAttack";
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -49,7 +50,7 @@ public class Sword_Enemy : MonoBehaviour
 
         if (rb.velocity.x != 0 && !isAttacking)
         {
-            ChangeAnimationState(run);
+            ChangeAnimationState(hop);
 
         }
 
@@ -58,10 +59,10 @@ public class Sword_Enemy : MonoBehaviour
             ChangeAnimationState(idle);
         }
 
-      
+
     }
 
-      private IEnumerator Attack()
+    private IEnumerator Attack()
     {
         isAttacking = true;
         ChangeAnimationState(attack);
@@ -72,7 +73,7 @@ public class Sword_Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-       
+
         if (!isPlayerInSight && !isAttacking)
         {
             if (transform.position.x < player.transform.position.x)
@@ -83,7 +84,7 @@ public class Sword_Enemy : MonoBehaviour
                     isFacingRight = true;
                     Flip();
                 }
-                
+
             }
 
             else
@@ -97,28 +98,28 @@ public class Sword_Enemy : MonoBehaviour
             }
         }
 
-        else if (isPlayerInSight && !isAttacking) 
+        else if (isPlayerInSight && !isAttacking)
         {
             StartCoroutine(Attack());
-            
+
         }
 
     }
-   private void Flip()
-   {
+    private void Flip()
+    {
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
-   }
+    }
 
     private void MoveTowardsPlayer(float direction)
-    {  
-            rb.velocity = new Vector2(direction * moveSpeed, 0 );
+    {
+        rb.velocity = new Vector2(direction * moveSpeed, 0);
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(hitTransform.position, hitSize);
     }
 
@@ -136,7 +137,7 @@ public class Sword_Enemy : MonoBehaviour
     private void ChangeAnimationState(string newState)
     {
         //prevent self interrruption 
-        if(currentState == newState) return;
+        if (currentState == newState) return;
 
         //play and then reassign 
         anim.Play(newState);

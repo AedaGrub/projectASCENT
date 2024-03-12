@@ -35,5 +35,7 @@ public class enemyDamage : MonoBehaviour
         Vector2 knockback = new(direction.x * knockbackForce.x, knockbackForce.y);
 
         StartCoroutine(PlayerController.PlayerKnockback(knockback));
+
+    
     }
 }
