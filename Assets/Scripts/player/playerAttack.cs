@@ -6,17 +6,21 @@ public class playerAttack : MonoBehaviour
 {
     #region PARAMETERS
     [Header("ATTACK")]
-    [SerializeField] private float damageAmount;
     [SerializeField] private float knockbackAmount;
     [SerializeField] private float inputBufferTime;
 
     [Header("REFERENCES")]
+    [SerializeField] private GameObject FattackPivot;
     [SerializeField] private Animator FattackAnimator;
     [SerializeField] private Transform FattackTransform;
     [SerializeField] private Vector2 FattackSize;
+
+    [SerializeField] private GameObject UattackPivot;
     [SerializeField] private Animator UattackAnimator;
     [SerializeField] private Transform UattackTransform;
     [SerializeField] private Vector2 UattackSize;
+
+    [SerializeField] private GameObject DattackPivot;
     [SerializeField] private Animator DattackAnimator;
     [SerializeField] private Transform DattackTransform;
     [SerializeField] private Vector2 DattackSize;
@@ -66,6 +70,14 @@ public class playerAttack : MonoBehaviour
         {
             PlayerController.isWallJumping = true;
             PlayerController.isJumping = false;
+
+            //RECALCULATE RANGE
+            FattackPivot.transform.localScale = new Vector3(1f * gameManager.instance.currentRange, 1, 1);
+            FattackSize.x = (3.13f * gameManager.instance.currentRange);
+            UattackPivot.transform.localScale = new Vector3(1, 1f * gameManager.instance.currentRange, 1);
+            UattackSize.y = (2.8f * gameManager.instance.currentRange);
+            DattackPivot.transform.localScale = new Vector3(1, 1f * (1.2f* gameManager.instance.currentRange), 1);
+            UattackSize.y = (2.52f * (1.2f * gameManager.instance.currentRange));
 
             //UPWARD ATTACK
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
@@ -162,14 +174,19 @@ public class playerAttack : MonoBehaviour
             {
                 Vector2 direction = (hits[i].collider.gameObject.transform.position - transform.position).normalized;
                 Vector2 knockback = direction * knockbackForce;
-                iDamageable.OnHit(damageAmount, knockback);
+                iDamageable.OnHit(gameManager.instance.currentAttack, knockback);
             }
         }
 
         //IF HIT VALID, THEN RECOIL
         if (hits.Length > 0)
         {
+            audioManager.instance.Play("playerAttackHit");
             StartCoroutine(PlayerController.PlayerRecoil(dir, duration));
+        }
+        else
+        {
+            audioManager.instance.Play("playerAttack");
         }
 
     }
@@ -191,7 +208,7 @@ public class playerAttack : MonoBehaviour
     #endregion
 
     #region EDITOR METHODS
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(FattackTransform.position, FattackSize);

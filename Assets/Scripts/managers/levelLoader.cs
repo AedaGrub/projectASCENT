@@ -44,6 +44,7 @@ public class levelLoader : MonoBehaviour
     public void LoadNextLevel(int index)
     {
         StartCoroutine(LoadLevel(index));
+        boonUIBelt.instance.InitialiseBoonBeltUI(1);
     }
 
     IEnumerator LoadLevel(int levelIndex)

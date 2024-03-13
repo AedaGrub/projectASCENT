@@ -132,7 +132,7 @@ MonoBehaviour:
   player: {fileID: 0}
   sr: {fileID: 0}
   baseMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  whiteMat: {fileID: 2100000, guid: ea6bd4fbee306b848970ffa3a9833396, type: 2}
   _enemyHitFX: {fileID: 2151904978006924711, guid: 4c3c9cec8f1c2e84b86655a1baa17e50, type: 3}
   _enemyBleedFX: {fileID: 3020078972948008516, guid: 82034986e5e16614083369db10791eb7, type: 3}
   _playerAtkFX: {fileID: 155542996913389261, guid: a7c8947fab0150d44931e7d3098c400d, type: 3}
@@ -340,7 +340,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.06218808, y: -0.089920625}
+  m_Offset: {x: -0.06218808, y: -0.08925134}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -351,5 +351,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.08322142, y: 0.26692483}
+  m_Size: {x: 0.08322142, y: 0.26558626}
   m_EdgeRadius: 0

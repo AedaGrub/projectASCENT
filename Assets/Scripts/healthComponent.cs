@@ -8,7 +8,7 @@ public class healthComponent : MonoBehaviour, IDamageable
     public event HealthChangedHandler OnHealthChanged;
 
     [SerializeField] public float maxHealth;
-    [SerializeField] private float currentHealth;
+    [SerializeField] public float currentHealth;
     [HideInInspector] public float CurrentHealth => currentHealth;
     [SerializeField] public bool isAerial;
 

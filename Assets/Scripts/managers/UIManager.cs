@@ -43,6 +43,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image shieldFill;
     #endregion
 
+    #region BLACK SCREEN
+    [Header("BLACK SCREEN")]
+    [SerializeField] private Animator blackScreen;
+    const string blackStart = "boonsGreyIn";
+    const string blackExit = "boonsGreyOut";
+    #endregion
+
     #region POST PRO
     [Header("POST PRO VOLUME")]
     [SerializeField] private Volume vignetteVol;
@@ -73,6 +80,16 @@ public class UIManager : MonoBehaviour
         mainCam = Camera.main;
         vignetteVol = GameObject.FindWithTag("VignetteVol").GetComponent<Volume>();
         UpdateVignette(vignetteWeight);
+    }
+
+    public void BlackScreenStart()
+    {
+        blackScreen.Play(blackStart);
+    }
+
+    public void BlackScreenExit()
+    {
+        blackScreen.Play(blackExit);
     }
 
     void Update()
@@ -110,7 +127,7 @@ public class UIManager : MonoBehaviour
         #endregion
 
         #region SHIELD UI
-        if (gameManager.instance.haveShield == false)
+        if (gameManager.instance.currentShieldRate <= 0)
         {
             shieldFill.fillAmount = 0f;
         }

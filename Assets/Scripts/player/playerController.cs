@@ -11,6 +11,7 @@ public class playerController : MonoBehaviour
     private string currentState;
     private Rigidbody2D rb;
     public Material material;
+    public bool isAsleep;
 
     [HideInInspector] public Vector2 moveInput;
     public bool isFacingRight;
@@ -42,6 +43,7 @@ public class playerController : MonoBehaviour
     const string playerDatk = "player_dattack";
     const string playerUatkR = "player_uattackR";
     const string playerUatkI = "player_uattackI";
+    const string playerSleep = "player_sleep";
     #endregion
 
     #region JUMP
@@ -79,8 +81,6 @@ public class playerController : MonoBehaviour
     private float lastDashInputTime;
     private Vector2 lastDashDir;
 
-    public float dashCooldown;
-    [SerializeField] private float dashSpeed;
     [SerializeField] private float dashAttackTime;
     [SerializeField] private float dashEndTime;
     [SerializeField] private Vector2 dashEndSpeed;
@@ -107,6 +107,8 @@ public class playerController : MonoBehaviour
     [SerializeField] private Transform frontWallCheck;
     [SerializeField] private Transform backWallCheck;
     [SerializeField] private Vector2 wallCheckSize;
+
+    private bool hasPlayedLandSFX;
     #endregion
 
     #region GRAVITY AND FORCES
@@ -172,7 +174,7 @@ public class playerController : MonoBehaviour
                 {
                     ChangeAnimationState(playerStop);
                 }
-                else if (currentState != playerStop && currentState != playerUatkI)
+                else if (currentState != playerStop && currentState != playerUatkI && !isAsleep && currentState != playerStand)
                 {
                     ChangeAnimationState(playerIdle);
                 }
@@ -209,6 +211,13 @@ public class playerController : MonoBehaviour
         if (Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0, groundCheckLayer))
         {
             isGrounded = true;
+
+            if (!hasPlayedLandSFX)
+            {
+                hasPlayedLandSFX = true;
+                audioManager.instance.Play("playerLand");
+            }
+
             lastGrounded = coyoteTime;
 
             //RESET EXTRAJUMPS
@@ -226,6 +235,11 @@ public class playerController : MonoBehaviour
         if (((Physics2D.OverlapBox(frontWallCheck.position, wallCheckSize, 0, groundCheckLayer) && isFacingRight)
             || (Physics2D.OverlapBox(backWallCheck.position, wallCheckSize, 0, groundCheckLayer) && !isFacingRight)) && !isWallJumping)
         {
+            if (!hasPlayedLandSFX)
+            {
+                hasPlayedLandSFX = true;
+                audioManager.instance.Play("playerLand");
+            }
             lastOnWallRight = coyoteTime;
             //RESET EXTRAJUMPS
             if (!isJumping && moveInput.x != 0 && gameManager.instance.canWallClimb)
@@ -238,6 +252,11 @@ public class playerController : MonoBehaviour
         if (((Physics2D.OverlapBox(frontWallCheck.position, wallCheckSize, 0, groundCheckLayer) && !isFacingRight)
             || (Physics2D.OverlapBox(backWallCheck.position, wallCheckSize, 0, groundCheckLayer) && isFacingRight)) && !isWallJumping)
         {
+            if (!hasPlayedLandSFX)
+            {
+                hasPlayedLandSFX = true;
+                audioManager.instance.Play("playerLand");
+            }
             lastOnWallLeft = coyoteTime;
             //RESET EXTRAJUMPS
             if (!isJumping && moveInput.x != 0 && gameManager.instance.canWallClimb)
@@ -247,6 +266,11 @@ public class playerController : MonoBehaviour
         }
 
         lastOnWall = Mathf.Max(lastOnWallLeft, lastOnWallRight);
+
+        if (lastOnWall != coyoteTime && lastGrounded != coyoteTime)
+        {
+            hasPlayedLandSFX = false;
+        }
         #endregion
 
         #region JUMP INPUT
@@ -316,7 +340,8 @@ public class playerController : MonoBehaviour
             {
                 ChangeAnimationState(playerJump);
             }
-            else if (!isGrounded && rb.velocity.y < 0 && !isWallSliding && currentState != playerDatk && currentState != playerUatkI && currentState != playerUatkR)
+            else if (!isGrounded && rb.velocity.y < 0 && !isWallSliding && currentState != playerDatk && 
+                currentState != playerUatkI && currentState != playerUatkR && !isAsleep && currentState != playerStand)
             {
                 ChangeAnimationState(playerFall);
             }
@@ -464,6 +489,13 @@ public class playerController : MonoBehaviour
             material.SetFloat("_SeconTexAlpha", 0);
         }
         #endregion
+
+        #region ASLEEP ANIM
+        if (isAsleep && currentState != playerStand)
+        {
+            ChangeAnimationState(playerSleep);
+        }
+        #endregion
     }
 
     #region FLIP SPRITE METHOD
@@ -489,6 +521,17 @@ public class playerController : MonoBehaviour
         currentState = newState;
     }
 
+    public void Sleep()
+    {
+        isAsleep = true;
+        ChangeAnimationState(playerSleep);
+    }
+
+    public void StandUp()
+    {
+        isAsleep = false;
+        ChangeAnimationState(playerStand);
+    }
     #endregion
 
     #region RUN METHOD
@@ -502,6 +545,11 @@ public class playerController : MonoBehaviour
         float speedDif = targetSpeed - rb.velocity.x;
         float movement = speedDif * accelRate;
         rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+    }
+
+    public void Footstep()
+    {
+        audioManager.instance.Play("playerFootstep");
     }
     #endregion
 
@@ -517,6 +565,7 @@ public class playerController : MonoBehaviour
             force -= rb.velocity.y;
         }
         rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+        audioManager.instance.Play("playerJump");
     }
     #endregion
 
@@ -542,6 +591,7 @@ public class playerController : MonoBehaviour
         }
 
         rb.AddForce(force, ForceMode2D.Impulse);
+        audioManager.instance.Play("playerJump");
     }
     #endregion
 
@@ -550,6 +600,7 @@ public class playerController : MonoBehaviour
     {
         lastGrounded = 0;
         lastDashInputTime = 0;
+        audioManager.instance.Play("playerDash");
 
         float startTime = Time.time;
         isDashAttacking = true;
@@ -557,7 +608,7 @@ public class playerController : MonoBehaviour
 
         while (Time.time - startTime <= dashAttackTime)
         {
-            rb.velocity = dir.normalized * dashSpeed;
+            rb.velocity = dir.normalized * gameManager.instance.currentDashSpeed;
             yield return null;
         }
 
@@ -752,7 +803,7 @@ public class playerController : MonoBehaviour
     #endregion
 
     #region EDITOR METHODS
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);

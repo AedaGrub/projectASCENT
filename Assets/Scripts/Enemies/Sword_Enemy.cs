@@ -6,12 +6,14 @@ using UnityEngine;
 public class Sword_Enemy : MonoBehaviour
 {
     [SerializeField] private float attackCooldown;
+    private float cooldownTracker;
     [SerializeField] private float extraDamage;
     [SerializeField] private float moveSpeed; 
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Transform hitTransform;
     [SerializeField] private Vector2 hitSize;
     private bool isFacingRight = true;
+    private float flipCooldown;
     private bool isAttacking;
     private string currentState;
 
@@ -20,7 +22,7 @@ public class Sword_Enemy : MonoBehaviour
     [SerializeField] private GameObject player;
     private Rigidbody2D rb;
     public bool isPlayerInSight = false;
-    private float cooldownTimer = Mathf.Infinity;
+
 
     const string idle = "SwordIdle";
     const string run = "SwordRun";
@@ -72,37 +74,56 @@ public class Sword_Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-       
+        if (flipCooldown >= 0)
+        {
+            flipCooldown -= Time.deltaTime;
+        }
+
         if (!isPlayerInSight && !isAttacking)
         {
-            if (transform.position.x < player.transform.position.x)
+            if (transform.position.x < player.transform.position.x && isFacingRight)
             {
                 MoveTowardsPlayer(1);
-                if (!isFacingRight)
+            }
+            else if (transform.position.x > player.transform.position.x && !isFacingRight)
+            {
+                MoveTowardsPlayer(-1);
+            }
+            else
+            {
+                MoveTowardsPlayer(0);
+            }
+
+            if (transform.position.x < player.transform.position.x && !isFacingRight)
+            {
+                if (flipCooldown <= 0)
                 {
                     isFacingRight = true;
+                    flipCooldown = 1f;
                     Flip();
                 }
                 
             }
-
-            else
+            else if (transform.position.x > player.transform.position.x && isFacingRight)
             {
-                MoveTowardsPlayer(-1);
-                if (isFacingRight)
+                if (flipCooldown <= 0)
                 {
                     isFacingRight = false;
+                    flipCooldown = 1f;
                     Flip();
                 }
             }
         }
-
-        else if (isPlayerInSight && !isAttacking) 
+        else if (isPlayerInSight && !isAttacking && cooldownTracker <= 0) 
         {
+            cooldownTracker = attackCooldown;
             StartCoroutine(Attack());
-            
         }
 
+        if (cooldownTracker >= 0)
+        {
+            cooldownTracker -= Time.deltaTime;
+        }
     }
    private void Flip()
    {
@@ -112,8 +133,15 @@ public class Sword_Enemy : MonoBehaviour
    }
 
     private void MoveTowardsPlayer(float direction)
-    {  
-            rb.velocity = new Vector2(direction * moveSpeed, 0 );
+    {
+        float targetSpeed = direction * moveSpeed;
+        targetSpeed = Mathf.Lerp(rb.velocity.x, targetSpeed, 1);
+
+        float accelRate = ((1 / Time.fixedDeltaTime) * moveSpeed) / moveSpeed;
+
+        float speedDif = targetSpeed - rb.velocity.x;
+        float movement = speedDif * accelRate;
+        rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
     }
 
     private void OnDrawGizmos()
@@ -124,9 +152,7 @@ public class Sword_Enemy : MonoBehaviour
 
     private void Damage()
     {
-        print(isPlayerInSight);
-
-        if (isPlayerInSight)
+        if (isPlayerInSight && !gameManager.instance.isInvincible)
         {
             enemyDamage.DamagePlayer(0);
         }
