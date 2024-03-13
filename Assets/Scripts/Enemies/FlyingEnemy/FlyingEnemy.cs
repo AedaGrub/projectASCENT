@@ -8,7 +8,7 @@ public class FlyingEnemy : MonoBehaviour
     public float speed;
     private GameObject player;
     public bool chase = false;
-   
+       
     public float biteRange;
     public float biteCooldown;
     
@@ -17,6 +17,11 @@ public class FlyingEnemy : MonoBehaviour
     private bool isAttacking;
     private float lastBiteTime = 0f;
     private Rigidbody2D rb;
+
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.1f;
+    public LayerMask groundLayer;
+   
 
     // Start is called before the first frame update
     private void Start()
@@ -36,6 +41,7 @@ public class FlyingEnemy : MonoBehaviour
 
         Chase();
 
+        bool isCloseToGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         
         if (!isBiting && Vector2.Distance(transform.position, player.transform.position) <= biteRange)
         {
@@ -49,8 +55,8 @@ public class FlyingEnemy : MonoBehaviour
     private void Chase()
     {
         Vector2 direction = (player.transform.position - transform.position).normalized;
-        //rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
-        rb.AddForce(direction * speed, ForceMode2D.Force);
+        rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
+        //rb.AddForce(direction * speed, ForceMode2D.Force);
     }
 
     private void Bite()
@@ -76,5 +82,9 @@ public class FlyingEnemy : MonoBehaviour
         }
     }
 
-    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
 }

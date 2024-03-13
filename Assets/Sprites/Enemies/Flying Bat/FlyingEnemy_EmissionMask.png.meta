@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dc27d0753bf3c1b45bff78932d774f34
+guid: 2df3e5371ebc5ae4386def26372e5657
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,160 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BossWalkSheet_0
+      name: FlyingEnemy_EmissionMask_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 884f62afeafc35f4aa824839de9122cf
+      internalID: 678233401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemy_EmissionMask_1
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3bb583645eccee44954509b69aab056
+      internalID: 959877738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemy_EmissionMask_2
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d14b5bb257210564c9c067800127c680
+      internalID: -849671280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemy_EmissionMask_3
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 973e0aa0bc48beb418a83bf0ac81b5c4
+      internalID: 1961637217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemy_EmissionMask_4
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 172c28417506a3f4f83660b9b2514800
+      internalID: 1499485346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemy_EmissionMask_5
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2337d8210739b9b4eb3d8ab1180318e6
+      internalID: -1957545187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemy_EmissionMask_6
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 015ab9757cafb5441a08f026191f7854
+      internalID: -1221386221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemy_EmissionMask_7
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +284,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52cf5142e697a7f40aca68991886a3b4
-      internalID: -1183577210
+      spriteID: 04d7ed9d56e2e704282148d531ba07e8
+      internalID: -618400236
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossWalkSheet_1
+      name: FlyingEnemy_EmissionMask_8
       rect:
         serializedVersion: 2
-        x: 128
+        x: 44
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +305,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd80e22424d090a43a8794dbddff5aec
-      internalID: -1447568497
+      spriteID: 91d03d19081562147801f91383834480
+      internalID: -861829898
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossWalkSheet_2
+      name: FlyingEnemy_EmissionMask_9
       rect:
         serializedVersion: 2
-        x: 256
+        x: 88
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +326,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f85c76ae3772c124ca12b1dbbe2b4de9
-      internalID: -1187733433
+      spriteID: 4d61a63895856cb43b870927c5929e4d
+      internalID: -177828066
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossWalkSheet_3
+      name: FlyingEnemy_EmissionMask_10
       rect:
         serializedVersion: 2
-        x: 384
+        x: 132
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,20 +347,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7716c4e07f768df42bbd8d90ad66a7c0
-      internalID: -1286033348
+      spriteID: ee714f281d206b64eac3c2ea06210785
+      internalID: -113888687
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossWalkSheet_4
+      name: FlyingEnemy_EmissionMask_11
       rect:
         serializedVersion: 2
-        x: 512
+        x: 176
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,20 +368,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6416a438d63ce1045a85741f71b48925
-      internalID: 1778619949
+      spriteID: 0a7a46bb899e1344ca912613300be9da
+      internalID: -994588569
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossWalkSheet_5
+      name: FlyingEnemy_EmissionMask_12
       rect:
         serializedVersion: 2
-        x: 640
+        x: 220
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -242,20 +389,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e347b5a3976266c4fb56e2a7828b25b9
-      internalID: -126448172
+      spriteID: fae0865ccc130e04989eb7a292ed1320
+      internalID: -155983157
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossWalkSheet_6
+      name: FlyingEnemy_EmissionMask_13
       rect:
         serializedVersion: 2
-        x: 768
+        x: 264
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -263,20 +410,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c252a9aa827ab94d9e91e533730998e
-      internalID: 293716616
+      spriteID: 795e5387ebb952841902435527d4dc34
+      internalID: -915063566
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossWalkSheet_7
+      name: FlyingEnemy_EmissionMask_14
       rect:
         serializedVersion: 2
-        x: 896
+        x: 308
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -284,8 +431,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04f07c522de1da743966ebf3cd052a49
-      internalID: -420380935
+      spriteID: 4764f639dcab02e458b1bb2c4083c6ee
+      internalID: -1417772588
       vertices: []
       indices: 
       edges: []
@@ -301,14 +448,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BossWalkSheet_0: -1183577210
-      BossWalkSheet_1: -1447568497
-      BossWalkSheet_2: -1187733433
-      BossWalkSheet_3: -1286033348
-      BossWalkSheet_4: 1778619949
-      BossWalkSheet_5: -126448172
-      BossWalkSheet_6: 293716616
-      BossWalkSheet_7: -420380935
+      FlyingEnemy_EmissionMask_0: 678233401
+      FlyingEnemy_EmissionMask_1: 959877738
+      FlyingEnemy_EmissionMask_10: -113888687
+      FlyingEnemy_EmissionMask_11: -994588569
+      FlyingEnemy_EmissionMask_12: -155983157
+      FlyingEnemy_EmissionMask_13: -915063566
+      FlyingEnemy_EmissionMask_14: -1417772588
+      FlyingEnemy_EmissionMask_2: -849671280
+      FlyingEnemy_EmissionMask_3: 1961637217
+      FlyingEnemy_EmissionMask_4: 1499485346
+      FlyingEnemy_EmissionMask_5: -1957545187
+      FlyingEnemy_EmissionMask_6: -1221386221
+      FlyingEnemy_EmissionMask_7: -618400236
+      FlyingEnemy_EmissionMask_8: -861829898
+      FlyingEnemy_EmissionMask_9: -177828066
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

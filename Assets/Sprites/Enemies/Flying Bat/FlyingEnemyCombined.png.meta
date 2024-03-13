@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 63f3cbf6abec35a45862ea68a7daa574
+guid: 26466313c47902e4f985d5b350b22fb3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,169 +123,316 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BossIdleSheet_0
+      name: FlyingEnemyCombined_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 737b7736c4466ff45bc45847dd8d437d
+      internalID: -1421743029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemyCombined_1
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5a79599fdad1e147b43eb0a67c92e66
+      internalID: -1879178499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemyCombined_2
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14aa0614fb24df3478be63ca94077e75
+      internalID: 2077035040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemyCombined_3
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cc8f0c4674d4a1418f21a67eecb71f1
+      internalID: -1762978682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemyCombined_4
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82c2556e1337e2c47bd27ee50d5e5225
+      internalID: 1709031546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemyCombined_5
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a473c972f9b1a94cbd4bac914390b8d
+      internalID: -1888887317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemyCombined_6
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 92
+        width: 44
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e59e346089fc22e4194fe11fc3cefbc9
+      internalID: 133553367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FlyingEnemyCombined_7
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c9d0660658874e14f800cb2fb2760c35
-      internalID: -300609351
+      spriteID: 0a7297e3434bc754081b0a175e8a4a0b
+      internalID: -582519983
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossIdleSheet_1
+      name: FlyingEnemyCombined_8
       rect:
         serializedVersion: 2
-        x: 128
+        x: 44
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1b52c1e57d13a5c4f97e2ab785c7bc53
-      internalID: -1251585855
+      spriteID: 702d3171ba808a34faaba3be84933825
+      internalID: -2093584805
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossIdleSheet_2
+      name: FlyingEnemyCombined_9
       rect:
         serializedVersion: 2
-        x: 256
+        x: 88
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d3da1319d72ac684f86e63e05fa19edd
-      internalID: 1995769642
+      spriteID: be4ca1e8993ef95418c609c3c97df830
+      internalID: 1546675439
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossIdleSheet_3
+      name: FlyingEnemyCombined_10
       rect:
         serializedVersion: 2
-        x: 384
+        x: 132
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 95f95c9445da48748a106a37b6eeeb55
-      internalID: 1457004634
+      spriteID: 25350e37055a438429e931ef74e2be15
+      internalID: -1277479833
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossIdleSheet_4
+      name: FlyingEnemyCombined_11
       rect:
         serializedVersion: 2
-        x: 512
+        x: 176
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 1, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b0981648388c284a86bb15a2bed40b7
-      internalID: 1971629490
+      spriteID: b254ebc58d3cfdf4dadce900826daaaf
+      internalID: -1058406970
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossIdleSheet_5
+      name: FlyingEnemyCombined_12
       rect:
         serializedVersion: 2
-        x: 640
+        x: 220
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d0eeef37d9e7d74d80be7610788f689
-      internalID: -1594383501
+      spriteID: 98957c22ec16bd84591a33e85204f881
+      internalID: -1508516793
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossIdleSheet_6
+      name: FlyingEnemyCombined_13
       rect:
         serializedVersion: 2
-        x: 768
+        x: 264
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21fe454f8969afc4ab71ef839d66d702
-      internalID: -69634455
+      spriteID: 62f6a31613ecb0e469a48bb5ec35ce58
+      internalID: -772608305
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BossIdleSheet_7
+      name: FlyingEnemyCombined_14
       rect:
         serializedVersion: 2
-        x: 896
+        x: 308
         y: 0
-        width: 128
-        height: 128
+        width: 44
+        height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 055123ba45fd2da48b923dd19169baab
-      internalID: -1466386363
+      spriteID: 326554f9d9be39c41b6076f91e5d8364
+      internalID: 685782566
       vertices: []
       indices: 
       edges: []
@@ -301,14 +448,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BossIdleSheet_0: -300609351
-      BossIdleSheet_1: -1251585855
-      BossIdleSheet_2: 1995769642
-      BossIdleSheet_3: 1457004634
-      BossIdleSheet_4: 1971629490
-      BossIdleSheet_5: -1594383501
-      BossIdleSheet_6: -69634455
-      BossIdleSheet_7: -1466386363
+      FlyingEnemyCombined_0: -1421743029
+      FlyingEnemyCombined_1: -1879178499
+      FlyingEnemyCombined_10: -1277479833
+      FlyingEnemyCombined_11: -1058406970
+      FlyingEnemyCombined_12: -1508516793
+      FlyingEnemyCombined_13: -772608305
+      FlyingEnemyCombined_14: 685782566
+      FlyingEnemyCombined_2: 2077035040
+      FlyingEnemyCombined_3: -1762978682
+      FlyingEnemyCombined_4: 1709031546
+      FlyingEnemyCombined_5: -1888887317
+      FlyingEnemyCombined_6: 133553367
+      FlyingEnemyCombined_7: -582519983
+      FlyingEnemyCombined_8: -2093584805
+      FlyingEnemyCombined_9: 1546675439
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
