@@ -26,7 +26,7 @@ public class boonUIBelt : MonoBehaviour
 
     private void Start()
     {
-        InitialiseBoonBeltUI(1);
+        InitialiseBoonBeltUI(0);
     }
 
     public void InitialiseBoonBeltUI(int beltSize)

@@ -27,10 +27,10 @@ public class boonBreakable : MonoBehaviour
 
     private void Update()
     {
-        if (hpScript.CurrentHealth == 99)
+        if (hpScript.CurrentHealth <= 99 && hpScript.CurrentHealth > 1)
         {
             GetComponent<SpriteRenderer>().sprite = brokenSprite;
-            hpScript.currentHealth = 2;
+            hpScript.currentHealth = 1 + gameManager.instance.currentAttack;
         }
         if (hpScript.CurrentHealth <= 1)
         {

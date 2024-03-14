@@ -33,6 +33,7 @@ public class spawnManager : MonoBehaviour
     [SerializeField] float waitTime;
     [SerializeField] bool stopSpawning;
     [SerializeField] bool isSpawning;
+    public bool roomFinished;
 
     private void Awake()
     {
@@ -163,6 +164,7 @@ public class spawnManager : MonoBehaviour
 
     private void EndCombat()
     {
+        roomFinished = true;
         boonsSelectManager.instance.StartOptionSelection();
     }
 

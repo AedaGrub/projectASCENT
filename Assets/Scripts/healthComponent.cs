@@ -12,6 +12,8 @@ public class healthComponent : MonoBehaviour, IDamageable
     [HideInInspector] public float CurrentHealth => currentHealth;
     [SerializeField] public bool isAerial;
 
+    [SerializeField] public float rewardEXP;
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject player;
 
@@ -81,6 +83,7 @@ public class healthComponent : MonoBehaviour, IDamageable
 
     void Die()
     {
+        gameManager.instance.AddEXP(rewardEXP);
         Destroy(gameObject);
     }
 

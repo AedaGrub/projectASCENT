@@ -12,6 +12,9 @@ public class InteractLift : MonoBehaviour
 
     private Transform liftTransform;
 
+    public int tier0min, tier0max;
+    public int tier1min, tier1max;
+    public int tier2min, tier2max;
     public int sceneIndexToLoad;
     private bool canInteract = false;
     private bool interacted = false;
@@ -68,7 +71,8 @@ public class InteractLift : MonoBehaviour
         if (!interacted)
         {
             interacted = true;
-            levelLoader.instance.LoadNextLevel(sceneIndexToLoad);
+            int randomRoom = Random.Range(tier0min, tier0max);
+            levelLoader.instance.LoadNextLevel(randomRoom);
         }
     }
 

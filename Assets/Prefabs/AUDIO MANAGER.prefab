@@ -57,6 +57,14 @@ MonoBehaviour:
     type: Music
     clip: {fileID: 8300000, guid: 4000b8b70ea34eb4699f9406d8818058, type: 3}
     volume: 0.5
+  - name: Bar
+    type: Music
+    clip: {fileID: 8300000, guid: 63cfdc900be7a1d4eb9f1f8b6a72e212, type: 3}
+    volume: 0.8
+  - name: Intermission
+    type: Music
+    clip: {fileID: 8300000, guid: 30ec3b4b266d2d149acc834cc6fb8521, type: 3}
+    volume: 0.8
   - name: shieldRefresh
     type: SFX
     clip: {fileID: 8300000, guid: eadaeb2d980a6f94b868f3093f10c3ac, type: 3}
@@ -93,6 +101,34 @@ MonoBehaviour:
     type: SFX
     clip: {fileID: 8300000, guid: dfbd9ce9807287246aa26d4d7b9e5050, type: 3}
     volume: 0.5
+  - name: uiScroll
+    type: PitchedSFX
+    clip: {fileID: 8300000, guid: 86bcca559fe25244eb7b29836181e123, type: 3}
+    volume: 0.5
+  - name: uiSelect
+    type: SFX
+    clip: {fileID: 8300000, guid: 0a884f084741ac443b11d6120e4c4c61, type: 3}
+    volume: 0.5
+  - name: uiBoonChange
+    type: SFX
+    clip: {fileID: 8300000, guid: 01b5bfbbd69ee0e43be70eefa3ba4cc7, type: 3}
+    volume: 0.5
+  - name: uiBoonEnter
+    type: SFX
+    clip: {fileID: 8300000, guid: a94cf134edc01b8469cf59f462498e7b, type: 3}
+    volume: 0.5
+  - name: levelUp
+    type: SFX
+    clip: {fileID: 8300000, guid: 806440ab9df6f2744b93dad645eb217f, type: 3}
+    volume: 0.8
+  - name: rewardSpawn
+    type: SFX
+    clip: {fileID: 8300000, guid: 6b32e444e28224a4a9ffc42c0894cca3, type: 3}
+    volume: 0.8
+  - name: rewardCollected
+    type: SFX
+    clip: {fileID: 8300000, guid: fc1d4cfb26d19ab4d9c370a2d8eaf903, type: 3}
+    volume: 0.7
   sources:
   - type: SFX
     source: {fileID: 4673013884529334795}

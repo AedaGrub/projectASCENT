@@ -55,8 +55,8 @@ public class FlyingEnemy : MonoBehaviour
     private void Chase()
     {
         Vector2 direction = (player.transform.position - transform.position).normalized;
-        rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
-        //rb.AddForce(direction * speed, ForceMode2D.Force);
+        //rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
+        rb.AddForce(direction * speed, ForceMode2D.Force);
     }
 
     private void Bite()

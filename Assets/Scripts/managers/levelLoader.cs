@@ -44,7 +44,7 @@ public class levelLoader : MonoBehaviour
     public void LoadNextLevel(int index)
     {
         StartCoroutine(LoadLevel(index));
-        boonUIBelt.instance.InitialiseBoonBeltUI(1);
+        //boonUIBelt.instance.InitialiseBoonBeltUI(1);
     }
 
     IEnumerator LoadLevel(int levelIndex)
@@ -57,15 +57,16 @@ public class levelLoader : MonoBehaviour
 
         SceneManager.LoadScene(levelIndex);
 
-        gameManager.instance.currentRoom++;
+        //gameManager.instance.currentRoom++;
         UIManager.instance.UpdateReferences();
-        UIManager.instance.UpdateRoomUI();
-        gameManager.instance.FindReferences();
+        //UIManager.instance.UpdateRoomUI();
 
         yield return new WaitForSeconds(0.5f);
 
         Transition("Exit");
         isTransitioning = false;
+        gameManager.instance.FindReferences();
+        gameManager.instance.playerEnabled = true;
     }
 
     private void Transition(string state)

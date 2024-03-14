@@ -7,9 +7,14 @@ public class introManager : MonoBehaviour
 {
     public static introManager instance;
 
+    public int sceneIndexToLoad;
+
     [SerializeField] private GameObject title;
     [SerializeField] private GameObject cameraIntroTarget;
     [SerializeField] private GameObject player;
+
+    [SerializeField] private GameObject Space;
+    [SerializeField] private GameObject Shift;
 
     public CinemachineVirtualCamera playerCamera;
     public CinemachineVirtualCamera panCamera;
@@ -17,8 +22,16 @@ public class introManager : MonoBehaviour
     const string alphaStart = "boonsGreyIn";
     const string alphaExit = "boonsGreyOut";
 
+    private float elapsedTime1;
+
+    [SerializeField] private Transform hint2Check;
+    [SerializeField] private Vector2 hint2CheckSize;
+    [SerializeField] private LayerMask hint2CheckLayer;
+    private float elapsedTime2;
+
     private bool playerAwake;
     private bool canExitTitle;
+    private bool canExitLevel = true;
 
     private void Awake()
     {
@@ -88,5 +101,54 @@ public class introManager : MonoBehaviour
                 StartCoroutine(CloseTitle());
             }
         }
+
+        if (player.transform.position.x < 20 && player.transform.position.y < -1.25f)
+        {
+            elapsedTime1 += Time.deltaTime;
+            if (elapsedTime1 > 3f)
+            {
+                Space.GetComponent<Animator>().Play(alphaStart);
+            }
+        }
+        else
+        {
+            Space.GetComponent<Animator>().Play(alphaExit);
+            elapsedTime1 = 0;
+        }
+
+        if (Physics2D.OverlapBox(hint2Check.position, hint2CheckSize, 0, hint2CheckLayer))
+        {
+            elapsedTime2 += Time.deltaTime;
+            if (elapsedTime2 > 3f)
+            {
+                Shift.GetComponent<Animator>().Play(alphaStart);
+            }
+        }
+        else
+        {
+            Shift.GetComponent<Animator>().Play(alphaExit);
+            elapsedTime2 = 0;
+        }
+
+        if (player.transform.position.x > 36 && player.transform.position.y < 6f && canExitLevel)
+        {
+            canExitLevel = false;
+            StartCoroutine(ExitLevel());
+        }
+    }
+
+    private IEnumerator ExitLevel()
+    {
+        UIManager.instance.BlackScreenStart();
+
+        yield return new WaitForSeconds(1f);
+        audioManager.instance.Stop("Music");
+        levelLoader.instance.LoadNextLevel(sceneIndexToLoad);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(hint2Check.position, hint2CheckSize);
     }
 }

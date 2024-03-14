@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 4133371215367792811}
   - component: {fileID: 4413568849326663002}
   - component: {fileID: 7736862408238878317}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,18 +232,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080bfcb0e3452a2419f6e37617d7a90a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 99
+  maxHealth: 2
   currentHealth: 2
   isAerial: 0
+  rewardEXP: 1
   rb: {fileID: 5198242583716772254}
   player: {fileID: 0}
   sr: {fileID: 0}
   baseMat: {fileID: 0}
-  whiteMat: {fileID: 0}
+  whiteMat: {fileID: 2100000, guid: ea6bd4fbee306b848970ffa3a9833396, type: 2}
   _enemyHitFX: {fileID: 2151904978006924711, guid: 4c3c9cec8f1c2e84b86655a1baa17e50, type: 3}
-  _enemyBleedFX: {fileID: 0}
-  _playerAtkFX: {fileID: 0}
-  _enemyDeathFX: {fileID: 0}
+  _enemyBleedFX: {fileID: 3020078972948008516, guid: 82034986e5e16614083369db10791eb7, type: 3}
+  _playerAtkFX: {fileID: 155542996913389261, guid: a7c8947fab0150d44931e7d3098c400d, type: 3}
+  _enemyDeathFX: {fileID: 3788374466995505928, guid: 6450ed9964cea014e9114401bf7fc1e5, type: 3}
 --- !u!114 &7736862408238878317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,9 +257,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7373dd045b52b4786cd41beb7defbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 0
+  attackCooldown: 2
   extraDamage: 0
-  moveSpeed: 0
+  moveSpeed: 2
   playerLayer:
     serializedVersion: 2
     m_Bits: 8192

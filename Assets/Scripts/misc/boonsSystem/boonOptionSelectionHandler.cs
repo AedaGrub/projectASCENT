@@ -63,6 +63,7 @@ public class boonOptionSelectionHandler : MonoBehaviour , IPointerEnterHandler ,
 
     public void OnSelect(BaseEventData eventData)
     {
+        audioManager.instance.Play("uiScroll");
         StartCoroutine(SelectCard(true));
         boonsSelectManager.instance.lastSelected = gameObject;
 

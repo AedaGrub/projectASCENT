@@ -70,6 +70,17 @@ public class boonsSelectManager : MonoBehaviour
         tier[2] = 2;
     }
 
+    public void UnlockBelt0()
+    {
+        boonBelt.SetActive(true);
+        boonUIBelt.instance.InitialiseBoonBeltUI(1);
+    }
+
+    public void UnlockBelt1()
+    {
+        boonUIBelt.instance.InitialiseBoonBeltUI(1);
+    }
+
     public void StartOptionSelection()
     {
         //RANDOM TIER
@@ -90,10 +101,16 @@ public class boonsSelectManager : MonoBehaviour
                         chosenTierPool = tier0Pool; 
                         break;
                     case 1:
-                        chosenTierPool = tier1Pool;
+                        if (tier[1] != 0)
+                        {
+                            chosenTierPool = tier1Pool;
+                        }
                         break;
                     case 2:
-                        chosenTierPool = tier2Pool;
+                        if (tier[2] != 0)
+                        {
+                            chosenTierPool = tier2Pool;
+                        }
                         break;
                 }
             }
@@ -118,7 +135,18 @@ public class boonsSelectManager : MonoBehaviour
         boonTier.GetComponent<Image>().sprite = currentBoon.tierSprite;
 
         //EXECUTE OPTION SELECT PHASE
-        StartCoroutine(StartOptionSelectPhase());
+        if (gameManager.instance.canUseBoons)
+        {
+            StartCoroutine(StartOptionSelectPhase());
+            audioManager.instance.Play("uiBoonEnter");
+        }
+        else
+        {
+            if (spawnManager.instance.roomFinished)
+            {
+                spawnManager.instance.EndLevel();
+            }
+        }
     }
 
     public IEnumerator StartOptionSelectPhase()
@@ -168,6 +196,7 @@ public class boonsSelectManager : MonoBehaviour
     {
         if (isSelectingOption)
         {
+            audioManager.instance.Play("uiSelect");
             StartCoroutine(ExitBoonSelect());
         }
     }
@@ -217,6 +246,7 @@ public class boonsSelectManager : MonoBehaviour
     {
         if (isSelectingOption)
         {
+            audioManager.instance.Play("uiSelect");
             StartCoroutine(StartBoonSelectPhase());
         }
     }
@@ -264,6 +294,7 @@ public class boonsSelectManager : MonoBehaviour
     {
         if (isSelectingBelt)
         {
+            audioManager.instance.Play("uiSelect");
             StartCoroutine(ReturnToOptionSelectPhase());
         }
     }
@@ -311,6 +342,7 @@ public class boonsSelectManager : MonoBehaviour
 
     public void SelectBoon()
     {
+        audioManager.instance.Play("uiSelect");
         StartCoroutine(SelectedBoonPhase());
     }
 
@@ -346,6 +378,7 @@ public class boonsSelectManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         //SET BOON ON BELT SLOT
+        audioManager.instance.Play("uiBoonChange");
         boonSO heldBoon = boonToFill.GetComponent<boonSelectionHandler>().heldBoon;
 
         if (heldBoon != null)
@@ -369,7 +402,10 @@ public class boonsSelectManager : MonoBehaviour
         greyBG.Play(greyExit);
         gameManager.instance.playerEnabled = true;
 
-        spawnManager.instance.EndLevel();
+        if (spawnManager.instance.roomFinished)
+        {
+            spawnManager.instance.EndLevel();
+        }
 
         yield return null;
     }
@@ -384,13 +420,13 @@ public class boonsSelectManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetAxisRaw("Horizontal") > 0)
+        if (Input.GetAxisRaw("Horizontal") > 0 && (isSelectingBelt || isSelectingOption))
         {
             HandleNextOptionSelection(1);
             HandleNextBoonSelection(1);
         }
 
-        if (Input.GetAxisRaw("Horizontal") < 0)
+        if (Input.GetAxisRaw("Horizontal") < 0 && (isSelectingBelt || isSelectingOption))
         {
             HandleNextOptionSelection(-1);
             HandleNextBoonSelection(-1);

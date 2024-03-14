@@ -23,7 +23,8 @@ public class gameManager : MonoBehaviour
     public float CurrentHealth => currentHealth;
 
     public bool isInvincible;
-    [SerializeField] private float invulnDuration;
+    [SerializeField] private float defaultInvulnDuration;
+    [SerializeField] private float currentInvulnDuration;
     #endregion
 
     #region PLAYER ATTACK
@@ -44,7 +45,8 @@ public class gameManager : MonoBehaviour
 
     [SerializeField] public float defaultDashSpeed;
     [SerializeField] public float currentDashSpeed;
-    [SerializeField] public float iFramesDuration;
+    [SerializeField] public float defaultIFramesDuration;
+    [SerializeField] public float currentIFramesDuration;
     #endregion
 
     #region PLAYER SHIELD
@@ -62,11 +64,26 @@ public class gameManager : MonoBehaviour
     public bool canDash;
     public bool canWallClimb;
     public bool canBeHit;
+    public bool canUseBoons;
     #endregion
 
     #region FLOORS AND ROOMS
     public int currentFloor;
     public int currentRoom;
+    #endregion
+
+    #region PROGRESS
+    [Header("PROGRESS")]
+    public int progressLevel;
+    public int rewardedLevel;
+    public float currentProgressEXP;
+    public float maxProgressEXP;
+    public float totalProgressEXP;
+    #endregion
+
+    #region DEATH
+    [Header("PLAYER DEATH")]
+    [SerializeField] private GameObject playerRagdollPS;
     #endregion
 
     private void Awake()
@@ -90,6 +107,7 @@ public class gameManager : MonoBehaviour
 
     public void FindReferences()
     {
+        player = null;
         player = GameObject.FindWithTag("Player");
         PlayerController = player.GetComponent<playerController>();
         PlayerAttack = player.GetComponent<playerAttack>();
@@ -205,8 +223,8 @@ public class gameManager : MonoBehaviour
         if (boon.type == "cooldown")
         {
             bonus = ((0.5f * boon.tier) * value);
-            invulnDuration += bonus;
-            iFramesDuration += bonus;
+            currentInvulnDuration += bonus;
+            currentIFramesDuration += bonus;
         }
 
         if (boon.type == "range")
@@ -227,6 +245,28 @@ public class gameManager : MonoBehaviour
         currentDashSpeed = defaultDashSpeed;
 
         currentShieldRate = defaultShieldRate;
+
+        currentInvulnDuration = defaultInvulnDuration;
+        currentIFramesDuration = defaultIFramesDuration;
+
+        currentRange = defaultRange;
+
+        UIManager.instance.UpdateHealth();
+        isInvincible = false;
+    }
+
+    public void AddEXP(float value)
+    {
+        currentProgressEXP += value;
+        totalProgressEXP += value;
+        if (currentProgressEXP >= maxProgressEXP)
+        {
+            audioManager.instance.Play("levelUp");
+            currentProgressEXP -= maxProgressEXP;
+            progressLevel++;
+            maxProgressEXP += (5 * progressLevel);
+        }
+        UIManager.instance.UpdateProgressUI();
     }
 
     public void OnHit(float damageAmount)
@@ -253,7 +293,7 @@ public class gameManager : MonoBehaviour
         {
             cameraManager.instance.CameraShakeHeavy();
             audioManager.instance.Stop("Music");
-            //Die();
+            StartCoroutine(KillPlayer());
         }
         else
         {
@@ -261,9 +301,17 @@ public class gameManager : MonoBehaviour
         }
     }
 
-    void Die()
+    private IEnumerator KillPlayer()
     {
-        Destroy(gameObject);
+        Instantiate(playerRagdollPS, player.transform.position, Quaternion.identity);
+        playerEnabled = false;
+        player.SetActive(false);
+
+        yield return new WaitForSeconds(2f);
+        UIManager.instance.BlackScreenStart();
+
+        yield return new WaitForSeconds(1f);
+        levelLoader.instance.LoadNextLevel(1);
     }
 
     private IEnumerator PlayerHurt(bool wasShielded)
@@ -297,7 +345,7 @@ public class gameManager : MonoBehaviour
     {
         float elapsedTime = 0;
 
-        while (elapsedTime < invulnDuration)
+        while (elapsedTime < currentInvulnDuration)
         {
             //FLASHING
             elapsedTime += Time.deltaTime;
@@ -337,7 +385,7 @@ public class gameManager : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(iFramesDuration);
+            yield return new WaitForSeconds(currentIFramesDuration);
             playerMaterial.SetFloat("_Alpha", 1);
             isInvincible = false;
         }

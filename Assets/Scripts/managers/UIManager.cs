@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     #region HUD ROOM
     [Header("HUD ROOM")]
     [SerializeField] private Image playerProgressNode;
+    [SerializeField] private GameObject progressFillScale;
     #endregion
 
     #region HUD COOLDOWN
@@ -73,6 +74,7 @@ public class UIManager : MonoBehaviour
     {
         UpdateReferences();
         UpdateHealth();
+        UpdateProgressUI();
     }
 
     public void UpdateReferences()
@@ -84,11 +86,13 @@ public class UIManager : MonoBehaviour
 
     public void BlackScreenStart()
     {
+        blackScreen.gameObject.SetActive(true);
         blackScreen.Play(blackStart);
     }
 
     public void BlackScreenExit()
     {
+        blackScreen.gameObject.SetActive(true);
         blackScreen.Play(blackExit);
     }
 
@@ -189,15 +193,14 @@ public class UIManager : MonoBehaviour
         vignetteVol.weight = vignetteWeight;
     }
 
-    public void UpdateRoomUI()
+    public void UpdateProgressUI()
     {
-        float p = playerProgressNode.rectTransform.localPosition.x;
-        float target = (-75 + (50 * gameManager.instance.currentRoom));
-        LeanTween.value(p, target, 0.5f).setOnUpdate(UpdateRoomUIValue).setEaseOutExpo();
-    }
+        float c = gameManager.instance.currentProgressEXP;
+        float m = gameManager.instance.maxProgressEXP;
 
-    private void UpdateRoomUIValue(float value)
-    {
-        playerProgressNode.rectTransform.localPosition = new Vector2(value, playerProgressNode.rectTransform.localPosition.y);
+        float p = (-75 + (150 * (c / m)));
+
+        LeanTween.scale(progressFillScale, new Vector3(1 * (c / m), 1, 1), 0.5f).setEaseOutExpo();
+        LeanTween.moveLocal(playerProgressNode.gameObject, new Vector3(p, 200, 0), 0.5f).setEaseOutExpo();
     }
 }
