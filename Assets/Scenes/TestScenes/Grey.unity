@@ -904,6 +904,7 @@ GameObject:
   - component: {fileID: 236737883}
   - component: {fileID: 236737884}
   - component: {fileID: 236737885}
+  - component: {fileID: 236737886}
   m_Layer: 11
   m_Name: BossEnemy
   m_TagString: Untagged
@@ -1033,7 +1034,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.055134803, y: -0.25077447}
+  m_Offset: {x: 0.05218049, y: -0.23994198}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1044,7 +1045,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.22354603, y: 0.45119935}
+  m_Size: {x: 0.23339377, y: 0.47286433}
   m_EdgeRadius: 0
 --- !u!50 &236737881
 Rigidbody2D:
@@ -1109,16 +1110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3506377837253454eacdd6c9029f5cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 0
-  extraDamage: 0
-  moveSpeed: 2.5
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8192
-  hitTransform: {fileID: 1975033273}
-  hitSize: {x: 2.77, y: 2.54}
-  player: {fileID: 0}
-  isPlayerInSight: 0
+  player: {fileID: 603421244}
+  rb: {fileID: 236737881}
+  isFlipped: 0
 --- !u!114 &236737885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1131,8 +1125,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117cf754b35d6dc44b44046f14f31ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 2
+  damageAmount: 1
   knockbackForce: {x: 6, y: 6}
+--- !u!114 &236737886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236737876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233937f32dc97a64cabdb93e50199681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 1
+  enragedAttackDamage: 0
+  attackOffset: {x: 0, y: 0, z: 0}
+  attackRange: 0.05
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!1 &245838263
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,6 +2473,11 @@ RectTransform:
 --- !u!1 &603421237 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 417790032224607787, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
+  m_PrefabInstance: {fileID: 7806839}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &603421244 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7709392522035906911, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
   m_PrefabInstance: {fileID: 7806839}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &612218289
@@ -7459,7 +7477,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1975033273
 Transform:
   m_ObjectHideFlags: 0

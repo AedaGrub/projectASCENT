@@ -50,7 +50,7 @@ public class ShooterEnemy : MonoBehaviour
     {
         cooldownTimer = 0;
         bullets[FindBullet()].transform.position = firepoint.position;
-        bullets[FindBullet()].GetComponent<EnemyProjectile>().ActivateProjectile();
+        //bullets[FindBullet()].GetComponent<EnemyProjectile>().ActivateProjectile();
     }
     private int FindBullet()
     {
