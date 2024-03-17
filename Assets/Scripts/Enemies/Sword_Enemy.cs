@@ -125,6 +125,7 @@ public class Sword_Enemy : MonoBehaviour
             cooldownTracker -= Time.deltaTime;
         }
     }
+
    private void Flip()
    {
         Vector3 scale = transform.localScale;

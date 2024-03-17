@@ -32,6 +32,10 @@ public class boonsSelectManager : MonoBehaviour
     public GameObject boonBelt;
     [SerializeField] private GameObject swapIcon;
 
+    public GameObject boonSlot1;
+    public GameObject boonSlot2;
+    public GameObject boonSlot3;
+
     [Header("DISPLAY BOON")]
     public GameObject boonIcon;
     public GameObject boonTier;
@@ -70,15 +74,19 @@ public class boonsSelectManager : MonoBehaviour
         tier[2] = 2;
     }
 
-    public void UnlockBelt0()
-    {
-        boonBelt.SetActive(true);
-        boonUIBelt.instance.InitialiseBoonBeltUI(1);
-    }
-
     public void UnlockBelt1()
     {
-        boonUIBelt.instance.InitialiseBoonBeltUI(1);
+        boonSlot1.SetActive(true);
+    }
+
+    public void UnlockBelt2()
+    {
+        boonSlot2.SetActive(true);
+    }
+
+    public void UnlockBelt3()
+    {
+        boonSlot3.SetActive(true);
     }
 
     public void StartOptionSelection()
@@ -343,7 +351,10 @@ public class boonsSelectManager : MonoBehaviour
     public void SelectBoon()
     {
         audioManager.instance.Play("uiSelect");
-        StartCoroutine(SelectedBoonPhase());
+        if (isSelectingBelt)
+        {
+            StartCoroutine(SelectedBoonPhase());
+        }
     }
 
     private IEnumerator SelectedBoonPhase()
@@ -410,6 +421,13 @@ public class boonsSelectManager : MonoBehaviour
         yield return null;
     }
 
+    public void EmptyBelt()
+    {
+        foreach (GameObject b in boons)
+        {
+            b.GetComponent<boonSelectionHandler>().EmptyData();
+        }
+    }
 
 
 

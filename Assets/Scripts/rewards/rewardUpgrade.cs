@@ -10,7 +10,7 @@ public class rewardUpgrade : MonoBehaviour
 
     private void Start()
     {
-        audioManager.instance.Play("rewardSpawn");
+        //audioManager.instance.Play("rewardSpawn");
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -23,21 +23,29 @@ public class rewardUpgrade : MonoBehaviour
             switch (index)
             {
                 case 0:
-                    boonsSelectManager.instance.UnlockBelt0();
+                    boonsSelectManager.instance.UnlockBelt1();
                     break;
                 case 1:
+                    gameManager.instance.defaultHealth++;
+                    gameManager.instance.ResetStats();
+                    break;
+                case 2:
                     gameManager.instance.canDash = true;
                     boonsSelectManager.instance.UnlockTier1();
                     break;
-                case 2:
-                    boonsSelectManager.instance.UnlockBelt1();
-                    break;
                 case 3:
+                    boonsSelectManager.instance.UnlockBelt2();
+                    break;
+                case 4:
+                    gameManager.instance.defaultHealth++;
+                    gameManager.instance.ResetStats();
+                    break;
+                case 5:
                     gameManager.instance.canExtraJump = true;
                     boonsSelectManager.instance.UnlockTier2();
                     break;
-                case 4:
-                    boonsSelectManager.instance.UnlockBelt1();
+                case 6:
+                    boonsSelectManager.instance.UnlockBelt3();
                     break;
 
             }

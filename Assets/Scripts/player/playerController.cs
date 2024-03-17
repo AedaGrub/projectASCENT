@@ -152,35 +152,6 @@ public class playerController : MonoBehaviour
             moveInput.x = 0;
         }
 
-        if (moveInput.x != 0)
-        {
-            CheckDirectionToFace(moveInput.x > 0);
-            if (!isJumping && !isWallJumping && !isDashing && isGrounded && currentState != playerUatkR)
-            {
-                ChangeAnimationState(playerRun);
-            }
-
-            if (isGrounded)
-            {
-                //CREATE DUST IF MOVING ON GROUND
-                CreateDust(0.02f, -0.123f);
-            }
-        }
-        else
-        {
-            if (isGrounded && !isJumping)
-            {
-                if (currentState == playerRun)
-                {
-                    ChangeAnimationState(playerStop);
-                }
-                else if (currentState != playerStop && currentState != playerUatkI && !isAsleep && currentState != playerStand)
-                {
-                    ChangeAnimationState(playerIdle);
-                }
-            }
-        }
-
         if (!isDashing && !isBeingKnockbacked)
         {
             if (isWallJumping)
@@ -279,14 +250,14 @@ public class playerController : MonoBehaviour
         //WHEN PRESSED JUMP
         if (gameManager.instance.playerEnabled)
         {
-            if (Input.GetKeyDown(KeyCode.Space) ^ Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 lastJumpInputTime = inputBufferTime;
             }
         }
 
         //WHEN RELEASED JUMP
-        if (Input.GetKeyUp(KeyCode.Space) ^ Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             if (CanJumpCut() || CanWallJumpCut())
             {
@@ -490,7 +461,57 @@ public class playerController : MonoBehaviour
         }
         #endregion
 
+        #region IDLE AND RUN ANIM
+        if (moveInput.x != 0)
+        {
+            CheckDirectionToFace(moveInput.x > 0);
+            if (!isJumping && !isWallJumping && !isDashing && isGrounded)
+            {
+                if (Input.GetKey(KeyCode.W))
+                {
+                    ChangeAnimationState(playerUatkR);
+                }
+                else
+                {
+                    ChangeAnimationState(playerRun);
+                }
+            }
+
+            if (isGrounded)
+            {
+                //CREATE DUST IF MOVING ON GROUND
+                CreateDust(0.02f, -0.123f);
+            }
+        }
+        else
+        {
+            if (isGrounded && !isJumping)
+            {
+                if (currentState == playerRun)
+                {
+                    ChangeAnimationState(playerStop);
+                }
+                else if (currentState != playerStop && !isAsleep)
+                {
+                    if (Input.GetKey(KeyCode.W))
+                    {
+                        ChangeAnimationState(playerUatkI);
+                    }
+                    else
+                    {
+                        ChangeAnimationState(playerIdle);
+                    }
+                }
+            }
+        }
+        #endregion
+
         #region ASLEEP ANIM
+        if (currentState != playerSleep && currentState != playerStand)
+        {
+            isAsleep = false;
+        }
+
         if (isAsleep && currentState != playerStand)
         {
             ChangeAnimationState(playerSleep);
@@ -529,8 +550,12 @@ public class playerController : MonoBehaviour
 
     public void StandUp()
     {
-        isAsleep = false;
         ChangeAnimationState(playerStand);
+    }
+
+    public void ForcePlayIdle()
+    {
+        ChangeAnimationState(playerIdle);
     }
     #endregion
 

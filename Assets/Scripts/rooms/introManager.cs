@@ -10,11 +10,17 @@ public class introManager : MonoBehaviour
     public int sceneIndexToLoad;
 
     [SerializeField] private GameObject title;
+    [SerializeField] private GameObject blackScreen;
     [SerializeField] private GameObject cameraIntroTarget;
     [SerializeField] private GameObject player;
+    public Animator cooldownNode;
+    public Animator boonBelt;
+    public Animator progressBar;
 
     [SerializeField] private GameObject Space;
+    [SerializeField] private GameObject SpaceText;
     [SerializeField] private GameObject Shift;
+    [SerializeField] private GameObject ShiftText;
 
     public CinemachineVirtualCamera playerCamera;
     public CinemachineVirtualCamera panCamera;
@@ -22,12 +28,20 @@ public class introManager : MonoBehaviour
     const string alphaStart = "boonsGreyIn";
     const string alphaExit = "boonsGreyOut";
 
+    [Header("HINTS")]
+    [SerializeField] private LayerMask hintCheckLayer;
+
+    [SerializeField] private Transform hint1Check;
+    [SerializeField] private Vector2 hint1CheckSize;
     private float elapsedTime1;
 
     [SerializeField] private Transform hint2Check;
     [SerializeField] private Vector2 hint2CheckSize;
-    [SerializeField] private LayerMask hint2CheckLayer;
     private float elapsedTime2;
+
+    [Header("EXIT")]
+    [SerializeField] private Transform exitTransform;
+    [SerializeField] private Vector2 exitSize;
 
     private bool playerAwake;
     private bool canExitTitle;
@@ -47,6 +61,7 @@ public class introManager : MonoBehaviour
 
     void Start()
     {
+        blackScreen.SetActive(true);
         cameraManager.instance.SwapCamera(playerCamera, panCamera, 1);
         StartCoroutine(TitleScreen());
         player.GetComponent<playerController>().Sleep();
@@ -88,6 +103,11 @@ public class introManager : MonoBehaviour
         gameManager.instance.EnablePlayer();
 
         cameraManager.instance.SwapCamera(panCamera, playerCamera, 1);
+        yield return new WaitForSeconds(1f);
+        cooldownNode.Play(alphaStart);
+        boonBelt.Play(alphaStart);
+        progressBar.Play(alphaStart);
+        gameManager.instance.ResetStats();
         yield return null;
     }
 
@@ -102,35 +122,60 @@ public class introManager : MonoBehaviour
             }
         }
 
-        if (player.transform.position.x < 20 && player.transform.position.y < -1.25f)
+        //HINT ONE JUMP
+        if (Physics2D.OverlapBox(hint1Check.position, hint1CheckSize, 0, hintCheckLayer))
         {
             elapsedTime1 += Time.deltaTime;
             if (elapsedTime1 > 3f)
             {
                 Space.GetComponent<Animator>().Play(alphaStart);
             }
+            if (elapsedTime1 > 10f)
+            {
+                SpaceText.GetComponent<Animator>().Play(alphaStart);
+            }
         }
         else
         {
-            Space.GetComponent<Animator>().Play(alphaExit);
+            if (elapsedTime1 > 10f)
+            {
+                SpaceText.GetComponent<Animator>().Play(alphaExit);
+            }
+            if (elapsedTime1 > 3f)
+            {
+                Space.GetComponent<Animator>().Play(alphaExit);
+            }
             elapsedTime1 = 0;
         }
 
-        if (Physics2D.OverlapBox(hint2Check.position, hint2CheckSize, 0, hint2CheckLayer))
+        //HINT TWO ATTACK
+        if (Physics2D.OverlapBox(hint2Check.position, hint2CheckSize, 0, hintCheckLayer))
         {
             elapsedTime2 += Time.deltaTime;
             if (elapsedTime2 > 3f)
             {
                 Shift.GetComponent<Animator>().Play(alphaStart);
             }
+            if (elapsedTime2 > 10f)
+            {
+                ShiftText.GetComponent<Animator>().Play(alphaStart);
+            }
         }
         else
         {
-            Shift.GetComponent<Animator>().Play(alphaExit);
+            if (elapsedTime2 > 10f)
+            {
+                ShiftText.GetComponent<Animator>().Play(alphaExit);
+            }
+            if (elapsedTime2 > 3f)
+            {
+                Shift.GetComponent<Animator>().Play(alphaExit);
+            }
             elapsedTime2 = 0;
         }
 
-        if (player.transform.position.x > 36 && player.transform.position.y < 6f && canExitLevel)
+        //EXIT
+        if (Physics2D.OverlapBox(exitTransform.position, exitSize, 0, hintCheckLayer) && canExitLevel)
         {
             canExitLevel = false;
             StartCoroutine(ExitLevel());
@@ -149,6 +194,8 @@ public class introManager : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(hint1Check.position, hint1CheckSize);
         Gizmos.DrawWireCube(hint2Check.position, hint2CheckSize);
+        Gizmos.DrawWireCube(exitTransform.position, exitSize);
     }
 }

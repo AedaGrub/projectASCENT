@@ -60,7 +60,7 @@ public class playerAttack : MonoBehaviour
 
         //WHEN PRESSED ATTACK
         if (gameManager.instance.playerEnabled && !PlayerController.isBeingKnockbacked &&
-            Input.GetMouseButtonDown(0) ^ Input.GetKeyDown(KeyCode.X) ^ Input.GetKeyDown(KeyCode.RightShift))
+            Input.GetKeyDown(KeyCode.RightShift))
         {
             lastAttackInputTime = inputBufferTime;
         }

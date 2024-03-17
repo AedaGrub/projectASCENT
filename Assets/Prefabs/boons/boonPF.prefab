@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72d59ad53b78014ca0b7ac260596f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heldBoon: {fileID: 0}
   boonIcon: {fileID: 5973969842647690102}
   boonTier: {fileID: 3573032516125239520}
   boonFill: {fileID: 3153140453221208514}

@@ -22,8 +22,9 @@ public class UIManager : MonoBehaviour
 
     #region HUD ROOM
     [Header("HUD ROOM")]
-    [SerializeField] private Image playerProgressNode;
-    [SerializeField] private GameObject progressFillScale;
+    [SerializeField] private GameObject homeIcon;
+    [SerializeField] private GameObject progressScale;
+    [SerializeField] private Slider progressSlider;
     #endregion
 
     #region HUD COOLDOWN
@@ -36,6 +37,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject healthFillScale;
     [SerializeField] private Image healthFill;
     [SerializeField] private Image healthMaxMarker;
+    [SerializeField] private Image healthMaxMask;
     #endregion
 
     #region HUD SHIELD
@@ -73,7 +75,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         UpdateReferences();
-        UpdateHealth();
+        //UpdateHealth();
         UpdateProgressUI();
     }
 
@@ -161,14 +163,17 @@ public class UIManager : MonoBehaviour
         //REPOSITION MAX HEALTH MARKER
         float z = ((x * 30) - 15);
         healthMaxMarker.rectTransform.localPosition = new Vector3(z, 0, 0);
+        healthMaxMask.rectTransform.localPosition = new Vector3(z, 0, 0);
 
         if (y != x)
         {
             healthMaxMarker.gameObject.SetActive(true);
+            healthMaxMask.gameObject.SetActive(false);
         }
         else
         {
             healthMaxMarker.gameObject.SetActive(false);
+            healthMaxMask.gameObject.SetActive(true);
         }
 
         //UPDATE VIGNETTE
@@ -198,9 +203,32 @@ public class UIManager : MonoBehaviour
         float c = gameManager.instance.currentProgressEXP;
         float m = gameManager.instance.maxProgressEXP;
 
-        float p = (-75 + (150 * (c / m)));
+        progressSlider.value = (c / m);
+    }
 
-        LeanTween.scale(progressFillScale, new Vector3(1 * (c / m), 1, 1), 0.5f).setEaseOutExpo();
-        LeanTween.moveLocal(playerProgressNode.gameObject, new Vector3(p, 200, 0), 0.5f).setEaseOutExpo();
+    public void ShowHomeIcon(bool yes)
+    {
+        if (yes)
+        {
+            homeIcon.SetActive(true);
+            homeIcon.transform.localScale = new Vector3(0, 0, 0);
+            LeanTween.scale(homeIcon, new Vector3(1, 1, 1), 1f).setEaseOutExpo();
+        }
+        else
+        {
+            homeIcon.SetActive(false);
+        }
+    }
+
+    public void ShrinkProgressScale()
+    {
+        ShowHomeIcon(false);
+        LeanTween.scaleX(progressScale, 0, 5f).setEaseLinear();
+    }
+
+    public void ExpandProgressScale()
+    {
+        float x = 1 + (gameManager.instance.progressLevel / 3);
+        LeanTween.scaleX(progressScale, x, 0.5f).setEaseOutExpo();
     }
 }

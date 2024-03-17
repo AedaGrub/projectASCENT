@@ -17,7 +17,7 @@ public class gameManager : MonoBehaviour
 
     #region PLAYER HEALTH
     [Header("HEALTH")]
-    [SerializeField] private float defaultHealth;
+    [SerializeField] public float defaultHealth;
     [SerializeField] public float maxHealth;
     [SerializeField] private float currentHealth;
     public float CurrentHealth => currentHealth;
@@ -79,6 +79,7 @@ public class gameManager : MonoBehaviour
     public float currentProgressEXP;
     public float maxProgressEXP;
     public float totalProgressEXP;
+    public bool canEarnEXP;
     #endregion
 
     #region DEATH
@@ -102,7 +103,6 @@ public class gameManager : MonoBehaviour
     void Start()
     {
         FindReferences();
-        ResetStats();
     }
 
     public void FindReferences()
@@ -185,7 +185,7 @@ public class gameManager : MonoBehaviour
         {
             bonus = ((2 + boon.tier) * value);
             maxHealth += bonus;
-            if (value == -1)
+            if (value == -1 && currentHealth > maxHealth)
             {
                 currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
             }
@@ -200,6 +200,10 @@ public class gameManager : MonoBehaviour
         {
             bonus = ((1 + boon.tier) * value);
             currentAttack += bonus;
+            if (currentAttack <= 0)
+            {
+                currentAttack = 1;
+            }
         }
 
         if (boon.type == "shield")
@@ -222,7 +226,7 @@ public class gameManager : MonoBehaviour
 
         if (boon.type == "cooldown")
         {
-            bonus = ((0.5f * boon.tier) * value);
+            bonus = ((0.25f * boon.tier) * value);
             currentInvulnDuration += bonus;
             currentIFramesDuration += bonus;
         }
@@ -231,6 +235,10 @@ public class gameManager : MonoBehaviour
         {
             bonus = ((0.2f * boon.tier) * value);
             currentRange += bonus;
+            if (currentRange < 1)
+            {
+                currentRange = 1;
+            }
         }
     }
 
@@ -257,16 +265,30 @@ public class gameManager : MonoBehaviour
 
     public void AddEXP(float value)
     {
-        currentProgressEXP += value;
-        totalProgressEXP += value;
-        if (currentProgressEXP >= maxProgressEXP)
+        if (currentProgressEXP < maxProgressEXP)
         {
+            currentProgressEXP += value;
+            totalProgressEXP += value;
+        }
+
+        if (currentProgressEXP >= maxProgressEXP && canEarnEXP)
+        {
+            canEarnEXP = false;
             audioManager.instance.Play("levelUp");
-            currentProgressEXP -= maxProgressEXP;
+            currentProgressEXP = maxProgressEXP;
             progressLevel++;
-            maxProgressEXP += (5 * progressLevel);
+            UIManager.instance.ShowHomeIcon(true);
         }
         UIManager.instance.UpdateProgressUI();
+    }
+
+    public void IncreaseEXPCap()
+    {
+        canEarnEXP = true;
+        UIManager.instance.ShowHomeIcon(false);
+        currentProgressEXP = 0;
+        maxProgressEXP += 3;
+        UIManager.instance.ExpandProgressScale();
     }
 
     public void OnHit(float damageAmount)
@@ -303,6 +325,8 @@ public class gameManager : MonoBehaviour
 
     private IEnumerator KillPlayer()
     {
+        PlayerController.PlayerHurtPS();
+        boonsSelectManager.instance.EmptyBelt();
         Instantiate(playerRagdollPS, player.transform.position, Quaternion.identity);
         playerEnabled = false;
         player.SetActive(false);

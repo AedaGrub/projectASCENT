@@ -458,6 +458,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI_icons_spriteSheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf6d7bb4e6634ae4ca51cb7f13510db3
+      internalID: -1645523537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -477,6 +498,7 @@ TextureImporter:
       UI_icons_spriteSheet_13: 118658852
       UI_icons_spriteSheet_14: -271977818
       UI_icons_spriteSheet_15: 1033905771
+      UI_icons_spriteSheet_16: -1645523537
       UI_icons_spriteSheet_2: 1005339433
       UI_icons_spriteSheet_3: 1507019500
       UI_icons_spriteSheet_4: -714498457

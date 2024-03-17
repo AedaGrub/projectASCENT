@@ -129,6 +129,14 @@ MonoBehaviour:
     type: SFX
     clip: {fileID: 8300000, guid: fc1d4cfb26d19ab4d9c370a2d8eaf903, type: 3}
     volume: 0.7
+  - name: heartRumble
+    type: SFX
+    clip: {fileID: 8300000, guid: b69d754d06b801b4a989fb53bdf75fcf, type: 3}
+    volume: 1
+  - name: heartGift
+    type: SFX
+    clip: {fileID: 8300000, guid: b6f0f941d4237764182ddcb804455d9c, type: 3}
+    volume: 0.7
   sources:
   - type: SFX
     source: {fileID: 4673013884529334795}

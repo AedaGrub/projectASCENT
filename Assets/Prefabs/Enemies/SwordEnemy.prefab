@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCooldown: 1
-  extraDamage: 0
+  extraDamage: 1
   moveSpeed: 2
   playerLayer:
     serializedVersion: 2

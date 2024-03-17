@@ -26,12 +26,13 @@ public class boonSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPointe
 
     [SerializeField] private GameObject scaleTarget2;
 
-    private void Start()
+    private void OnEnable()
     {
         startScale1 = scaleTarget1.transform.localScale;
         scaleTarget2.transform.localScale = new Vector2(0, 0);
         ScaleBelt();
         EmptyData();
+        boonsSelectManager.instance.boons.Add(gameObject);
     }
 
     public void EmptyData()
@@ -59,7 +60,7 @@ public class boonSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPointe
 
     private void ScaleBelt()
     {
-        LeanTween.scale(beltScale, new Vector3(1.37f, 1, 1), 2f).setEaseOutExpo();
+        LeanTween.scale(beltScale, new Vector3(1f, 1, 1), 2f).setEaseOutExpo();
     }
 
     private IEnumerator SelectCard(bool startingAnim)

@@ -144,12 +144,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4011420325174624885, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
+      propertyPath: isFacingRight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4011420325174624885, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
       propertyPath: cameraFollowGO
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7709392522035906911, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
       propertyPath: m_LocalScale.x
-      value: 7
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 7709392522035906911, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
       propertyPath: m_LocalScale.y
@@ -16403,13 +16407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 757514b5dda154a458601d196e78c629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CustomInspectorObjects:
-    swapCameras: 1
-    panCameraOnContact: 0
-    negativeCamera: {fileID: 964981528}
-    positiveCamera: {fileID: 869487703}
-  verticalChange: 1
-  horizontalChange: 0
 --- !u!61 &710914288
 BoxCollider2D:
   m_ObjectHideFlags: 0
