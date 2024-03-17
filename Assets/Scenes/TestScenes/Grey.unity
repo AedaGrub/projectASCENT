@@ -899,12 +899,11 @@ GameObject:
   - component: {fileID: 236737877}
   - component: {fileID: 236737879}
   - component: {fileID: 236737878}
-  - component: {fileID: 236737881}
   - component: {fileID: 236737880}
+  - component: {fileID: 236737881}
   - component: {fileID: 236737883}
   - component: {fileID: 236737884}
   - component: {fileID: 236737885}
-  - component: {fileID: 236737886}
   m_Layer: 11
   m_Name: BossEnemy
   m_TagString: Untagged
@@ -921,7 +920,7 @@ Transform:
   m_GameObject: {fileID: 236737876}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.2, y: 1.03, z: 0}
+  m_LocalPosition: {x: -4.2, y: 1.09, z: 0}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1031,10 +1030,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.05218049, y: -0.23994198}
+  m_Offset: {x: 0.046165295, y: -0.23694952}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1045,7 +1044,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.23339377, y: 0.47286433}
+  m_Size: {x: 0.22136338, y: 0.4668794}
   m_EdgeRadius: 0
 --- !u!50 &236737881
 Rigidbody2D:
@@ -1055,7 +1054,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 236737876}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1073,7 +1072,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &236737883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1089,6 +1088,7 @@ MonoBehaviour:
   maxHealth: 10
   currentHealth: 3
   isAerial: 0
+  rewardEXP: 0
   rb: {fileID: 236737881}
   player: {fileID: 603421237}
   sr: {fileID: 0}
@@ -1110,9 +1110,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3506377837253454eacdd6c9029f5cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 603421244}
-  rb: {fileID: 236737881}
-  isFlipped: 0
+  attackCooldown: 2
+  extraDamage: 0
+  moveSpeed: 2
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  hitTransform: {fileID: 1975033273}
+  hitSize: {x: 3.71, y: 1.48}
+  player: {fileID: 0}
+  isPlayerInSight: 0
 --- !u!114 &236737885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1127,25 +1134,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageAmount: 1
   knockbackForce: {x: 6, y: 6}
---- !u!114 &236737886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 236737876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 233937f32dc97a64cabdb93e50199681, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackDamage: 1
-  enragedAttackDamage: 0
-  attackOffset: {x: 0, y: 0, z: 0}
-  attackRange: 0.05
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 2048
 --- !u!1 &245838263
 GameObject:
   m_ObjectHideFlags: 0
@@ -2473,11 +2461,6 @@ RectTransform:
 --- !u!1 &603421237 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 417790032224607787, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
-  m_PrefabInstance: {fileID: 7806839}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &603421244 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7709392522035906911, guid: e8fa40d6f34f08e4f98627088a7bac25, type: 3}
   m_PrefabInstance: {fileID: 7806839}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &612218289
@@ -3968,6 +3951,7 @@ MonoBehaviour:
   waitTime: 1
   stopSpawning: 0
   isSpawning: 0
+  roomFinished: 0
 --- !u!1 &985422465
 GameObject:
   m_ObjectHideFlags: 0
@@ -3994,7 +3978,7 @@ Transform:
   m_GameObject: {fileID: 985422465}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.052, y: -0.213, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4043,7 +4027,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.26, y: 0.53}
   m_EdgeRadius: 0
 --- !u!1 &997973358
 GameObject:
@@ -4393,7 +4377,7 @@ Transform:
   m_GameObject: {fileID: 1168300122}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5549,6 +5533,7 @@ MonoBehaviour:
   mainCam: {fileID: 0}
   smoothTime: 0.1
   playerProgressNode: {fileID: 1919039376}
+  progressFillScale: {fileID: 0}
   cooldownNode: {fileID: 1102347107}
   healthFillScale: {fileID: 147844949}
   healthFill: {fileID: 1589868443}
@@ -6325,6 +6310,7 @@ MonoBehaviour:
   maxHealth: 99
   currentHealth: 2
   isAerial: 0
+  rewardEXP: 0
   rb: {fileID: 1740344701}
   player: {fileID: 0}
   sr: {fileID: 0}
@@ -7276,7 +7262,8 @@ MonoBehaviour:
   maxHealth: 5
   currentHealth: 5
   isInvincible: 0
-  invulnDuration: 1.5
+  defaultInvulnDuration: 0
+  currentInvulnDuration: 0
   defaultAttack: 1
   currentAttack: 1
   defaultRange: 0
@@ -7286,7 +7273,8 @@ MonoBehaviour:
   chargeRate: 1
   defaultDashSpeed: 0
   currentDashSpeed: 0
-  iFramesDuration: 0
+  defaultIFramesDuration: 0
+  currentIFramesDuration: 0
   currentShieldValue: 0
   defaultShieldRate: 0.05
   currentShieldRate: 0.05
@@ -7295,8 +7283,15 @@ MonoBehaviour:
   canDash: 1
   canWallClimb: 1
   canBeHit: 0
+  canUseBoons: 0
   currentFloor: 0
   currentRoom: 0
+  progressLevel: 0
+  rewardedLevel: 0
+  currentProgressEXP: 0
+  maxProgressEXP: 0
+  totalProgressEXP: 0
+  playerRagdollPS: {fileID: 0}
 --- !u!4 &1961279503
 Transform:
   m_ObjectHideFlags: 0
@@ -7477,7 +7472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1975033273
 Transform:
   m_ObjectHideFlags: 0
@@ -7487,7 +7482,7 @@ Transform:
   m_GameObject: {fileID: 1975033272}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.046, y: -0.299, z: 0}
+  m_LocalPosition: {x: 0, y: -0.374, z: 0}
   m_LocalScale: {x: 0.6625, y: 0.3625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

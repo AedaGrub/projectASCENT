@@ -28,10 +28,4 @@ public class BossDamage : MonoBehaviour
             enemyDamage.DamagePlayer(0);
         }
     }
-
-    public void EnragedAttack()
-    {
-
-    }
-
 }
