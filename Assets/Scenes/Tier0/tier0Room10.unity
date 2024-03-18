@@ -19279,7 +19279,7 @@ Transform:
   m_GameObject: {fileID: 1363655148}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.088315, y: 0.00000007132269, z: -10}
+  m_LocalPosition: {x: 4.1057, y: 0.00000007132269, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20960,14 +20960,19 @@ MonoBehaviour:
   playerPos: {x: 0, y: -1.5, z: 0}
   playerSize: {x: 2, y: 3}
   enemies:
+  - {fileID: 5477229276210327216, guid: 4ae468dc7c450724cae7c93b6ef0ee75, type: 3}
   - {fileID: 4962007643066450051, guid: bf723730cfdb103469516e84da5b0fba, type: 3}
   spawnPos:
   - {x: 11.42, y: -2.5, z: 0}
+  - {x: 6.7, y: 1.61, z: 0}
+  - {x: -7.08, y: -0.38, z: 0}
   spawnSize: {x: 2, y: 3}
   lastWave: 1
   waveCount: 0
   enemyPosWave:
   - 0,0,1
+  - 1,1,1
+  - 0,2,2
   enemyList: []
   waitTime: 1
   stopSpawning: 0

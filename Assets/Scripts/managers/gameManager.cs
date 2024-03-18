@@ -287,7 +287,7 @@ public class gameManager : MonoBehaviour
         canEarnEXP = true;
         UIManager.instance.ShowHomeIcon(false);
         currentProgressEXP = 0;
-        maxProgressEXP += 3;
+        maxProgressEXP += 1;
         UIManager.instance.ExpandProgressScale();
     }
 

@@ -145,6 +145,16 @@ public class BossEnemy : MonoBehaviour
 
     }
 
+    public void WindUp()
+    {
+        audioManager.instance.Play("windUp");
+    }
+
+    public void Stomp()
+    {
+        audioManager.instance.Play("bossStomp");
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

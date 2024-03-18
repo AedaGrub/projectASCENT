@@ -145,6 +145,16 @@ public class Sword_Enemy : MonoBehaviour
         rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
     }
 
+    public void WindUp()
+    {
+        audioManager.instance.Play("windUp");
+    }
+
+    public void Slash()
+    {
+        audioManager.instance.Play("swordSlash");
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

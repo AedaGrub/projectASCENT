@@ -30,6 +30,9 @@ public class baseManager : MonoBehaviour
 
     public GameObject keyIcon;
 
+    public Animator dashHint;
+    public Animator doubleJumpHint;
+
     void Awake()
     {
         if (instance != null)
@@ -44,6 +47,9 @@ public class baseManager : MonoBehaviour
 
     void Start()
     {
+        dashHint = GameObject.Find("LShift").GetComponent<Animator>();
+        doubleJumpHint = GameObject.Find("DoubleJump").GetComponent<Animator>();
+
         StartCoroutine(HoverHeart());
         float x = (0.1f * gameManager.instance.rewardedLevel);
         heart.transform.localScale = new Vector2(x, x);
@@ -191,6 +197,35 @@ public class baseManager : MonoBehaviour
             keyIcon.GetComponent<SpriteRenderer>().material.SetFloat("_Alpha", alphaNow);
 
             yield return null;
+        }
+    }
+
+    public void DashHint()
+    {
+        StartCoroutine(Hint("dash"));
+    }
+
+    public void DoubleJumpHint()
+    {
+        StartCoroutine(Hint("jump"));
+    }
+
+    private IEnumerator Hint(string type)
+    {
+        if (type == "dash")
+        {
+            dashHint.Play("boonsGreyIn");
+            yield return new WaitForSeconds(5);
+
+            dashHint.Play("boonsGreyOut");
+        }
+
+        if (type == "jump")
+        {
+            doubleJumpHint.Play("boonsGreyIn");
+            yield return new WaitForSeconds(5);
+
+            doubleJumpHint.Play("boonsGreyOut");
         }
     }
 

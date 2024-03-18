@@ -223,12 +223,13 @@ public class UIManager : MonoBehaviour
     public void ShrinkProgressScale()
     {
         ShowHomeIcon(false);
-        LeanTween.scaleX(progressScale, 0, 5f).setEaseLinear();
+        LeanTween.scaleX(progressScale, 0, 4f).setEaseLinear();
     }
 
     public void ExpandProgressScale()
     {
         float x = 1 + (gameManager.instance.progressLevel / 3);
         LeanTween.scaleX(progressScale, x, 0.5f).setEaseOutExpo();
+        UpdateProgressUI();
     }
 }

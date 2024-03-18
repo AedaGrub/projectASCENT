@@ -137,6 +137,22 @@ MonoBehaviour:
     type: SFX
     clip: {fileID: 8300000, guid: b6f0f941d4237764182ddcb804455d9c, type: 3}
     volume: 0.7
+  - name: windUp
+    type: SFX
+    clip: {fileID: 8300000, guid: 8294782dea8d50c4d98a366c8d3207fe, type: 3}
+    volume: 0.7
+  - name: swordSlash
+    type: SFX
+    clip: {fileID: 8300000, guid: 43293fc8dfcf19546a760db1f07be096, type: 3}
+    volume: 0.7
+  - name: flyingSlash
+    type: SFX
+    clip: {fileID: 8300000, guid: c749e61b33f1c144881dabfc65343758, type: 3}
+    volume: 0.7
+  - name: bossStomp
+    type: SFX
+    clip: {fileID: 8300000, guid: 72f58a20dcf8a3c4e8b004904471a2c6, type: 3}
+    volume: 0.7
   sources:
   - type: SFX
     source: {fileID: 4673013884529334795}

@@ -305,7 +305,7 @@ MonoBehaviour:
   UpKey: {fileID: -1100203709, guid: 4e4d54c66ac9ed3488b7b56b3beef97f, type: 3}
   fadeTime: 0.1
   tier0min: 2
-  tier0max: 8
+  tier0max: 17
   tier1min: 0
   tier1max: 0
   tier2min: 0

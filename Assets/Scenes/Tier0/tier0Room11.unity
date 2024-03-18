@@ -19752,7 +19752,7 @@ MonoBehaviour:
   playerPos: {x: 0, y: -1.5, z: 0}
   playerSize: {x: 2, y: 3}
   enemies:
-  - {fileID: 4336784368813905099, guid: 530190ec892058c4e81be84a52c0b09f, type: 3}
+  - {fileID: 897266610322416345, guid: c055f9c1e699372408e6582b07e1ecfa, type: 3}
   - {fileID: 4336784368813905099, guid: 530190ec892058c4e81be84a52c0b09f, type: 3}
   - {fileID: 897266610322416345, guid: c055f9c1e699372408e6582b07e1ecfa, type: 3}
   spawnPos:

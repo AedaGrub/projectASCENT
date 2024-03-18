@@ -82,6 +82,11 @@ public class FlyingEnemy : MonoBehaviour
         }
     }
 
+    public void Slash()
+    {
+        audioManager.instance.Play("flyingSlash");
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

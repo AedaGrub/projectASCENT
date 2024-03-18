@@ -31,6 +31,7 @@ public class rewardUpgrade : MonoBehaviour
                     break;
                 case 2:
                     gameManager.instance.canDash = true;
+                    baseManager.instance.DashHint();
                     boonsSelectManager.instance.UnlockTier1();
                     break;
                 case 3:
@@ -38,11 +39,12 @@ public class rewardUpgrade : MonoBehaviour
                     break;
                 case 4:
                     gameManager.instance.defaultHealth++;
+                    boonsSelectManager.instance.UnlockTier2();
                     gameManager.instance.ResetStats();
                     break;
                 case 5:
                     gameManager.instance.canExtraJump = true;
-                    boonsSelectManager.instance.UnlockTier2();
+                    baseManager.instance.DoubleJumpHint();
                     break;
                 case 6:
                     boonsSelectManager.instance.UnlockBelt3();

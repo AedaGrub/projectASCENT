@@ -33,6 +33,30 @@ EditorBuildSettings:
     path: Assets/Scenes/Tier0/tier0Room7.unity
     guid: 209ebb3aa216c6f49adbc4c8c7ed8b7a
   - enabled: 1
-    path: Assets/Scenes/TestScenes/Testing Spawner.unity
-    guid: 65b1853f427ce814cad1630b93ee470b
+    path: Assets/Scenes/Tier0/tier0Room8.unity
+    guid: 3d3f218de68fb5e44a499227b76aec30
+  - enabled: 1
+    path: Assets/Scenes/Tier0/tier0Room9.unity
+    guid: 3152bb84a1df63646bc782e7ce2563e1
+  - enabled: 1
+    path: Assets/Scenes/Tier0/tier0Room10.unity
+    guid: 82ccb002207e3bc4f9d981e9ad819821
+  - enabled: 1
+    path: Assets/Scenes/Tier0/tier0Room11.unity
+    guid: 53ea48b107e3a604d9b6b84f8573275a
+  - enabled: 1
+    path: Assets/Scenes/Tier0/tier0Room12.unity
+    guid: 36f3771d16f7fcd4388f4ca593344580
+  - enabled: 1
+    path: Assets/Scenes/Tier0/tier0Room13.unity
+    guid: ac3ac41db8981c94785742f591087b5d
+  - enabled: 1
+    path: Assets/Scenes/Tier0/tier0Room14.unity
+    guid: d0732f134d20ca2478d529ae3a3335cb
+  - enabled: 1
+    path: Assets/Scenes/Tier0/tier0Room15.unity
+    guid: 8a1dc704d06f7604ea988cbbc20ff3ca
+  - enabled: 1
+    path: Assets/Scenes/Tier0/tier0Room16.unity
+    guid: bd21d1c3e33f2bf4bb5029edbc4d680d
   m_configObjects: {}

@@ -121,8 +121,22 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
+  - time: 0.23529412
+    functionName: WindUp
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.7647059
     functionName: Damage
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.7647059
+    functionName: Slash
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -143,13 +157,6 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.9411765
-    functionName: Damage
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1
     functionName: Damage
     data: 
     objectReferenceParameter: {fileID: 0}

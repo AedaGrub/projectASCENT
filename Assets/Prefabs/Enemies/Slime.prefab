@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3677673174907326972}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.18, y: -0.122, z: 0}
+  m_LocalPosition: {x: -0.002, y: -0.072, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -264,7 +264,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   hitTransform: {fileID: 8485030261855622044}
-  hitSize: {x: 2.19, y: 1.68}
+  hitSize: {x: 1, y: 1}
+  isBig: 0
   player: {fileID: 0}
   isPlayerInSight: 0
 --- !u!1 &8682598319091215667

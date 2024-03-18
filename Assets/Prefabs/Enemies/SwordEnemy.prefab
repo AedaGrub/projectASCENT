@@ -125,10 +125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080bfcb0e3452a2419f6e37617d7a90a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  currentHealth: 5
+  maxHealth: 4
+  currentHealth: 4
   isAerial: 0
-  rewardEXP: 5
+  rewardEXP: 3
   rb: {fileID: 0}
   player: {fileID: 0}
   sr: {fileID: 0}
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb14f6a4d3e2b4448d828da9f909b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 1
+  attackCooldown: 2
   extraDamage: 1
   moveSpeed: 2
   playerLayer:

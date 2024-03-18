@@ -17,6 +17,7 @@ public class SlimeEnemy : MonoBehaviour
     private float flipCooldown;
     private bool isAttacking;
     private string currentState;
+    public bool isBig;
 
     private Animator anim;
     private enemyDamage enemyDamage;
@@ -52,7 +53,14 @@ public class SlimeEnemy : MonoBehaviour
 
         if (rb.velocity.x != 0 && !isAttacking)
         {
-            ChangeAnimationState(hop);
+            if (isBig)
+            {
+                ChangeAnimationState(attack);
+            }
+            else
+            {
+                ChangeAnimationState(hop);
+            }
 
         }
 
@@ -62,13 +70,6 @@ public class SlimeEnemy : MonoBehaviour
         }
 
 
-    }
-
-    private IEnumerator Attack()
-    {
-        isAttacking = true;
-        ChangeAnimationState(attack);
-        yield return new WaitForSeconds(4f);
     }
 
     private void notAttacking() { isAttacking = false; }
@@ -116,16 +117,6 @@ public class SlimeEnemy : MonoBehaviour
                 }
             }
         }
-        else if (isPlayerInSight && !isAttacking && cooldownTracker <= 0)
-        {
-            cooldownTracker = attackCooldown;
-            StartCoroutine(Attack());
-        }
-
-        if (cooldownTracker >= 0)
-        {
-            cooldownTracker -= Time.deltaTime;
-        }
     }
     private void Flip()
     {
@@ -150,16 +141,6 @@ public class SlimeEnemy : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(hitTransform.position, hitSize);
-    }
-
-    private void Damage()
-    {
-        print(isPlayerInSight);
-
-        if (isPlayerInSight)
-        {
-            enemyDamage.DamagePlayer(0);
-        }
     }
 
 

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3644415495744487995}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.374, z: 0}
+  m_LocalPosition: {x: 0, y: -0.29, z: 0}
   m_LocalScale: {x: 0.6625, y: 0.3625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080bfcb0e3452a2419f6e37617d7a90a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 8
   currentHealth: 3
   isAerial: 0
   rewardEXP: 0
@@ -331,13 +331,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCooldown: 2
-  extraDamage: 0
+  extraDamage: 2
   moveSpeed: 2
   playerLayer:
     serializedVersion: 2
     m_Bits: 8192
   hitTransform: {fileID: 7579645041603587136}
-  hitSize: {x: 3.71, y: 1.48}
+  hitSize: {x: 4.72, y: 2.77}
   isFacingRight: 0
   player: {fileID: 0}
   isPlayerInSight: 0
